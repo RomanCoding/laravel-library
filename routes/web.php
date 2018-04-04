@@ -31,4 +31,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 
+Route::get('/library', 'FileController@showLibraryPage');
+Route::post('/library', 'FileController@index');
+Route::post('/library/folders', 'FolderController@index');
 Route::get('/home', 'HomeController@index')->name('home');

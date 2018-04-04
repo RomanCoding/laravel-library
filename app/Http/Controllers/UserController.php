@@ -8,14 +8,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        $this->middleware('auth'); // @todo here will be admin middleware
+        $this->middleware('admin');
     }
 
     /**
@@ -42,6 +37,21 @@ class UserController extends Controller
         return back()->with('success_message', 'User added');
     }
 
+    /**
+     * Return all users.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function index()
+    {
+        return User::all();
+    }
+
+    /**
+     * Show page to create new user.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showRegistrationForm()
     {
         return view('auth.register');
