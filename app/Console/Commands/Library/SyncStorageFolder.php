@@ -114,19 +114,21 @@ class SyncStorageFolder extends Command
                 if (!$databaseFiles->where('filepath', $relativePath)->where('folder_id', $parent->id)->count()) {
                     File::create([
                         'filepath' => $relativePath,
-                        'filename' => $file,
+                        'filename' => pathinfo($file, PATHINFO_FILENAME),
                         'extension' => pathinfo($file, PATHINFO_EXTENSION),
                         'filesize' => $stat['size'],
                         'mtime' => $stat['mtime'],
                         'folder_id' => $parent->id,
                     ]);
                     $this->existingFiles->push([
-                        'filename' => $file,
+                        'filename' => pathinfo($file, PATHINFO_FILENAME),
+                        'extension' => pathinfo($file, PATHINFO_EXTENSION),
                         'folder_id' => $parent->id,
                     ]);
                 } else {
                     $this->existingFiles->push([
-                        'filename' => $file,
+                        'filename' => pathinfo($file, PATHINFO_FILENAME),
+                        'extension' => pathinfo($file, PATHINFO_EXTENSION),
                         'folder_id' => $parent->id,
                     ]);
                 }
@@ -159,7 +161,10 @@ class SyncStorageFolder extends Command
         foreach ($files as $file) {
             $delete = true;
             foreach ($this->existingFiles as $realFile) {
-                if ($realFile['filename'] == $file->filename && $realFile['folder_id'] == $file->folder_id) {
+                if ($realFile['filename'] == $file->filename &&
+                    $realFile['folder_id'] == $file->folder_id &&
+                    $realFile['extension'] == $file->extension
+                ) {
                     $files->forget($file->id);
                     $delete = false;
                     break;

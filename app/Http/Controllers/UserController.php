@@ -30,11 +30,28 @@ class UserController extends Controller
             'business_address' => 'nullable|string|max:255',
         ]);
 
-        User::create(array_merge($validatedUser, [
+        $user = User::create(array_merge($validatedUser, [
+            'access_level' => 1,
             'password' => Hash::make($validatedUser['password'])
         ]));
-
+        if ($request->expectsJson()) {
+            return response()->json($user, 201);
+        }
         return back()->with('success_message', 'User added');
+    }
+
+    public function update(User $user, Request $request)
+    {
+        $validatedUser = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'access_level' => 'required|integer|min:1|max:3',
+            'business_name' => 'nullable|string|max:255',
+            'business_address' => 'nullable|string|max:255',
+        ]);
+
+        return $user->update($validatedUser) ? response('', 204) : response('', 400);
     }
 
     /**
@@ -47,13 +64,10 @@ class UserController extends Controller
         return User::all();
     }
 
-    /**
-     * Show page to create new user.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function showRegistrationForm()
+    public function usersComponent()
     {
-        return view('auth.register');
+        return view('admin.users', [
+            'users' => User::all()
+        ]);
     }
 }

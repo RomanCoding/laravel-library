@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Hash;
 
 class FileController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show view with widget to work with files.
      *
@@ -32,6 +26,6 @@ class FileController extends Controller
      */
     public function index()
     {
-        return File::with('folder')->get();
+        return File::accessible()->with('folder')->get();
     }
 }

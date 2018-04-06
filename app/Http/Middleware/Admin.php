@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 
 class Admin
@@ -15,7 +16,12 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        // @todo check if access_level is MAX
-        return $next($request);
+        if ($request->user() && $request->user()->access_level == User::MAX_LEVEL) {
+            return $next($request);
+        }
+        if ($request->expectsJson()) {
+            return response()->json('Permission denied', 401);
+        }
+        return redirect('/library');
     }
 }

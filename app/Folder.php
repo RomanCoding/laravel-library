@@ -36,4 +36,12 @@ class Folder extends Model
     {
         return $this->folders->concat($this->files);
     }
+    
+    public function scopeAccessible($query)
+    {
+        if (auth()->user()->access_level > 1) {
+            return $query;
+        }
+        return $query->where('accessible_1', true);
+    }
 }

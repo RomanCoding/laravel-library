@@ -7,7 +7,7 @@
             </div>
             <div class="col-md-6" v-else>
                 <img class="glyphs" src="/glyphs/si-glyph-document.svg">
-                <b>{{ getFileName(model.filename) }}</b>
+                <b v-text="model.filename"></b>
             </div>
             <div class="col-md-3">
                 {{ model.extension ? model.extension : 'Folder' }}
@@ -15,7 +15,15 @@
             <div class="col-md-2">
                 {{ isFolder() ? getFolderSize(model) : getFileSize(model.filesize) }}
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1" v-if="this.permissions">
+                <div class="checkbox">
+                    <label style="font-size: 1.5em">
+                        <input type="checkbox" v-model="model.accessible_1" @click="togglePermission(model)">
+                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-1" v-else>
                 <div class="checkbox">
                     <label style="font-size: 1.5em">
                         <input type="checkbox" value="">
@@ -25,7 +33,8 @@
             </div>
         </div>
         <ul v-if="showChildren">
-            <item v-for="(model, index) in model.children" :key="index" :model="model"></item>
+            <item v-for="(model, index) in model.children" :key="index" :model="model" :permissions="permissions"
+                  v-on:permissions="togglePermission"></item>
         </ul>
     </div>
 
@@ -35,7 +44,7 @@
     import Item from './Item.vue';
     export default {
         components: {Item},
-        props: ['model'],
+        props: ['model', 'permissions'],
         computed: {
             orderedChildren: function () {
                 return _.orderBy(this.model.children, this.sortKey, this.reverse ? 'desc' : 'asc')
@@ -60,21 +69,25 @@
                 }
                 return (Math.round(bytes * 10) / 10) + ' b';
             },
-            getFolderSize(folder) {
+            getFolderSize(folder, formatted = true) {
                 let size = 0;
+                let self = this;
                 folder.files.forEach(function (file) {
                     size += file.filesize;
                 });
-                return this.getFileSize(size);
-            },
-            getFileName(filename) {
-                return filename.substr(0, filename.lastIndexOf('.'));
+                folder.folders.forEach(function (childrenFolder) {
+                    size += self.getFolderSize(childrenFolder, false);
+                });
+                return formatted ? this.getFileSize(size) : size;
             },
             toggle() {
                 this.showChildren = !this.showChildren;
             },
             getGlyphSrc() {
                 return this.showChildren ? "/glyphs/si-glyph-folder-open.svg" : "/glyphs/si-glyph-folder-plus.svg";
+            },
+            togglePermission(model) {
+                this.$emit('permissions', model);
             }
         }
     }

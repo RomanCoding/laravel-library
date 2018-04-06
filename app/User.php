@@ -17,6 +17,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name', 'last_name', 'business_name',
         'business_address', 'email', 'password',
+        'access_level'
     ];
 
     /**
@@ -27,4 +28,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // Max access level in system
+    const MAX_LEVEL = 3;
 }
