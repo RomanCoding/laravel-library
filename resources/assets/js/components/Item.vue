@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-md-6" v-if="isFolder()">
-                <img class="glyphs" :src="getGlyphSrc()" style="cursor: pointer;" @click="toggle">
+                <img class="glyphs" :src="glyphSrc" style="cursor: pointer;" @click="toggle">
                 {{ model.name }}
             </div>
             <div class="col-md-6" v-else>
@@ -44,7 +44,7 @@
     import Item from './Item.vue';
     export default {
         components: {Item},
-        props: ['model', 'permissions'],
+        props: ['model', 'permissions', 'accessible'],
         computed: {
             orderedChildren: function () {
                 return _.orderBy(this.model.children, this.sortKey, this.reverse ? 'desc' : 'asc')
@@ -53,12 +53,13 @@
         data() {
             return {
                 showChildren: false,
+                glyphSrc: "/glyphs/si-glyph-folder-plus.svg",
             };
         },
 
         methods: {
             isFolder() {
-                return this.model.children;
+                return this.model.hasOwnProperty('children');
             },
             getFileSize(bytes) {
                 if (bytes > 1048576) {
@@ -82,9 +83,7 @@
             },
             toggle() {
                 this.showChildren = !this.showChildren;
-            },
-            getGlyphSrc() {
-                return this.showChildren ? "/glyphs/si-glyph-folder-open.svg" : "/glyphs/si-glyph-folder-plus.svg";
+                this.glyphSrc = this.showChildren ? '/glyphs/si-glyph-folder-open.svg' : '/glyphs/si-glyph-folder-plus.svg';
             },
             togglePermission(model) {
                 this.$emit('permissions', model);

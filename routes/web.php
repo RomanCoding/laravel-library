@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {
     Route::get('/folders', 'FolderController@showFoldersPage')->name('manage.folders.permissions');
+    Route::post('/folders', 'FolderController@store')->name('manage.folders.create');
+    Route::get('/uploads', 'UploadController@index')->name('manage.uploads');
 });
 
 // Password Reset Routes...

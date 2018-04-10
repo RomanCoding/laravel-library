@@ -22,6 +22,8 @@ class Folder extends Model
 
     protected $appends = ['children'];
 
+    protected $with = ['files', 'folders'];
+
     public function files()
     {
         return $this->hasMany(File::class)->orderBy('filename');

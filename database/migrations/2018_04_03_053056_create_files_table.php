@@ -17,7 +17,7 @@ class CreateFilesTable extends Migration
             $table->increments('id');
             $table->string('filepath');
             $table->string('filename');
-            $table->string('extension'); // @todo think later if we really need to store it
+            $table->string('extension');
             $table->integer('filesize');
             $table->unsignedInteger('folder_id');
             $table->string('mtime');
@@ -25,7 +25,8 @@ class CreateFilesTable extends Migration
 
             $table->foreign('folder_id')
                 ->references('id')
-                ->on('folders');
+                ->on('folders')
+                ->onDelete('cascade');
 
             // @todo cascade delete
         });

@@ -4,9 +4,14 @@
             <tab name="File Explorer">
                 <div class="card card-default">
                     <div class="card-body">
-                        <li>
+                        <li v-if="user.access_level > 1">
                             <div v-for="model in filteredItems">
-                                <item :model="model"></item>
+                                <item :model="model" :accessible="true"></item>
+                            </div>
+                        </li>
+                        <li v-else>
+                            <div v-for="model in filteredItems">
+                                <item :model="model" :accessible="model.accessible_1 !== 0"></item>
                             </div>
                         </li>
                     </div>
@@ -96,7 +101,8 @@
     import {Tabs, Tab} from 'vue-tabs-component';
 
     export default {
-        components: {Item, Tabs, Tab},
+        components: { Item, Tabs, Tab },
+        props: [ 'user' ],
         computed: {
             orderedFiles: function () {
                 return _.orderBy(this.filteredFiles, this.sortKey, this.reverse ? 'desc' : 'asc')
@@ -158,12 +164,16 @@
                 }
                 return (Math.round(bytes * 10) / 10) + ' b';
             },
-            getFolderSize(folder) {
+            getFolderSize(folder, formatted = true) {
                 let size = 0;
+                let self = this;
                 folder.files.forEach(function (file) {
                     size += file.filesize;
                 });
-                return this.getFileSize(size);
+                folder.folders.forEach(function (childrenFolder) {
+                    size += self.getFolderSize(childrenFolder, false);
+                });
+                return formatted ? this.getFileSize(size) : size;
             },
             applyFilters() {
                 this.filteredFiles = this.files;

@@ -20,11 +20,22 @@ class File extends Model
      */
     protected $hidden = [];
 
+    /**
+     * A folder that stores a file.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function folder()
     {
         return $this->belongsTo(Folder::class);
     }
 
+    /**
+     * Scope a query to only include accessible files.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeAccessible($query)
     {
         if (auth()->user()->access_level > 1) {

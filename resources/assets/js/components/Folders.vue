@@ -53,12 +53,16 @@
                 }
                 return (Math.round(bytes * 10) / 10) + ' b';
             },
-            getFolderSize(folder) {
+            getFolderSize(folder, formatted = true) {
                 let size = 0;
+                let self = this;
                 folder.files.forEach(function (file) {
                     size += file.filesize;
                 });
-                return this.getFileSize(size);
+                folder.folders.forEach(function (childrenFolder) {
+                    size += self.getFolderSize(childrenFolder, false);
+                });
+                return formatted ? this.getFileSize(size) : size;
             },
             updatePermissions(model) {
                 axios.patch('/folders/' + model.id).then(function(response) {

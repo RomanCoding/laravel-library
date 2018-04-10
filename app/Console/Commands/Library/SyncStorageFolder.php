@@ -4,17 +4,13 @@ namespace App\Console\Commands\Library;
 
 use App\File;
 use App\Folder;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
 
 class SyncStorageFolder extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'library:sync-storage';
 
     /**
@@ -25,12 +21,8 @@ class SyncStorageFolder extends Command
     protected $description = 'Sync actual existing files in storage folder with database table.';
 
     private $existingFiles = null;
+    private $existingFolders = null;
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
@@ -49,49 +41,19 @@ class SyncStorageFolder extends Command
         $rootFolder = Folder::where('name', '/')->whereNull('parent_id')->first();
 
         $this->existingFiles = collect();
+        $this->existingFolders = collect();
+
+        $this->existingFolders->push(str_after($rootFolder->storage_path, storage_path()));
 
         $this->listFolderFiles($rootFolder, storage_path('library'));
 
         $files = File::all();
 
-        $this->removeDeletedFiles($files);
-
-        dd();
-
-        $iterator = new \RecursiveIteratorIterator(new RecursiveDirectoryIterator(storage_path('library'), RecursiveDirectoryIterator::CURRENT_AS_PATHNAME));
-
-        $files = File::all();
-
         $folders = Folder::all();
 
-        $existingFiles = collect();
+        $this->removeDeletedFiles($files);
 
-        foreach ($iterator as $file) {
-            if ($file->isDir()) {
-                var_dump($file->getRealPath());
-                continue;
-            }
-
-//            $relativePath = str_after($file->getRealPath(), '/storage/library/');
-//            $stat = stat($file);
-//
-//            if (!$files->where('filepath', $relativePath)->where('filesize', $stat['size'])->count()) {
-//                File::create([
-//                    'filepath' => $relativePath,
-//                    'filename' => $file->getFilename(),
-//                    'extension' => pathinfo($file, PATHINFO_EXTENSION),
-//                    'filesize' => $stat['size'],
-//                    'mtime' => $stat['mtime']
-//                ]);
-//            } else {
-//                $existingFiles->push([
-//                    'filepath' => $relativePath,
-//                    'filesize' => $stat['size'],
-//                ]);
-//            }
-        }
-
-        $this->removeDeletedFiles($files, $existingFiles);
+        $this->removeDeletedFolders($folders);
     }
 
 
@@ -134,9 +96,18 @@ class SyncStorageFolder extends Command
                 }
             }
             else {
+                $storagePath = str_after($dir . '/' . $file, storage_path());
+                $storagePath = str_after($storagePath, '/library');
+
+                $this->existingFolders->push($storagePath);
                 $folder = Folder::updateOrCreate([
                     'name' =>   $file,
-                    'parent_id' => $parent->id
+                    'parent_id' => $parent->id,
+                    'storage_path' => $storagePath
+                ], [
+                    'name' =>   $file,
+                    'parent_id' => $parent->id,
+                    'storage_path' => $storagePath
                 ]);
                 $this->listFolderFiles($folder, $dir . '/' . $file);
             }
@@ -147,7 +118,8 @@ class SyncStorageFolder extends Command
     {
         return Folder::create([
             'name' => '/',
-            'parent_id' => null
+            'parent_id' => null,
+            'storage_path' => '/',
         ]);
     }
 
@@ -172,6 +144,33 @@ class SyncStorageFolder extends Command
             }
             if ($delete) {
                 File::find($file->id)->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete file from database if it's not presented in filesystem.
+     *
+     * @param Collection $folders folders from filesystem
+     */
+    private function removeDeletedFolders(Collection $folders)
+    {
+        foreach ($folders as $folder) {
+            $delete = true;
+            foreach ($this->existingFolders as $realFolder) {
+                if ($realFolder == $folder->storage_path) {
+                    $folders->forget($folder->id);
+                    $delete = false;
+                    break;
+                }
+            }
+            if ($delete) {
+                try {
+                    Folder::findOrFail($folder->id)->delete();
+                } catch (Exception $e) {
+                    continue;
+                    // if folder already deleted
+                }
             }
         }
     }

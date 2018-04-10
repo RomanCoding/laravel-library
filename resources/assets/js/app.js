@@ -20,6 +20,7 @@ Vue.component('files', require('./components/Files.vue'));
 Vue.component('item', require('./components/Item.vue'));
 Vue.component('users', require('./components/Users.vue'));
 Vue.component('folders', require('./components/Folders.vue'));
+Vue.component('uploads', require('./components/Uploads.vue'));
 
 const app = new Vue({
     el: '#app'

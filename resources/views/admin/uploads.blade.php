@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container-fluid">
-        <files :user="{{ auth()->user() }}"></files>
+        <uploads></uploads>
     </div>
 @endsection
