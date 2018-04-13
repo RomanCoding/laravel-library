@@ -27,8 +27,6 @@ class CreateFilesTable extends Migration
                 ->references('id')
                 ->on('folders')
                 ->onDelete('cascade');
-
-            // @todo cascade delete
         });
     }
 

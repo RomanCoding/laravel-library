@@ -261,6 +261,7 @@
         },
         methods: {
             editUser(user) {
+                // @todo make it like "edit in copy, then if success - save to main"
                 if (user.edit) {
                     user.email = user.reserveCopy.email;
                     user.first_name = user.reserveCopy.first_name;

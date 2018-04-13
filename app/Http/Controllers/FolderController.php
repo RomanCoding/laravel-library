@@ -40,6 +40,12 @@ class FolderController extends Controller
         return Folder::orderBy('name')->get();
     }
 
+    /**
+     * Create folder in given parent folder.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -69,6 +75,29 @@ class FolderController extends Controller
         return response()->json([
             'message' => 'Folder created',
             'folder' => $folder,
+        ], 201);
+    }
+
+    public function destroy($id)
+    {
+        // @todo test what if fail, what will be on front end?
+        $folder = Folder::findOrFail($id);
+
+        if (!Storage::exists($folder->storage_path)) {
+            return response()->json([
+                'message' => 'Folder not found'
+            ], 404);
+        }
+        try {
+            Storage::deleteDirectory($folder->storage_path);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Folder can not be deleted'
+            ], 500);
+        }
+        $folder->delete();
+        return response()->json([
+            'message' => 'Folder deleted',
         ]);
     }
 

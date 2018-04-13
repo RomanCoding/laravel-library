@@ -22,6 +22,6 @@ class Admin
         if ($request->expectsJson()) {
             return response()->json('Permission denied', 401);
         }
-        return redirect('/library');
+        return redirect('/');
     }
 }

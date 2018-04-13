@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('business_name')->nullable();
             $table->string('business_address')->nullable();
-            $table->integer('access_level')->default(1); // @todo discuss how many levels will be, and which default should be
+            $table->integer('access_level')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

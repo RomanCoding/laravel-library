@@ -70,12 +70,13 @@ class SyncStorageFolder extends Command
 
         foreach ($files as $file) {
             if (!is_dir($dir . '/' . $file)) {
-                $relativePath = $dir . '/' . $file;
                 $stat = stat($dir . '/' . $file);
+                $storagePath = str_after($dir . '/' . $file, storage_path());
+                $storagePath = str_after($storagePath, '/library');
 
-                if (!$databaseFiles->where('filepath', $relativePath)->where('folder_id', $parent->id)->count()) {
+                if (!$databaseFiles->where('filepath', $storagePath)->where('folder_id', $parent->id)->count()) {
                     File::create([
-                        'filepath' => $relativePath,
+                        'filepath' => $storagePath,
                         'filename' => pathinfo($file, PATHINFO_FILENAME),
                         'extension' => pathinfo($file, PATHINFO_EXTENSION),
                         'filesize' => $stat['size'],

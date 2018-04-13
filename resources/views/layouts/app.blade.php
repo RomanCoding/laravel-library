@@ -60,6 +60,11 @@
                                             Manage users <span class="caret"></span>
                                         </a>
                                     @endcan
+                                        @can('create', 'App\Folder')
+                                            <a class="dropdown-item" href="{{ route('manage.uploads') }}">
+                                                Uploads <span class="caret"></span>
+                                            </a>
+                                        @endcan
                                     @can('create', 'App\Folder')
                                         <a class="dropdown-item" href="{{ route('manage.folders.permissions') }}">
                                             Folders permissions <span class="caret"></span>

@@ -1,6 +1,5 @@
 <?php
 
-
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -15,6 +14,9 @@ Route::group(['middleware' => 'can:create,App\User'], function () {
 // Registration Routes...
 Route::group(['middleware' => 'can:create,App\Folder'], function () {
     Route::patch('folders/{id}', 'FolderController@updatePermissions');
+    Route::delete('folders/{id}', 'FolderController@destroy');
+    Route::delete('files/{id}', 'FileController@destroy');
+    Route::post('files/', 'FileController@store');
 });
 
 // Registration Routes...
