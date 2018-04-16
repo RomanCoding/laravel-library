@@ -31,7 +31,12 @@ class Folder extends Model
 
     public function folders()
     {
-        return $this->hasMany(Folder::class, 'parent_id')->orderBy('name');
+        if (auth()->user()->access_level > 1) {
+            return $this->hasMany(Folder::class, 'parent_id')->orderBy('name');
+        }
+        return $this->hasMany(Folder::class, 'parent_id')
+            ->where('accessible_1', 1)
+            ->orderBy('name');
     }
 
     public function getChildrenAttribute()

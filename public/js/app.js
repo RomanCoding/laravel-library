@@ -15270,13 +15270,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(69)
+  __webpack_require__(70)
 }
 var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = __webpack_require__(71)
+var __vue_script__ = __webpack_require__(72)
 /* template */
-var __vue_template__ = __webpack_require__(73)
+var __vue_template__ = __webpack_require__(74)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -15319,7 +15319,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(19);
-module.exports = __webpack_require__(75);
+module.exports = __webpack_require__(76);
 
 
 /***/ }),
@@ -15369,11 +15369,13 @@ Object.defineProperty(Array.prototype, 'unique', {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.bus = new Vue();
+
 Vue.component('files', __webpack_require__(45));
 Vue.component('item', __webpack_require__(5));
-Vue.component('users', __webpack_require__(55));
-Vue.component('folders', __webpack_require__(60));
-Vue.component('uploads', __webpack_require__(65));
+Vue.component('users', __webpack_require__(56));
+Vue.component('folders', __webpack_require__(61));
+Vue.component('uploads', __webpack_require__(66));
 Vue.component('file-uploader', __webpack_require__(17));
 
 var app = new Vue({
@@ -48595,7 +48597,7 @@ var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(49)
 /* template */
-var __vue_template__ = __webpack_require__(54)
+var __vue_template__ = __webpack_require__(55)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -48814,9 +48816,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
+
+var download = __webpack_require__(54);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Item: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a, Tabs: __WEBPACK_IMPORTED_MODULE_1_vue_tabs_component__["Tabs"], Tab: __WEBPACK_IMPORTED_MODULE_1_vue_tabs_component__["Tab"] },
@@ -48856,26 +48869,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     text: [],
                     algh: 'is'
                 }
-            }
+            },
+            downloadsList: []
         };
     },
     created: function created() {
         var _this = this;
 
-        axios.get('/folders').then(function (response) {
-            _this.folders = response.data;
+        axios.get('/folders').then(function (r) {
+            _this.folders = r.data;
             var rootFolder = _.find(_this.folders, function (f) {
                 return f.parent_id === null;
             });
             _this.rootFolderId = rootFolder ? rootFolder.id : null;
         });
-        axios.get('/files').then(function (response) {
-            _this.files = response.data;
-            _this.filteredFiles = response.data;
+        axios.get('/files').then(function (r) {
+            _this.files = r.data;
+            _this.filteredFiles = r.data;
         });
     },
 
     methods: {
+        downloadFile: function downloadFile(file) {
+            axios({
+                url: '/downloads/files/' + file.id,
+                method: 'get',
+                withCredentials: true,
+                responseType: 'blob',
+                headers: {
+                    'Accept': file.filename + '.' + file.extension
+                }
+            }).then(function (r) {
+                download(r.data, file.filename + '.' + file.extension);
+            }).catch(function (error) {
+                alert(error.response.status == 403 ? 'No permissions to access this file' : 'Unknown error');
+            });
+        },
+        massDownload: function massDownload() {
+            this.downloadsList.forEach(function (file) {
+                axios({
+                    url: '/downloads/files/' + file.id,
+                    method: 'get',
+                    withCredentials: true,
+                    responseType: 'blob',
+                    headers: {
+                        'Accept': file.filename + '.' + file.extension
+                    }
+                }).then(function (r) {
+                    download(r.data, file.filename + '.' + file.extension);
+                }).catch(function (error) {
+                    alert(error.response.status == 403 ? 'No permissions to access this file' : 'Unknown error');
+                });
+            });
+        },
         getFileSize: function getFileSize(bytes) {
             if (bytes > 1048576) {
                 return Math.round(bytes / 1048576 * 10) / 10 + ' mb';
@@ -48982,6 +49028,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         arrowOpacity: function arrowOpacity(key) {
             return this.sortKey === key ? 'opacity: 1' : 'opacity: 0.1';
+        },
+        toDownloads: function toDownloads(file) {
+            var index = this.downloadsList.find(function (x) {
+                return x.id === file.id;
+            });
+            if (index === undefined) {
+                this.downloadsList.push(file);
+            } else {
+                this.downloadsList.splice(index, 1);
+            }
         }
     }
 });
@@ -49076,6 +49132,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -49126,6 +49186,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         togglePermission: function togglePermission(model) {
             this.$emit('permissions', model);
+        },
+        requestDownload: function requestDownload(model) {
+            this.$emit('requestedDownload', model);
+        },
+        addToDownloads: function addToDownloads(model) {
+            this.$emit('addedToDownloads', model);
+            //console.log('1');
+            //window.bus.$emit('addedToDownloads', model);
         }
     }
 });
@@ -49156,7 +49224,14 @@ var render = function() {
               attrs: { src: "/glyphs/si-glyph-document.svg" }
             }),
             _vm._v(" "),
-            _c("b", { domProps: { textContent: _vm._s(_vm.model.filename) } })
+            _c("b", {
+              domProps: { textContent: _vm._s(_vm.model.filename) },
+              on: {
+                click: function($event) {
+                  _vm.requestDownload(_vm.model)
+                }
+              }
+            })
           ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-3" }, [
@@ -49235,7 +49310,22 @@ var render = function() {
               ])
             ])
           ])
-        : _c("div", { staticClass: "col-md-1" }, [_vm._m(1)])
+        : _c("div", { staticClass: "col-md-1" }, [
+            _c("div", { staticClass: "checkbox" }, [
+              _c("label", { staticStyle: { "font-size": "1.5em" } }, [
+                _c("input", {
+                  attrs: { type: "checkbox", value: "" },
+                  on: {
+                    click: function($event) {
+                      _vm.addToDownloads(_vm.model)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm._m(1)
+              ])
+            ])
+          ])
     ]),
     _vm._v(" "),
     _vm.showChildren
@@ -49245,7 +49335,11 @@ var render = function() {
             return _c("item", {
               key: index,
               attrs: { model: model, permissions: _vm.permissions },
-              on: { permissions: _vm.togglePermission }
+              on: {
+                permissions: _vm.togglePermission,
+                requestedDownload: _vm.requestDownload,
+                addedToDownloads: _vm.addToDownloads
+              }
             })
           })
         )
@@ -49265,14 +49359,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "checkbox" }, [
-      _c("label", { staticStyle: { "font-size": "1.5em" } }, [
-        _c("input", { attrs: { type: "checkbox", value: "" } }),
-        _vm._v(" "),
-        _c("span", { staticClass: "cr" }, [
-          _c("i", { staticClass: "cr-icon fa fa-check" })
-        ])
-      ])
+    return _c("span", { staticClass: "cr" }, [
+      _c("i", { staticClass: "cr-icon fa fa-check" })
     ])
   }
 ]
@@ -49289,6 +49377,182 @@ if (false) {
 /* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//download.js v4.2, by dandavis; 2008-2016. [MIT] see http://danml.com/download.html for tests/usage
+// v1 landed a FF+Chrome compat way of downloading strings to local un-named files, upgraded to use a hidden frame and optional mime
+// v2 added named files via a[download], msSaveBlob, IE (10+) support, and window.URL support for larger+faster saves than dataURLs
+// v3 added dataURL and Blob Input, bind-toggle arity, and legacy dataURL fallback was improved with force-download mime and base64 support. 3.1 improved safari handling.
+// v4 adds AMD/UMD, commonJS, and plain browser support
+// v4.1 adds url download capability via solo URL argument (same domain/CORS only)
+// v4.2 adds semantic variable names, long (over 2MB) dataURL support, and hidden by default temp anchors
+// https://github.com/rndme/download
+
+(function (root, factory) {
+	if (true) {
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports === 'object') {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	} else {
+		// Browser globals (root is window)
+		root.download = factory();
+  }
+}(this, function () {
+
+	return function download(data, strFileName, strMimeType) {
+
+		var self = window, // this script is only for browsers anyway...
+			defaultMime = "application/octet-stream", // this default mime also triggers iframe downloads
+			mimeType = strMimeType || defaultMime,
+			payload = data,
+			url = !strFileName && !strMimeType && payload,
+			anchor = document.createElement("a"),
+			toString = function(a){return String(a);},
+			myBlob = (self.Blob || self.MozBlob || self.WebKitBlob || toString),
+			fileName = strFileName || "download",
+			blob,
+			reader;
+			myBlob= myBlob.call ? myBlob.bind(self) : Blob ;
+	  
+		if(String(this)==="true"){ //reverse arguments, allowing download.bind(true, "text/xml", "export.xml") to act as a callback
+			payload=[payload, mimeType];
+			mimeType=payload[0];
+			payload=payload[1];
+		}
+
+
+		if(url && url.length< 2048){ // if no filename and no mime, assume a url was passed as the only argument
+			fileName = url.split("/").pop().split("?")[0];
+			anchor.href = url; // assign href prop to temp anchor
+		  	if(anchor.href.indexOf(url) !== -1){ // if the browser determines that it's a potentially valid url path:
+        		var ajax=new XMLHttpRequest();
+        		ajax.open( "GET", url, true);
+        		ajax.responseType = 'blob';
+        		ajax.onload= function(e){ 
+				  download(e.target.response, fileName, defaultMime);
+				};
+        		setTimeout(function(){ ajax.send();}, 0); // allows setting custom ajax headers using the return:
+			    return ajax;
+			} // end if valid url?
+		} // end if url?
+
+
+		//go ahead and download dataURLs right away
+		if(/^data:([\w+-]+\/[\w+.-]+)?[,;]/.test(payload)){
+		
+			if(payload.length > (1024*1024*1.999) && myBlob !== toString ){
+				payload=dataUrlToBlob(payload);
+				mimeType=payload.type || defaultMime;
+			}else{			
+				return navigator.msSaveBlob ?  // IE10 can't do a[download], only Blobs:
+					navigator.msSaveBlob(dataUrlToBlob(payload), fileName) :
+					saver(payload) ; // everyone else can save dataURLs un-processed
+			}
+			
+		}else{//not data url, is it a string with special needs?
+			if(/([\x80-\xff])/.test(payload)){			  
+				var i=0, tempUiArr= new Uint8Array(payload.length), mx=tempUiArr.length;
+				for(i;i<mx;++i) tempUiArr[i]= payload.charCodeAt(i);
+			 	payload=new myBlob([tempUiArr], {type: mimeType});
+			}		  
+		}
+		blob = payload instanceof myBlob ?
+			payload :
+			new myBlob([payload], {type: mimeType}) ;
+
+
+		function dataUrlToBlob(strUrl) {
+			var parts= strUrl.split(/[:;,]/),
+			type= parts[1],
+			decoder= parts[2] == "base64" ? atob : decodeURIComponent,
+			binData= decoder( parts.pop() ),
+			mx= binData.length,
+			i= 0,
+			uiArr= new Uint8Array(mx);
+
+			for(i;i<mx;++i) uiArr[i]= binData.charCodeAt(i);
+
+			return new myBlob([uiArr], {type: type});
+		 }
+
+		function saver(url, winMode){
+
+			if ('download' in anchor) { //html5 A[download]
+				anchor.href = url;
+				anchor.setAttribute("download", fileName);
+				anchor.className = "download-js-link";
+				anchor.innerHTML = "downloading...";
+				anchor.style.display = "none";
+				document.body.appendChild(anchor);
+				setTimeout(function() {
+					anchor.click();
+					document.body.removeChild(anchor);
+					if(winMode===true){setTimeout(function(){ self.URL.revokeObjectURL(anchor.href);}, 250 );}
+				}, 66);
+				return true;
+			}
+
+			// handle non-a[download] safari as best we can:
+			if(/(Version)\/(\d+)\.(\d+)(?:\.(\d+))?.*Safari\//.test(navigator.userAgent)) {
+				if(/^data:/.test(url))	url="data:"+url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
+				if(!window.open(url)){ // popup blocked, offer direct download:
+					if(confirm("Displaying New Document\n\nUse Save As... to download, then click back to return to this page.")){ location.href=url; }
+				}
+				return true;
+			}
+
+			//do iframe dataURL download (old ch+FF):
+			var f = document.createElement("iframe");
+			document.body.appendChild(f);
+
+			if(!winMode && /^data:/.test(url)){ // force a mime that will download:
+				url="data:"+url.replace(/^data:([\w\/\-\+]+)/, defaultMime);
+			}
+			f.src=url;
+			setTimeout(function(){ document.body.removeChild(f); }, 333);
+
+		}//end saver
+
+
+
+
+		if (navigator.msSaveBlob) { // IE10+ : (has Blob, but not a[download] or URL)
+			return navigator.msSaveBlob(blob, fileName);
+		}
+
+		if(self.URL){ // simple fast and modern way using Blob and URL:
+			saver(self.URL.createObjectURL(blob), true);
+		}else{
+			// handle non-Blob()+non-URL browsers:
+			if(typeof blob === "string" || blob.constructor===toString ){
+				try{
+					return saver( "data:" +  mimeType   + ";base64,"  +  self.btoa(blob)  );
+				}catch(y){
+					return saver( "data:" +  mimeType   + "," + encodeURIComponent(blob)  );
+				}
+			}
+
+			// Blob but not URL support:
+			reader=new FileReader();
+			reader.onload=function(e){
+				saver(this.result);
+			};
+			reader.readAsDataURL(blob);
+		}
+		return true;
+	}; /* end download() */
+}));
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -49300,6 +49564,26 @@ var render = function() {
         "tabs",
         [
           _c("tab", { attrs: { name: "File Explorer" } }, [
+            _c(
+              "div",
+              {
+                staticClass: "col-xs-3 offset-9",
+                staticStyle: { "text-align": "right" }
+              },
+              [
+                _vm.downloadsList.length
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: { click: _vm.massDownload }
+                      },
+                      [_vm._v("Download")]
+                    )
+                  : _vm._e()
+              ]
+            ),
+            _vm._v(" "),
             _c("div", { staticClass: "card card-default" }, [
               _c("div", { staticClass: "card-body" }, [
                 _vm.user.access_level > 1
@@ -49310,7 +49594,11 @@ var render = function() {
                           "div",
                           [
                             _c("item", {
-                              attrs: { model: model, accessible: true }
+                              attrs: { model: model, accessible: true },
+                              on: {
+                                requestedDownload: _vm.downloadFile,
+                                addedToDownloads: _vm.toDownloads
+                              }
                             })
                           ],
                           1
@@ -49327,6 +49615,10 @@ var render = function() {
                               attrs: {
                                 model: model,
                                 accessible: model.accessible_1 !== 0
+                              },
+                              on: {
+                                requestedDownload: _vm.downloadFile,
+                                addedToDownloads: _vm.toDownloads
                               }
                             })
                           ],
@@ -49736,7 +50028,12 @@ var render = function() {
                       return _c("tr", [
                         _c("th", {
                           attrs: { scope: "row" },
-                          domProps: { textContent: _vm._s(file.filename) }
+                          domProps: { textContent: _vm._s(file.filename) },
+                          on: {
+                            click: function($event) {
+                              _vm.downloadFile(file)
+                            }
+                          }
                         }),
                         _vm._v(" "),
                         _c("td", {
@@ -49775,19 +50072,19 @@ if (false) {
 }
 
 /***/ }),
-/* 55 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(56)
+  __webpack_require__(57)
 }
 var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = __webpack_require__(58)
+var __vue_script__ = __webpack_require__(59)
 /* template */
-var __vue_template__ = __webpack_require__(59)
+var __vue_template__ = __webpack_require__(60)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -49826,13 +50123,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(57);
+var content = __webpack_require__(58);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -49852,7 +50149,7 @@ if(false) {
 }
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -49866,7 +50163,7 @@ exports.push([module.i, "\ntbody th i.fa {\n    font-size: 20px;\n}\nthead tr th
 
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -50140,12 +50437,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editUser: function editUser(user) {
             // @todo make it like "edit in copy, then if success - save to main"
             if (user.edit) {
-                user.email = user.reserveCopy.email;
-                user.first_name = user.reserveCopy.first_name;
-                user.last_name = user.reserveCopy.last_name;
-                user.business_name = user.reserveCopy.business_name;
-                user.business_address = user.reserveCopy.business_address;
-                user.access_level = user.reserveCopy.access_level;
+                user.reserverCopy = null;
                 user.edit = false;
             } else {
                 user.edit = true;
@@ -50153,17 +50445,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         updateUser: function updateUser(user) {
-            axios.patch('/users/' + user.id, user).then(function (response) {
+            axios.patch('/users/' + user.id, user.reserveCopy).then(function (response) {
                 alert('Updated');
                 user.edit = false;
-            }).catch(function (error) {
-                alert('Oops, error...');
                 user.email = user.reserveCopy.email;
                 user.first_name = user.reserveCopy.first_name;
+                user.last_name = user.reserveCopy.last_name;
                 user.business_name = user.reserveCopy.business_name;
                 user.business_address = user.reserveCopy.business_address;
                 user.access_level = user.reserveCopy.access_level;
-                user.edit = false;
+                user.reserveCopy = null;
+            }).catch(function (error) {
+                alert('Oops, error...');
+                //user.edit = false;
             });
         },
         createUser: function createUser() {
@@ -50199,7 +50493,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -50379,8 +50673,8 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: user.email,
-                                    expression: "user.email"
+                                    value: user.reserveCopy.email,
+                                    expression: "user.reserveCopy.email"
                                   }
                                 ],
                                 staticClass: "form-control form-control-sm",
@@ -50389,13 +50683,17 @@ var render = function() {
                                   "max-width": "80%"
                                 },
                                 attrs: { type: "text" },
-                                domProps: { value: user.email },
+                                domProps: { value: user.reserveCopy.email },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.$set(user, "email", $event.target.value)
+                                    _vm.$set(
+                                      user.reserveCopy,
+                                      "email",
+                                      $event.target.value
+                                    )
                                   }
                                 }
                               })
@@ -50417,8 +50715,8 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: user.access_level,
-                                    expression: "user.access_level"
+                                    value: user.reserveCopy.access_level,
+                                    expression: "user.reserveCopy.access_level"
                                   }
                                 ],
                                 staticClass: "form-control form-control-sm",
@@ -50434,7 +50732,7 @@ var render = function() {
                                         return val
                                       })
                                     _vm.$set(
-                                      user,
+                                      user.reserveCopy,
                                       "access_level",
                                       $event.target.multiple
                                         ? $$selectedVal
@@ -50461,20 +50759,20 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: user.first_name,
-                                  expression: "user.first_name"
+                                  value: user.reserveCopy.first_name,
+                                  expression: "user.reserveCopy.first_name"
                                 }
                               ],
                               staticClass: "form-control form-control-sm",
                               attrs: { type: "text" },
-                              domProps: { value: user.first_name },
+                              domProps: { value: user.reserveCopy.first_name },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
                                   _vm.$set(
-                                    user,
+                                    user.reserveCopy,
                                     "first_name",
                                     $event.target.value
                                   )
@@ -50493,20 +50791,20 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: user.last_name,
-                                  expression: "user.last_name"
+                                  value: user.reserveCopy.last_name,
+                                  expression: "user.reserveCopy.last_name"
                                 }
                               ],
                               staticClass: "form-control form-control-sm",
                               attrs: { type: "text" },
-                              domProps: { value: user.last_name },
+                              domProps: { value: user.reserveCopy.last_name },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
                                   _vm.$set(
-                                    user,
+                                    user.reserveCopy,
                                     "last_name",
                                     $event.target.value
                                   )
@@ -50527,20 +50825,22 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: user.business_name,
-                                  expression: "user.business_name"
+                                  value: user.reserveCopy.business_name,
+                                  expression: "user.reserveCopy.business_name"
                                 }
                               ],
                               staticClass: "form-control form-control-sm",
                               attrs: { type: "text" },
-                              domProps: { value: user.business_name },
+                              domProps: {
+                                value: user.reserveCopy.business_name
+                              },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
                                   _vm.$set(
-                                    user,
+                                    user.reserveCopy,
                                     "business_name",
                                     $event.target.value
                                   )
@@ -50561,20 +50861,23 @@ var render = function() {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: user.business_address,
-                                  expression: "user.business_address"
+                                  value: user.reserveCopy.business_address,
+                                  expression:
+                                    "user.reserveCopy.business_address"
                                 }
                               ],
                               staticClass: "form-control form-control-sm",
                               attrs: { type: "text" },
-                              domProps: { value: user.business_address },
+                              domProps: {
+                                value: user.reserveCopy.business_address
+                              },
                               on: {
                                 input: function($event) {
                                   if ($event.target.composing) {
                                     return
                                   }
                                   _vm.$set(
-                                    user,
+                                    user.reserveCopy,
                                     "business_address",
                                     $event.target.value
                                   )
@@ -51127,19 +51430,19 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(61)
+  __webpack_require__(62)
 }
 var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = __webpack_require__(63)
+var __vue_script__ = __webpack_require__(64)
 /* template */
-var __vue_template__ = __webpack_require__(64)
+var __vue_template__ = __webpack_require__(65)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51178,13 +51481,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(62);
+var content = __webpack_require__(63);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -51204,7 +51507,7 @@ if(false) {
 }
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -51218,7 +51521,7 @@ exports.push([module.i, "\nli[data-v-1ffdce1e] {\n    list-style: none;\n}\nthea
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51305,7 +51608,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -51347,19 +51650,19 @@ if (false) {
 }
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(66)
+  __webpack_require__(67)
 }
 var normalizeComponent = __webpack_require__(3)
 /* script */
-var __vue_script__ = __webpack_require__(68)
+var __vue_script__ = __webpack_require__(69)
 /* template */
-var __vue_template__ = __webpack_require__(74)
+var __vue_template__ = __webpack_require__(75)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -51398,13 +51701,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 66 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(67);
+var content = __webpack_require__(68);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -51424,7 +51727,7 @@ if(false) {
 }
 
 /***/ }),
-/* 67 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -51438,7 +51741,7 @@ exports.push([module.i, "\nol.breadcrumb[data-v-58dde06b] {\n    margin: 0;\n}\n
 
 
 /***/ }),
-/* 68 */
+/* 69 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51553,10 +51856,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { FileUploader: __WEBPACK_IMPORTED_MODULE_0__FileUploader_vue___default.a },
+    props: ['extensions'],
     computed: {
         filteredFolders: function filteredFolders() {
             var currentFolder = this.currentFolder;
@@ -51586,9 +51891,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         addUploadedFiles: function addUploadedFiles(files) {
-            console.log('addUploadedFiles');
-            console.log(files);
-            console.log(this.currentFolder.files.concat(files).unique('id'));
             this.currentFolder.files = this.currentFolder.files.concat(files).unique('id');
         },
         openFolder: function openFolder(folder) {
@@ -51617,8 +51919,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var index = self.folders.indexOf(self.folderToDelete);
                 self.folders.splice(index, 1);
                 self.folderToDelete = null;
-            }).catch(function (error) {
-                alert(error.response.data.message);
+            }).catch(function (e) {
+                if (e.response.status == 404) {
+                    var index = self.folders.indexOf(self.folderToDelete);
+                    alert('This folder is already deleted');
+                    self.folders.splice(index, 1);
+                } else {
+                    alert(e.response.data.message);
+                }
+                self.folderToDelete = null;
             });
         },
         deleteFile: function deleteFile() {
@@ -51628,8 +51937,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var index = self.currentFolder.files.indexOf(self.fileToDelete);
                 self.currentFolder.files.splice(index, 1);
                 self.fileToDelete = null;
-            }).catch(function (error) {
-                alert(error.response.data.message);
+            }).catch(function (e) {
+                if (e.response.status == 404) {
+                    alert('This file is already deleted');
+                    var index = self.currentFolder.files.indexOf(self.fileToDelete);
+                    self.currentFolder.files.splice(index, 1);
+                    self.fileToDelete = null;
+                } else {
+                    alert(e.response.data.message);
+                }
             });
         },
         popHistory: function popHistory(index) {
@@ -51675,13 +51991,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 69 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(70);
+var content = __webpack_require__(71);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -51701,7 +52017,7 @@ if(false) {
 }
 
 /***/ }),
-/* 70 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -51715,12 +52031,13 @@ exports.push([module.i, "\n.modal {\n  display: block;\n}\n.dropbox {\n  outline
 
 
 /***/ }),
-/* 71 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__file_upload_service__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__file_upload_service__ = __webpack_require__(73);
+//
 //
 //
 //
@@ -51812,7 +52129,7 @@ var STATUS_INITIAL = 0,
     STATUS_FAILED = 3;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['folder'],
+    props: ['folder', 'extensions'],
     data: function data() {
         return {
             uploadedFiles: [],
@@ -51881,7 +52198,7 @@ var STATUS_INITIAL = 0,
 });
 
 /***/ }),
-/* 72 */
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51902,7 +52219,7 @@ function upload(formData) {
 
 
 /***/ }),
-/* 73 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -51944,7 +52261,7 @@ var render = function() {
                   multiple: "",
                   name: _vm.uploadFieldName,
                   disabled: _vm.isSaving,
-                  accept: "/*"
+                  accept: _vm.extensions
                 },
                 on: {
                   change: function($event) {
@@ -52190,7 +52507,7 @@ if (false) {
 }
 
 /***/ }),
-/* 74 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -52374,7 +52691,10 @@ var render = function() {
                   { staticClass: "modal-content" },
                   [
                     _c("file-uploader", {
-                      attrs: { folder: _vm.currentFolder },
+                      attrs: {
+                        folder: _vm.currentFolder,
+                        extensions: _vm.extensions
+                      },
                       on: {
                         uploaded: _vm.addUploadedFiles,
                         closed: _vm.toggleUploadModal
@@ -52616,7 +52936,7 @@ if (false) {
 }
 
 /***/ }),
-/* 75 */
+/* 76 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

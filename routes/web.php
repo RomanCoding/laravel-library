@@ -1,5 +1,7 @@
 <?php
 
+Route::get('api/login/{token}/{username}/{password}/{ipaddress}', 'ApiController@auth');
+
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
@@ -24,6 +26,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', 'FileController@showLibraryPage');
     Route::get('/files', 'FileController@index');
     Route::get('/folders', 'FolderController@index');
+
+    Route::group(['prefix' => 'downloads'], function () {
+        Route::get('/files/{file}', 'DownloadController@file')->name('downloads.file');
+    });
 });
 
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {

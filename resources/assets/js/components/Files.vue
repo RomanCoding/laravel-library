@@ -2,16 +2,25 @@
     <div>
         <tabs>
             <tab name="File Explorer">
+                <div class="col-xs-3 offset-9" style="text-align: right;" >
+                    <button class="btn btn-success" v-if="downloadsList.length" @click="massDownload">Download</button>
+                </div>
                 <div class="card card-default">
                     <div class="card-body">
                         <li v-if="user.access_level > 1">
                             <div v-for="model in filteredItems">
-                                <item :model="model" :accessible="true"></item>
+                                <item :model="model" :accessible="true"
+                                      @requestedDownload="downloadFile"
+                                      @addedToDownloads="toDownloads">
+                                </item>
                             </div>
                         </li>
                         <li v-else>
                             <div v-for="model in filteredItems">
-                                <item :model="model" :accessible="model.accessible_1 !== 0"></item>
+                                <item :model="model" :accessible="model.accessible_1 !== 0"
+                                      @requestedDownload="downloadFile"
+                                      @addedToDownloads="toDownloads">
+                                </item>
                             </div>
                         </li>
                     </div>
@@ -82,7 +91,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="file in orderedFiles">
-                                <th scope="row" v-text="file.filename"></th>
+                                <th scope="row" v-text="file.filename" @click="downloadFile(file)"></th>
                                 <td v-text="file.extension"></td>
                                 <td v-text="getFileSize(file.filesize)"></td>
                                 <td>td</td>
@@ -100,9 +109,11 @@
     import Item from './Item.vue';
     import {Tabs, Tab} from 'vue-tabs-component';
 
+    let download = require('downloadjs');
+
     export default {
-        components: { Item, Tabs, Tab },
-        props: [ 'user' ],
+        components: {Item, Tabs, Tab},
+        props: ['user'],
         computed: {
             orderedFiles: function () {
                 return _.orderBy(this.filteredFiles, this.sortKey, this.reverse ? 'desc' : 'asc')
@@ -139,22 +150,54 @@
                         algh: 'is'
                     }
                 },
+                downloadsList: [],
             }
         },
         created() {
-            axios.get('/folders').then((response) => {
-                this.folders = response.data;
-                let rootFolder = _.find(this.folders, function (f) {
-                    return f.parent_id === null;
-                });
+            axios.get('/folders').then(r => {
+                this.folders = r.data;
+                let rootFolder = _.find(this.folders, f => f.parent_id === null);
                 this.rootFolderId = rootFolder ? rootFolder.id : null;
             });
-            axios.get('/files').then((response) => {
-                this.files = response.data;
-                this.filteredFiles = response.data;
+            axios.get('/files').then(r => {
+                this.files = r.data;
+                this.filteredFiles = r.data;
             });
         },
         methods: {
+            downloadFile(file) {
+                axios({
+                    url: '/downloads/files/' + file.id,
+                    method: 'get',
+                    withCredentials: true,
+                    responseType: 'blob',
+                    headers: {
+                        'Accept': file.filename + '.' + file.extension
+                    },
+                }).then(r => {
+                    download(r.data, file.filename + '.' + file.extension);
+                }).catch((error) => {
+                    alert (error.response.status == 403 ? 'No permissions to access this file' : 'Unknown error');
+                });
+
+            },
+            massDownload() {
+                this.downloadsList.forEach((file) => {
+                    axios({
+                        url: '/downloads/files/' + file.id,
+                        method: 'get',
+                        withCredentials: true,
+                        responseType: 'blob',
+                        headers: {
+                            'Accept': file.filename + '.' + file.extension
+                        },
+                    }).then(r => {
+                        download(r.data, file.filename + '.' + file.extension);
+                    }).catch((error) => {
+                        alert (error.response.status == 403 ? 'No permissions to access this file' : 'Unknown error');
+                    });
+                });
+            },
             getFileSize(bytes) {
                 if (bytes > 1048576) {
                     return (Math.round(bytes / 1048576 * 10) / 10) + ' mb';
@@ -254,7 +297,15 @@
             },
             arrowOpacity(key) {
                 return this.sortKey === key ? 'opacity: 1' : 'opacity: 0.1';
-            }
+            },
+            toDownloads(file) {
+                let index = this.downloadsList.find(x => x.id === file.id);
+                if (index === undefined) {
+                    this.downloadsList.push(file);
+                } else {
+                    this.downloadsList.splice(index, 1);
+                }
+            },
         }
     }
 </script>

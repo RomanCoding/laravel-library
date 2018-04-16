@@ -42,6 +42,7 @@ Object.defineProperty(Array.prototype, 'unique', {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+window.bus = new Vue();
 
 Vue.component('files', require('./components/Files.vue'));
 Vue.component('item', require('./components/Item.vue'));
@@ -51,5 +52,5 @@ Vue.component('uploads', require('./components/Uploads.vue'));
 Vue.component('file-uploader', require('./components/FileUploader.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

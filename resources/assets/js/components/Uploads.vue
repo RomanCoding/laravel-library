@@ -46,6 +46,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <file-uploader :folder="currentFolder"
+                                   :extensions="extensions"
                                    @uploaded="addUploadedFiles"
                                    @closed="toggleUploadModal">
                     </file-uploader>
@@ -110,6 +111,7 @@
     import FileUploader from './FileUploader.vue';
     export default {
         components: { FileUploader },
+        props: ['extensions'],
         computed: {
             filteredFolders: function () {
                 let currentFolder = this.currentFolder;
@@ -136,9 +138,6 @@
         },
         methods: {
             addUploadedFiles(files) {
-                console.log('addUploadedFiles');
-                console.log(files);
-                console.log(this.currentFolder.files.concat(files).unique('id'));
                 this.currentFolder.files = this.currentFolder.files.concat(files).unique('id');
             },
             openFolder(folder, index = null) {
@@ -165,8 +164,15 @@
                     let index = self.folders.indexOf(self.folderToDelete);
                     self.folders.splice(index, 1);
                     self.folderToDelete = null;
-                }).catch((error) => {
-                    alert(error.response.data.message);
+                }).catch(e => {
+                    if (e.response.status == 404) {
+                        let index = self.folders.indexOf(self.folderToDelete);
+                        alert('This folder is already deleted');
+                        self.folders.splice(index, 1);
+                    } else {
+                        alert(e.response.data.message);
+                    }
+                    self.folderToDelete = null;
                 });
             },
             deleteFile() {
@@ -176,8 +182,15 @@
                     let index = self.currentFolder.files.indexOf(self.fileToDelete);
                     self.currentFolder.files.splice(index, 1);
                     self.fileToDelete = null;
-                }).catch((error) => {
-                    alert(error.response.data.message);
+                }).catch(e => {
+                    if (e.response.status == 404) {
+                        alert('This file is already deleted');
+                        let index = self.currentFolder.files.indexOf(self.fileToDelete);
+                        self.currentFolder.files.splice(index, 1);
+                        self.fileToDelete = null;
+                    } else {
+                        alert(e.response.data.message);
+                    }
                 });
             },
             popHistory(index) {

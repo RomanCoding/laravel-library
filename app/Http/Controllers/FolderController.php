@@ -37,7 +37,10 @@ class FolderController extends Controller
      */
     public function index(Request $request)
     {
-        return Folder::orderBy('name')->get();
+        if ($request->user()->access_level > 1) {
+            return Folder::orderBy('name')->get();
+        }
+        return Folder::where('accessible_1', 1)->orderBy('name')->get();
     }
 
     /**
@@ -80,7 +83,6 @@ class FolderController extends Controller
 
     public function destroy($id)
     {
-        // @todo test what if fail, what will be on front end?
         $folder = Folder::findOrFail($id);
 
         if (!Storage::exists($folder->storage_path)) {

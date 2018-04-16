@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container-fluid">
-        <uploads></uploads>
+        <uploads extensions="{{ $extensions }}"></uploads>
     </div>
 @endsection

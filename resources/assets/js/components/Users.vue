@@ -35,29 +35,29 @@
                             </template>
                             <span v-if="!user.edit" v-text="user.email"></span>
                             <input type="text" class="form-control form-control-sm"
-                                   style="display: inline-block; max-width: 80%;" v-model="user.email" v-else>
+                                   style="display: inline-block; max-width: 80%;" v-model="user.reserveCopy.email" v-else>
                         </th>
                         <td>
                             <span v-if="!user.edit" v-text="user.access_level"></span>
-                            <select class="form-control form-control-sm" v-model="user.access_level" v-else>
+                            <select class="form-control form-control-sm" v-model="user.reserveCopy.access_level" v-else>
                                 <option v-for="n in 3" :value="n" v-text="n"></option>
                             </select>
                         </td>
                         <td>
                             <span v-if="!user.edit" v-text="user.first_name"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.first_name" v-else>
+                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.first_name" v-else>
                         </td>
                         <td>
                             <span v-if="!user.edit" v-text="user.last_name"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.last_name" v-else>
+                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.last_name" v-else>
                         </td>
                         <td>
                             <span v-if="!user.edit" v-text="user.business_name"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.business_name" v-else>
+                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.business_name" v-else>
                         </td>
                         <td>
                             <span v-if="!user.edit" v-text="user.business_address"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.business_address" v-else>
+                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.business_address" v-else>
                         </td>
                     </tr>
                     <nav aria-label="...">
@@ -263,12 +263,7 @@
             editUser(user) {
                 // @todo make it like "edit in copy, then if success - save to main"
                 if (user.edit) {
-                    user.email = user.reserveCopy.email;
-                    user.first_name = user.reserveCopy.first_name;
-                    user.last_name = user.reserveCopy.last_name;
-                    user.business_name = user.reserveCopy.business_name;
-                    user.business_address = user.reserveCopy.business_address;
-                    user.access_level = user.reserveCopy.access_level;
+                    user.reserverCopy = null;
                     user.edit = false;
                 } else {
                     user.edit = true;
@@ -276,17 +271,19 @@
                 }
             },
             updateUser(user) {
-                axios.patch('/users/' + user.id, user).then(function (response) {
+                axios.patch('/users/' + user.id, user.reserveCopy).then(function (response) {
                     alert('Updated');
                     user.edit = false;
-                }).catch(function (error) {
-                    alert('Oops, error...');
                     user.email = user.reserveCopy.email;
                     user.first_name = user.reserveCopy.first_name;
+                    user.last_name = user.reserveCopy.last_name;
                     user.business_name = user.reserveCopy.business_name;
                     user.business_address = user.reserveCopy.business_address;
                     user.access_level = user.reserveCopy.access_level;
-                    user.edit = false;
+                    user.reserveCopy = null;
+                }).catch(function (error) {
+                    alert('Oops, error...');
+                    //user.edit = false;
                 });
             },
             createUser() {

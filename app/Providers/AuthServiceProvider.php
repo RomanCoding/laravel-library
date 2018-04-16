@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\File;
 use App\Folder;
+use App\Policies\FilePolicy;
 use App\Policies\FolderPolicy;
 use App\Policies\UserPolicy;
 use App\User;
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         User::class => UserPolicy::class,
         Folder::class => FolderPolicy::class,
+        File::class => FilePolicy::class,
     ];
 
     /**

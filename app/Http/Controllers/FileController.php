@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\File;
 use App\Folder;
 use App\User;
-use Exceptionx;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +43,7 @@ class FileController extends Controller
         }
         try {
             Storage::delete($file->filepath);
-        } catch (Exceptionx $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'File can not be deleted'
             ], 500);
@@ -59,21 +59,28 @@ class FileController extends Controller
         $this->validate($request, [
             'folder_id' => 'required|exists:folders,id'
         ]);
+
+        $extensions = config('library.uploads_extensions', []);
+
         $folder = Folder::find($request->get('folder_id'));
         $success = [];
         $failed = [];
 
         foreach ($request->file('files') as $file) {
+            $extension = strtolower($file->extension());
             $filename = $file->getClientOriginalName();
+            // if extension is not in allowed list, add to failed
+            if (array_search(".$extension", $extensions) === false) {
+                $failed[] = $filename;
+                continue;
+            }
             try {
                 $filePath = '/' . $file->storeAs($folder->storage_path, $filename);
-
                 $stat = stat(storage_path('library') . $filePath);
-
                 $file = File::updateOrCreate([
                     'filepath' => $filePath,
                     'filename' => pathinfo($filename, PATHINFO_FILENAME),
-                    'extension' => $file->extension(),
+                    'extension' => $extension,
                     'filesize' => $stat['size'],
                     'folder_id' => $folder->id,
                 ], [

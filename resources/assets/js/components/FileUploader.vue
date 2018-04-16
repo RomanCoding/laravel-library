@@ -10,8 +10,9 @@
             <div class="dropbox">
                 <input type="file" multiple :name="uploadFieldName" :disabled="isSaving"
                        @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length"
-                       accept="/*" class="input-file">
-                       <!--accept="image/*" @todo FILE EXTENSIONS ACCEPT-->
+                       :accept="extensions"
+                        class="input-file">
+                <!--accept=".docx,.pptx,.pdf,.doc,.csv,.jpg,.png,.mp4"-->
                 <p v-if="isInitial">
                     Drag your file(s) here to begin<br> or click to browse
                 </p>
@@ -86,7 +87,7 @@
     const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED = 3;
 
     export default {
-        props: ['folder'],
+        props: ['folder', 'extensions'],
         data() {
             return {
                 uploadedFiles: [],

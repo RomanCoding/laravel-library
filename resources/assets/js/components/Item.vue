@@ -7,7 +7,7 @@
             </div>
             <div class="col-md-6" v-else>
                 <img class="glyphs" src="/glyphs/si-glyph-document.svg">
-                <b v-text="model.filename"></b>
+                <b v-text="model.filename" @click="requestDownload(model)"></b>
             </div>
             <div class="col-md-3">
                 {{ model.extension ? model.extension : 'Folder' }}
@@ -26,7 +26,7 @@
             <div class="col-md-1" v-else>
                 <div class="checkbox">
                     <label style="font-size: 1.5em">
-                        <input type="checkbox" value="">
+                        <input type="checkbox" value="" @click="addToDownloads(model)">
                         <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                     </label>
                 </div>
@@ -34,7 +34,10 @@
         </div>
         <ul v-if="showChildren">
             <item v-for="(model, index) in model.children" :key="index" :model="model" :permissions="permissions"
-                  v-on:permissions="togglePermission"></item>
+                  @permissions="togglePermission"
+                  @requestedDownload="requestDownload"
+                  @addedToDownloads="addToDownloads">
+            </item>
         </ul>
     </div>
 
@@ -42,6 +45,7 @@
 
 <script>
     import Item from './Item.vue';
+
     export default {
         components: {Item},
         props: ['model', 'permissions', 'accessible'],
@@ -87,7 +91,15 @@
             },
             togglePermission(model) {
                 this.$emit('permissions', model);
-            }
+            },
+            requestDownload(model) {
+                this.$emit('requestedDownload', model);
+            },
+            addToDownloads(model) {
+                this.$emit('addedToDownloads', model);
+                //console.log('1');
+                //window.bus.$emit('addedToDownloads', model);
+            },
         }
     }
 </script>
@@ -101,6 +113,7 @@
         padding-left: 1em;
         list-style-type: none;
     }
+
     .checkbox label:after {
         content: '';
         display: table;
