@@ -2,14 +2,18 @@
     <div>
         <tabs>
             <tab name="File Explorer">
-                <div class="col-xs-3 offset-9" style="text-align: right;" >
-                    <button class="btn btn-success" v-if="downloadsList.length" @click="massDownload">Download</button>
+                <div class="col-xs-3 offset-9 text-right">
+                    <button class="btn btn-success"
+                            @click="massDownload"
+                            :disabled="!downloadsList.length">
+                        Download
+                    </button>
                 </div>
                 <div class="card card-default">
                     <div class="card-body">
                         <li v-if="user.access_level > 1">
                             <div v-for="model in filteredItems">
-                                <item :model="model" :accessible="true"
+                                <item :model="model" accessible="true"
                                       @requestedDownload="downloadFile"
                                       @addedToDownloads="toDownloads">
                                 </item>
@@ -29,7 +33,7 @@
             <tab name="Browse">
                 <div class="row">
                     <div class="col-5 col-sm-4 col-md-3 col-xl-2">
-                        <form class="search-form">
+                        <div class="search-form">
                             <div class="card-header">
                                 Search
                             </div>
@@ -53,15 +57,9 @@
                                     <input type="checkbox" class="form-check-input" v-model="filters.extension.use">
                                     <label class="form-check-label">Extension</label>
                                     <div v-if="filters.extension.use">
-                                        <span :class="badgeClass('word')" @click="toggleExtension('word')">word</span>
-                                        <span :class="badgeClass('excel')"
-                                              @click="toggleExtension('excel')">excel</span>
-                                        <span :class="badgeClass('ppt')" @click="toggleExtension('ppt')">ppt</span>
-                                        <span :class="badgeClass('pdf')" @click="toggleExtension('pdf')">pdf</span>
-                                        <span :class="badgeClass('images')"
-                                              @click="toggleExtension('images')">images</span>
-                                        <span :class="badgeClass('video')"
-                                              @click="toggleExtension('video')">video</span>
+                                        <span v-for="e in extensions" :class="badgeClass(e)"
+                                              @click="toggleExtension(e)" v-text="e">
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="form-check">
@@ -71,7 +69,7 @@
                                 <button class="btn btn-primary" @click="applyFilters">Apply filters</button>
                                 <button class="btn btn-text" @click="clearFilters">Clear</button>
                             </div>
-                        </form>
+                        </div>
                     </div>
                     <div class="col-7 col-sm-8 col-md-9 col-xl-10">
                         <table class="table table-bordered">
@@ -113,7 +111,7 @@
 
     export default {
         components: {Item, Tabs, Tab},
-        props: ['user'],
+        props: ['user', 'extensions'],
         computed: {
             orderedFiles: function () {
                 return _.orderBy(this.filteredFiles, this.sortKey, this.reverse ? 'desc' : 'asc')
@@ -147,7 +145,6 @@
                     extension: {
                         use: false,
                         text: [],
-                        algh: 'is'
                     }
                 },
                 downloadsList: [],
@@ -224,42 +221,33 @@
                 if (this.filters.filename.use) {
                     switch (filters.filename.algh) {
                         case "is": {
-                            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
-                                return (f.filename === filters.filename.text);
-                            });
+                            this.filteredFiles = _.filter(this.filteredFiles, f => f.filename === filters.filename.text);
                             break;
                         }
                         case "isn't": {
-                            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
-                                return (f.filename !== filters.filename.text);
-                            });
+                            this.filteredFiles = _.filter(this.filteredFiles, f => f.filename !== filters.filename.text);
                             break;
                         }
                         case "contains": {
-                            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
-                                return (f.filename.includes(filters.filename.text));
-                            });
+                            this.filteredFiles = _.filter(this.filteredFiles, f => f.filename.includes(filters.filename.text));
                             break;
                         }
                         case "doesn't contain": {
-                            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
-                                return (!f.filename.includes(filters.filename.text));
-                            });
+                            this.filteredFiles = _.filter(this.filteredFiles, f => !f.filename.includes(filters.filename.text));
                             break;
                         }
                         case "starts with": {
-                            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
-                                return (f.filename.startsWith(filters.filename.text));
-                            });
+                            this.filteredFiles = _.filter(this.filteredFiles, f => f.filename.startsWith(filters.filename.text));
                             break;
                         }
                         case "ends with": {
-                            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
-                                return (f.filename.endsWith(filters.filename.text));
-                            });
+                            this.filteredFiles = _.filter(this.filteredFiles, f => f.filename.endsWith(filters.filename.text));
                             break;
                         }
                     }
+                }
+                if (this.filters.extension.use) {
+                    this.filteredFiles = this.filteredFiles.filter(f => filters.extension.text.includes('.' + f.extension));
                 }
             },
             clearFilters() {
@@ -271,8 +259,7 @@
                     },
                     extension: {
                         use: false,
-                        text: [],
-                        algh: 'is'
+                        text: []
                     }
                 };
             },
@@ -310,7 +297,7 @@
     }
 </script>
 <style>
-    form.search-form {
+    div.search-form {
         box-sizing: border-box;
         border: 2px solid #dee2e6;
     }
@@ -319,7 +306,7 @@
         font-weight: bold;
     }
 
-    form.search-form .filters {
+    div.search-form .filters {
         padding: 5px;
         line-height: 1.6;
     }
@@ -357,6 +344,7 @@
 
     span.badge {
         cursor: pointer;
+        margin-right: 5px;
     }
 
     .tabs-component {
@@ -444,7 +432,7 @@
             border: solid 1px #ddd;
             border-radius: 0 6px 6px 6px;
             box-shadow: 0 0 10px rgba(0, 0, 0, .05);
-            padding: 4em 2em;
+            padding: 0.5em;
         }
     }
 </style>

@@ -48670,7 +48670,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\nform.search-form {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #dee2e6;\n}\n.search-form .card-header {\n    font-weight: bold;\n}\nform.search-form .filters {\n    padding: 5px;\n    line-height: 1.6;\n}\n.form-check select,\n.form-check input {\n    margin-left: -1.25rem;\n}\n.form-check input {\n    margin-top: 5px;\n}\n.filters button {\n    margin-top: 10px;\n}\nthead tr th {\n    cursor: pointer;\n}\nli a:hover {\n    text-decoration: none;\n    color: inherit;\n}\nli {\n    list-style: none;\n}\nimg.glyphs {\n    width: 20px;\n    height: 20px;\n}\nspan.badge {\n    cursor: pointer;\n}\n.tabs-component {\n    margin: 0.5em 0;\n}\n.tabs-component-tabs {\n    border: solid 1px #ddd;\n    border-radius: 6px;\n    margin-bottom: 5px;\n}\n@media (min-width: 700px) {\n.tabs-component-tabs {\n        border: 0;\n        -webkit-box-align: stretch;\n            -ms-flex-align: stretch;\n                align-items: stretch;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-pack: start;\n            -ms-flex-pack: start;\n                justify-content: flex-start;\n        margin-bottom: -1px;\n}\n}\n.tabs-component-tab {\n    color: #999;\n    font-size: 14px;\n    font-weight: 600;\n    margin-right: 0;\n    list-style: none;\n}\n.tabs-component-tabs:not(.is-active) .tabs-component-tab {\n    border-bottom: none;\n}\n.tabs-component-tab:not(:last-child) {\n    border-bottom: dotted 1px #ddd;\n}\n.tabs-component-tab:hover {\n    color: #666;\n}\n.tabs-component-tab.is-active {\n    color: #000;\n}\n.tabs-component-tab.is-disabled * {\n    color: #cdcdcd;\n    cursor: not-allowed !important;\n}\n@media (min-width: 700px) {\n.tabs-component-tab {\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 3px 3px 0 0;\n        margin-right: .5em;\n        -webkit-transform: translateY(2px);\n                transform: translateY(2px);\n        -webkit-transition: -webkit-transform .3s ease;\n        transition: -webkit-transform .3s ease;\n        transition: transform .3s ease;\n        transition: transform .3s ease, -webkit-transform .3s ease;\n}\n.tabs-component-tab.is-active {\n        border-bottom: solid 1px #fff;\n        z-index: 2;\n        -webkit-transform: translateY(0);\n                transform: translateY(0);\n}\n}\n.tabs-component-tab-a {\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    color: inherit;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: .75em 1em;\n    text-decoration: none;\n}\n.tabs-component-panels {\n    padding: 4em 0;\n}\n@media (min-width: 700px) {\n.tabs-component-panels {\n        border-top-left-radius: 0;\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 0 6px 6px 6px;\n        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n                box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n        padding: 4em 2em;\n}\n}\n", ""]);
+exports.push([module.i, "\ndiv.search-form {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #dee2e6;\n}\n.search-form .card-header {\n    font-weight: bold;\n}\ndiv.search-form .filters {\n    padding: 5px;\n    line-height: 1.6;\n}\n.form-check select,\n.form-check input {\n    margin-left: -1.25rem;\n}\n.form-check input {\n    margin-top: 5px;\n}\n.filters button {\n    margin-top: 10px;\n}\nthead tr th {\n    cursor: pointer;\n}\nli a:hover {\n    text-decoration: none;\n    color: inherit;\n}\nli {\n    list-style: none;\n}\nimg.glyphs {\n    width: 20px;\n    height: 20px;\n}\nspan.badge {\n    cursor: pointer;\n    margin-right: 5px;\n}\n.tabs-component {\n    margin: 0.5em 0;\n}\n.tabs-component-tabs {\n    border: solid 1px #ddd;\n    border-radius: 6px;\n    margin-bottom: 5px;\n}\n@media (min-width: 700px) {\n.tabs-component-tabs {\n        border: 0;\n        -webkit-box-align: stretch;\n            -ms-flex-align: stretch;\n                align-items: stretch;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-pack: start;\n            -ms-flex-pack: start;\n                justify-content: flex-start;\n        margin-bottom: -1px;\n}\n}\n.tabs-component-tab {\n    color: #999;\n    font-size: 14px;\n    font-weight: 600;\n    margin-right: 0;\n    list-style: none;\n}\n.tabs-component-tabs:not(.is-active) .tabs-component-tab {\n    border-bottom: none;\n}\n.tabs-component-tab:not(:last-child) {\n    border-bottom: dotted 1px #ddd;\n}\n.tabs-component-tab:hover {\n    color: #666;\n}\n.tabs-component-tab.is-active {\n    color: #000;\n}\n.tabs-component-tab.is-disabled * {\n    color: #cdcdcd;\n    cursor: not-allowed !important;\n}\n@media (min-width: 700px) {\n.tabs-component-tab {\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 3px 3px 0 0;\n        margin-right: .5em;\n        -webkit-transform: translateY(2px);\n                transform: translateY(2px);\n        -webkit-transition: -webkit-transform .3s ease;\n        transition: -webkit-transform .3s ease;\n        transition: transform .3s ease;\n        transition: transform .3s ease, -webkit-transform .3s ease;\n}\n.tabs-component-tab.is-active {\n        border-bottom: solid 1px #fff;\n        z-index: 2;\n        -webkit-transform: translateY(0);\n                transform: translateY(0);\n}\n}\n.tabs-component-tab-a {\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    color: inherit;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: .75em 1em;\n    text-decoration: none;\n}\n.tabs-component-panels {\n    padding: 4em 0;\n}\n@media (min-width: 700px) {\n.tabs-component-panels {\n        border-top-left-radius: 0;\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 0 6px 6px 6px;\n        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n                box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n        padding: 0.5em;\n}\n}\n", ""]);
 
 // exports
 
@@ -48823,8 +48823,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -48833,7 +48831,7 @@ var download = __webpack_require__(54);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { Item: __WEBPACK_IMPORTED_MODULE_0__Item_vue___default.a, Tabs: __WEBPACK_IMPORTED_MODULE_1_vue_tabs_component__["Tabs"], Tab: __WEBPACK_IMPORTED_MODULE_1_vue_tabs_component__["Tab"] },
-    props: ['user'],
+    props: ['user', 'extensions'],
     computed: {
         orderedFiles: function orderedFiles() {
             return _.orderBy(this.filteredFiles, this.sortKey, this.reverse ? 'desc' : 'asc');
@@ -48866,8 +48864,7 @@ var download = __webpack_require__(54);
                 },
                 extension: {
                     use: false,
-                    text: [],
-                    algh: 'is'
+                    text: []
                 }
             },
             downloadsList: []
@@ -48993,6 +48990,11 @@ var download = __webpack_require__(54);
                         }
                 }
             }
+            if (this.filters.extension.use) {
+                this.filteredFiles = this.filteredFiles.filter(function (f) {
+                    return filters.extension.text.includes('.' + f.extension);
+                });
+            }
         },
         clearFilters: function clearFilters() {
             this.filters = {
@@ -49003,8 +49005,7 @@ var download = __webpack_require__(54);
                 },
                 extension: {
                     use: false,
-                    text: [],
-                    algh: 'is'
+                    text: []
                 }
             };
         },
@@ -49310,11 +49311,15 @@ var render = function() {
               ])
             ])
           ])
-        : _c("div", { staticClass: "col-md-1" }, [
+        : _c("div", { staticClass: "col-md-1 text-right" }, [
             _c("div", { staticClass: "checkbox" }, [
               _c("label", { staticStyle: { "font-size": "1.5em" } }, [
                 _c("input", {
-                  attrs: { type: "checkbox", value: "" },
+                  attrs: {
+                    type: "checkbox",
+                    value: "",
+                    disabled: _vm.isFolder()
+                  },
                   on: {
                     click: function($event) {
                       _vm.addToDownloads(_vm.model)
@@ -49564,25 +49569,17 @@ var render = function() {
         "tabs",
         [
           _c("tab", { attrs: { name: "File Explorer" } }, [
-            _c(
-              "div",
-              {
-                staticClass: "col-xs-3 offset-9",
-                staticStyle: { "text-align": "right" }
-              },
-              [
-                _vm.downloadsList.length
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-success",
-                        on: { click: _vm.massDownload }
-                      },
-                      [_vm._v("Download")]
-                    )
-                  : _vm._e()
-              ]
-            ),
+            _c("div", { staticClass: "col-xs-3 offset-9 text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  attrs: { disabled: !_vm.downloadsList.length },
+                  on: { click: _vm.massDownload }
+                },
+                [_vm._v("\n                    Download\n                ")]
+              )
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card card-default" }, [
               _c("div", { staticClass: "card-body" }, [
@@ -49594,7 +49591,7 @@ var render = function() {
                           "div",
                           [
                             _c("item", {
-                              attrs: { model: model, accessible: true },
+                              attrs: { model: model, accessible: "true" },
                               on: {
                                 requestedDownload: _vm.downloadFile,
                                 addedToDownloads: _vm.toDownloads
@@ -49633,7 +49630,7 @@ var render = function() {
           _c("tab", { attrs: { name: "Browse" } }, [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-5 col-sm-4 col-md-3 col-xl-2" }, [
-                _c("form", { staticClass: "search-form" }, [
+                _c("div", { staticClass: "search-form" }, [
                   _c("div", { staticClass: "card-header" }, [
                     _vm._v(
                       "\n                            Search\n                        "
@@ -49839,85 +49836,20 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _vm.filters.extension.use
-                        ? _c("div", [
-                            _c(
-                              "span",
-                              {
-                                class: _vm.badgeClass("word"),
+                        ? _c(
+                            "div",
+                            _vm._l(_vm.extensions, function(e) {
+                              return _c("span", {
+                                class: _vm.badgeClass(e),
+                                domProps: { textContent: _vm._s(e) },
                                 on: {
                                   click: function($event) {
-                                    _vm.toggleExtension("word")
+                                    _vm.toggleExtension(e)
                                   }
                                 }
-                              },
-                              [_vm._v("word")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                class: _vm.badgeClass("excel"),
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleExtension("excel")
-                                  }
-                                }
-                              },
-                              [_vm._v("excel")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                class: _vm.badgeClass("ppt"),
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleExtension("ppt")
-                                  }
-                                }
-                              },
-                              [_vm._v("ppt")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                class: _vm.badgeClass("pdf"),
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleExtension("pdf")
-                                  }
-                                }
-                              },
-                              [_vm._v("pdf")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                class: _vm.badgeClass("images"),
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleExtension("images")
-                                  }
-                                }
-                              },
-                              [_vm._v("images")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "span",
-                              {
-                                class: _vm.badgeClass("video"),
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleExtension("video")
-                                  }
-                                }
-                              },
-                              [_vm._v("video")]
-                            )
-                          ])
+                              })
+                            })
+                          )
                         : _vm._e()
                     ]),
                     _vm._v(" "),

@@ -23,10 +23,10 @@
                     </label>
                 </div>
             </div>
-            <div class="col-md-1" v-else>
+            <div class="col-md-1 text-right" v-else>
                 <div class="checkbox">
                     <label style="font-size: 1.5em">
-                        <input type="checkbox" value="" @click="addToDownloads(model)">
+                        <input type="checkbox" value="" @click="addToDownloads(model)" :disabled="isFolder()">
                         <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                     </label>
                 </div>
@@ -97,8 +97,6 @@
             },
             addToDownloads(model) {
                 this.$emit('addedToDownloads', model);
-                //console.log('1');
-                //window.bus.$emit('addedToDownloads', model);
             },
         }
     }

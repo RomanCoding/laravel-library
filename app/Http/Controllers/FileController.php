@@ -19,7 +19,8 @@ class FileController extends Controller
      */
     public function showLibraryPage()
     {
-        return view('library.index');
+        $extensions = json_encode(config('library.uploads_extensions', []));
+        return view('library.index', compact('extensions'));
     }
 
     /**

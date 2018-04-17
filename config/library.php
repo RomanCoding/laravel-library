@@ -9,6 +9,6 @@ return [
     */
 
     'uploads_extensions' => [
-        '.docx', '.pptx', '.pdf', '.doc', '.csv', '.jpg', '.png', '.mp4'
+        '.docx', '.pptx', '.pdf', '.doc', '.csv', '.jpg', '.jpeg', '.png', '.mp4'
     ],
 ];

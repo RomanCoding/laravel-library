@@ -38,9 +38,9 @@ class FolderController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->access_level > 1) {
-            return Folder::orderBy('name')->get();
+            return Folder::with(['folders', 'files'])->orderBy('name')->get();
         }
-        return Folder::where('accessible_1', 1)->orderBy('name')->get();
+        return Folder::with(['folders', 'files'])->accessible()->orderBy('name')->get();
     }
 
     /**
