@@ -117,9 +117,9 @@
                 return _.orderBy(this.filteredFiles, this.sortKey, this.reverse ? 'desc' : 'asc')
             },
             filteredItems: function () {
-                let rootFolderId = this.rootFolderId;
+                let currentFolderId = this.currentFolderId;
                 let folders = _.filter(this.folders, function (o) {
-                    return (o.parent_id === rootFolderId);
+                    return (o.parent_id === currentFolderId);
                 });
                 let files = _.filter(this.files, function (o) {
                     return (o.folder === null || o.folder.parent_id === null);
@@ -135,7 +135,7 @@
                 files: [],
                 filteredFiles: [],
                 folders: [],
-                rootFolderId: [],
+                currentFolderId: [],
                 filters: {
                     filename: {
                         use: false,
@@ -156,10 +156,14 @@
                 let rootFolder = _.find(this.folders, f => f.parent_id === null);
                 this.rootFolderId = rootFolder ? rootFolder.id : null;
             });
-            axios.get('/files').then(r => {
-                this.files = r.data;
-                this.filteredFiles = r.data;
+            axios.get('/folders/root').then(r => {
+                this.folders = r.data.folders;
+                this.currentFolderId = r.data.id;
             });
+//            axios.get('/files').then(r => {
+//                this.files = r.data;
+//                this.filteredFiles = r.data;
+//            });
         },
         methods: {
             downloadFile(file) {

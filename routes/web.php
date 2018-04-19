@@ -15,6 +15,8 @@ Route::group(['middleware' => 'can:create,App\User'], function () {
 
 // Registration Routes...
 Route::group(['middleware' => 'can:create,App\Folder'], function () {
+    Route::get('folders/root', 'FolderController@root');
+    Route::get('folders/{folder}', 'FolderController@show');
     Route::patch('folders/{id}', 'FolderController@updatePermissions');
     Route::delete('folders/{id}', 'FolderController@destroy');
     Route::delete('files/{id}', 'FileController@destroy');

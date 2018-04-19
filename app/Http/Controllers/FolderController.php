@@ -43,6 +43,11 @@ class FolderController extends Controller
         return Folder::with(['folders', 'files'])->accessible()->orderBy('name')->get();
     }
 
+    public function show(Request $request, Folder $folder)
+    {
+        return $folder->folders->concat($folder->files);
+    }
+
     /**
      * Create folder in given parent folder.
      *
@@ -79,6 +84,19 @@ class FolderController extends Controller
             'message' => 'Folder created',
             'folder' => $folder,
         ], 201);
+    }
+
+    public function root()
+    {
+        $root = Folder::whereNull('parent_id')->with('files')->first();
+        $folders = collect();
+        $files = collect();
+        foreach ($root->folders as $folder) {
+            $folders->push($folder);
+            $files = $files->concat($folder->files);
+        }
+        $root->children = $folders->concat($files);
+        return $root;
     }
 
     public function destroy($id)
@@ -124,6 +142,6 @@ class FolderController extends Controller
      */
     private function newFolderPath($parentPath, $newName)
     {
-        return $parentPath === '/' ?  "/{$newName}" : "{$parentPath}/{$newName}";
+        return $parentPath === '/' ? "/{$newName}" : "{$parentPath}/{$newName}";
     }
 }

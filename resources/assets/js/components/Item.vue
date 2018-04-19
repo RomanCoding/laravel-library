@@ -16,7 +16,7 @@
                 {{ isFolder() ? getFolderSize(model) : getFileSize(model.filesize) }}
             </div>
             <div class="col-md-1" v-if="this.permissions">
-                <div class="checkbox">
+                <div class="checkbox" v-if="isFolder()">
                     <label style="font-size: 1.5em">
                         <input type="checkbox" v-model="model.accessible_1" @click="togglePermission(model)">
                         <span class="cr"><i class="cr-icon fa fa-check"></i></span>
@@ -63,7 +63,7 @@
 
         methods: {
             isFolder() {
-                return this.model.hasOwnProperty('children');
+                return this.model.hasOwnProperty('parent_id');
             },
             getFileSize(bytes) {
                 if (bytes > 1048576) {
@@ -75,17 +75,25 @@
                 return (Math.round(bytes * 10) / 10) + ' b';
             },
             getFolderSize(folder, formatted = true) {
-                let size = 0;
-                let self = this;
-                folder.files.forEach(function (file) {
-                    size += file.filesize;
-                });
-                folder.folders.forEach(function (childrenFolder) {
-                    size += self.getFolderSize(childrenFolder, false);
-                });
-                return formatted ? this.getFileSize(size) : size;
+                return 0;
+//                let size = 0;
+//                let self = this;
+//                folder.files.forEach(function (file) {
+//                    size += file.filesize;
+//                });
+//                folder.folders.forEach(function (childrenFolder) {
+//                    size += self.getFolderSize(childrenFolder, false);
+//                });
+//                return formatted ? this.getFileSize(size) : size;
             },
             toggle() {
+                if (!this.model.children || !this.model.children.length) {
+                    let model = this.model;
+                    axios.get('/folders/' + model.id).then(r => {
+                        console.log(r.data);
+                        Vue.set(model, 'children', r.data);
+                    });
+                }
                 this.showChildren = !this.showChildren;
                 this.glyphSrc = this.showChildren ? '/glyphs/si-glyph-folder-open.svg' : '/glyphs/si-glyph-folder-plus.svg';
             },

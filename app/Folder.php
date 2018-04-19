@@ -20,9 +20,7 @@ class Folder extends Model
      */
     protected $hidden = [];
 
-    protected $appends = ['children'];
-
-    protected $with = ['files'];
+    //protected $appends = ['children'];
 
     public function files()
     {
@@ -33,12 +31,11 @@ class Folder extends Model
     {
         if (auth()->user()->access_level > 1) {
             return $this->hasMany(Folder::class, 'parent_id')->orderBy('name')
-                ->with(['folders', 'files']);
+                ->with([]);
         }
         return $this->hasMany(Folder::class, 'parent_id')
             ->where('accessible_1', 1)
-            ->orderBy('name')
-            ->with(['folders', 'files']);
+            ->orderBy('name');
     }
 
     public function getChildrenAttribute()

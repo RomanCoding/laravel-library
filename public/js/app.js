@@ -48837,9 +48837,9 @@ var download = __webpack_require__(54);
             return _.orderBy(this.filteredFiles, this.sortKey, this.reverse ? 'desc' : 'asc');
         },
         filteredItems: function filteredItems() {
-            var rootFolderId = this.rootFolderId;
+            var currentFolderId = this.currentFolderId;
             var folders = _.filter(this.folders, function (o) {
-                return o.parent_id === rootFolderId;
+                return o.parent_id === currentFolderId;
             });
             var files = _.filter(this.files, function (o) {
                 return o.folder === null || o.folder.parent_id === null;
@@ -48855,7 +48855,7 @@ var download = __webpack_require__(54);
             files: [],
             filteredFiles: [],
             folders: [],
-            rootFolderId: [],
+            currentFolderId: [],
             filters: {
                 filename: {
                     use: false,
@@ -48880,10 +48880,14 @@ var download = __webpack_require__(54);
             });
             _this.rootFolderId = rootFolder ? rootFolder.id : null;
         });
-        axios.get('/files').then(function (r) {
-            _this.files = r.data;
-            _this.filteredFiles = r.data;
+        axios.get('/folders/root').then(function (r) {
+            _this.folders = r.data.folders;
+            _this.currentFolderId = r.data.id;
         });
+        //            axios.get('/files').then(r => {
+        //                this.files = r.data;
+        //                this.filteredFiles = r.data;
+        //            });
     },
 
     methods: {
@@ -49157,7 +49161,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         isFolder: function isFolder() {
-            return this.model.hasOwnProperty('children');
+            return this.model.hasOwnProperty('parent_id');
         },
         getFileSize: function getFileSize(bytes) {
             if (bytes > 1048576) {
@@ -49171,17 +49175,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getFolderSize: function getFolderSize(folder) {
             var formatted = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-            var size = 0;
-            var self = this;
-            folder.files.forEach(function (file) {
-                size += file.filesize;
-            });
-            folder.folders.forEach(function (childrenFolder) {
-                size += self.getFolderSize(childrenFolder, false);
-            });
-            return formatted ? this.getFileSize(size) : size;
+            return 0;
+            //                let size = 0;
+            //                let self = this;
+            //                folder.files.forEach(function (file) {
+            //                    size += file.filesize;
+            //                });
+            //                folder.folders.forEach(function (childrenFolder) {
+            //                    size += self.getFolderSize(childrenFolder, false);
+            //                });
+            //                return formatted ? this.getFileSize(size) : size;
         },
         toggle: function toggle() {
+            if (!this.model.children || !this.model.children.length) {
+                var model = this.model;
+                axios.get('/folders/' + model.id).then(function (r) {
+                    console.log(r.data);
+                    Vue.set(model, 'children', r.data);
+                });
+            }
             this.showChildren = !this.showChildren;
             this.glyphSrc = this.showChildren ? '/glyphs/si-glyph-folder-open.svg' : '/glyphs/si-glyph-folder-plus.svg';
         },
@@ -49193,8 +49205,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         addToDownloads: function addToDownloads(model) {
             this.$emit('addedToDownloads', model);
-            //console.log('1');
-            //window.bus.$emit('addedToDownloads', model);
         }
     }
 });
@@ -49257,59 +49267,61 @@ var render = function() {
       _vm._v(" "),
       this.permissions
         ? _c("div", { staticClass: "col-md-1" }, [
-            _c("div", { staticClass: "checkbox" }, [
-              _c("label", { staticStyle: { "font-size": "1.5em" } }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.model.accessible_1,
-                      expression: "model.accessible_1"
-                    }
-                  ],
-                  attrs: { type: "checkbox" },
-                  domProps: {
-                    checked: Array.isArray(_vm.model.accessible_1)
-                      ? _vm._i(_vm.model.accessible_1, null) > -1
-                      : _vm.model.accessible_1
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.togglePermission(_vm.model)
-                    },
-                    change: function($event) {
-                      var $$a = _vm.model.accessible_1,
-                        $$el = $event.target,
-                        $$c = $$el.checked ? true : false
-                      if (Array.isArray($$a)) {
-                        var $$v = null,
-                          $$i = _vm._i($$a, $$v)
-                        if ($$el.checked) {
-                          $$i < 0 &&
-                            _vm.$set(
-                              _vm.model,
-                              "accessible_1",
-                              $$a.concat([$$v])
-                            )
-                        } else {
-                          $$i > -1 &&
-                            _vm.$set(
-                              _vm.model,
-                              "accessible_1",
-                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                            )
+            _vm.isFolder()
+              ? _c("div", { staticClass: "checkbox" }, [
+                  _c("label", { staticStyle: { "font-size": "1.5em" } }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.model.accessible_1,
+                          expression: "model.accessible_1"
                         }
-                      } else {
-                        _vm.$set(_vm.model, "accessible_1", $$c)
+                      ],
+                      attrs: { type: "checkbox" },
+                      domProps: {
+                        checked: Array.isArray(_vm.model.accessible_1)
+                          ? _vm._i(_vm.model.accessible_1, null) > -1
+                          : _vm.model.accessible_1
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.togglePermission(_vm.model)
+                        },
+                        change: function($event) {
+                          var $$a = _vm.model.accessible_1,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = null,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 &&
+                                _vm.$set(
+                                  _vm.model,
+                                  "accessible_1",
+                                  $$a.concat([$$v])
+                                )
+                            } else {
+                              $$i > -1 &&
+                                _vm.$set(
+                                  _vm.model,
+                                  "accessible_1",
+                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                )
+                            }
+                          } else {
+                            _vm.$set(_vm.model, "accessible_1", $$c)
+                          }
+                        }
                       }
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(0)
-              ])
-            ])
+                    }),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ])
+                ])
+              : _vm._e()
           ])
         : _c("div", { staticClass: "col-md-1 text-right" }, [
             _c("div", { staticClass: "checkbox" }, [
