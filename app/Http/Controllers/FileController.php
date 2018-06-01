@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class FileController extends Controller
 {
     /**
-     * Show view with widget to work with files.
+     * Show component to work with files.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */

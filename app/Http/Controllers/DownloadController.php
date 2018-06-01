@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\File;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 
 class DownloadController extends Controller
 {
-    public function file(Request $request, File $file)
+    /**
+     * Download a file.
+     *
+     * @param File $file
+     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function file(File $file)
     {
         try {
             $this->authorize('view', $file);

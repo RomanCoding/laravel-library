@@ -48670,7 +48670,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\ndiv.search-form {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #dee2e6;\n}\n.search-form .card-header {\n    font-weight: bold;\n}\ndiv.search-form .filters {\n    padding: 5px;\n    line-height: 1.6;\n}\n.form-check select,\n.form-check input {\n    margin-left: -1.25rem;\n}\n.form-check input {\n    margin-top: 5px;\n}\n.filters button {\n    margin-top: 10px;\n}\nthead tr th {\n    cursor: pointer;\n}\nli a:hover {\n    text-decoration: none;\n    color: inherit;\n}\nli {\n    list-style: none;\n}\nimg.glyphs {\n    width: 20px;\n    height: 20px;\n}\nspan.badge {\n    cursor: pointer;\n    margin-right: 5px;\n}\n.tabs-component {\n    margin: 0.5em 0;\n}\n.tabs-component-tabs {\n    border: solid 1px #ddd;\n    border-radius: 6px;\n    margin-bottom: 5px;\n}\n@media (min-width: 700px) {\n.tabs-component-tabs {\n        border: 0;\n        -webkit-box-align: stretch;\n            -ms-flex-align: stretch;\n                align-items: stretch;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-pack: start;\n            -ms-flex-pack: start;\n                justify-content: flex-start;\n        margin-bottom: -1px;\n}\n}\n.tabs-component-tab {\n    color: #999;\n    font-size: 14px;\n    font-weight: 600;\n    margin-right: 0;\n    list-style: none;\n}\n.tabs-component-tabs:not(.is-active) .tabs-component-tab {\n    border-bottom: none;\n}\n.tabs-component-tab:not(:last-child) {\n    border-bottom: dotted 1px #ddd;\n}\n.tabs-component-tab:hover {\n    color: #666;\n}\n.tabs-component-tab.is-active {\n    color: #000;\n}\n.tabs-component-tab.is-disabled * {\n    color: #cdcdcd;\n    cursor: not-allowed !important;\n}\n@media (min-width: 700px) {\n.tabs-component-tab {\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 3px 3px 0 0;\n        margin-right: .5em;\n        -webkit-transform: translateY(2px);\n                transform: translateY(2px);\n        -webkit-transition: -webkit-transform .3s ease;\n        transition: -webkit-transform .3s ease;\n        transition: transform .3s ease;\n        transition: transform .3s ease, -webkit-transform .3s ease;\n}\n.tabs-component-tab.is-active {\n        border-bottom: solid 1px #fff;\n        z-index: 2;\n        -webkit-transform: translateY(0);\n                transform: translateY(0);\n}\n}\n.tabs-component-tab-a {\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    color: inherit;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: .75em 1em;\n    text-decoration: none;\n}\n.tabs-component-panels {\n    padding: 4em 0;\n}\n@media (min-width: 700px) {\n.tabs-component-panels {\n        border-top-left-radius: 0;\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 0 6px 6px 6px;\n        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n                box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n        padding: 0.5em;\n}\n}\n", ""]);
+exports.push([module.i, "\ndiv.search-form {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #dee2e6;\n}\n.search-form .card-header {\n    font-weight: bold;\n}\ndiv.search-form .filters {\n    padding: 5px;\n    line-height: 1.6;\n}\n.form-check select,\n.form-check input {\n    margin-left: -1.25rem;\n}\n.form-check input {\n    margin-top: 5px;\n}\n.filters button {\n    margin-top: 10px;\n}\nthead tr th {\n    cursor: pointer;\n}\nli a:hover {\n    text-decoration: none;\n    color: inherit;\n}\nli {\n    list-style: none;\n}\nimg.glyphs {\n    width: 20px;\n    height: 20px;\n}\nspan.badge {\n    cursor: pointer;\n    margin-right: 5px;\n}\n.tabs-component {\n    margin: 0.5em 0;\n}\n.tabs-component-tabs {\n    border: solid 1px #ddd;\n    border-radius: 6px;\n    margin-bottom: 5px;\n}\n@media (min-width: 700px) {\n.tabs-component-tabs {\n        border: 0;\n        -webkit-box-align: stretch;\n            -ms-flex-align: stretch;\n                align-items: stretch;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-pack: start;\n            -ms-flex-pack: start;\n                justify-content: flex-start;\n        margin-bottom: -1px;\n}\n}\n.tabs-component-tab {\n    color: #999;\n    font-size: 14px;\n    font-weight: 600;\n    margin-right: 0;\n    list-style: none;\n}\n.tabs-component-tabs:not(.is-active) .tabs-component-tab {\n    border-bottom: none;\n}\n.tabs-component-tab:not(:last-child) {\n    border-bottom: dotted 1px #ddd;\n}\n.tabs-component-tab:hover {\n    color: #666;\n}\n.tabs-component-tab.is-active {\n    color: #000;\n}\n.tabs-component-tab.is-disabled * {\n    color: #cdcdcd;\n    cursor: not-allowed !important;\n}\n@media (min-width: 700px) {\n.tabs-component-tab {\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 3px 3px 0 0;\n        margin-right: .5em;\n        -webkit-transform: translateY(2px);\n                transform: translateY(2px);\n        -webkit-transition: -webkit-transform .3s ease;\n        transition: -webkit-transform .3s ease;\n        transition: transform .3s ease;\n        transition: transform .3s ease, -webkit-transform .3s ease;\n}\n.tabs-component-tab.is-active {\n        border-bottom: solid 1px #fff;\n        z-index: 2;\n        -webkit-transform: translateY(0);\n                transform: translateY(0);\n}\n}\n.tabs-component-tab-a {\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    color: inherit;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: .75em 1em;\n    text-decoration: none;\n}\n.tabs-component-panels {\n    padding: 4em 0;\n}\n@media (min-width: 700px) {\n.tabs-component-panels {\n        border-top-left-radius: 0;\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 0 6px 6px 6px;\n        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n                box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n        padding: 0.5em;\n}\n}\n.checkbox label:after {\n    content: '';\n    display: table;\n    clear: both;\n}\n.checkbox .cr {\n    position: relative;\n    display: inline-block;\n    border: 1px solid #a9a9a9;\n    border-radius: .25em;\n    width: 1.3em;\n    height: 1.3em;\n    float: left;\n    margin-right: .5em;\n}\n.checkbox .cr .cr-icon {\n    position: absolute;\n    font-size: .8em;\n    line-height: 0;\n    top: 50%;\n    left: 20%;\n}\n.checkbox label input[type=\"checkbox\"] {\n    display: none;\n}\n.checkbox label input[type=\"checkbox\"] + .cr > .cr-icon {\n    -webkit-transform: scale(3) rotateZ(-20deg);\n            transform: scale(3) rotateZ(-20deg);\n    opacity: 0;\n    -webkit-transition: all .3s ease-in;\n    transition: all .3s ease-in;\n}\n.checkbox label input[type=\"checkbox\"]:checked + .cr > .cr-icon {\n    -webkit-transform: scale(1) rotateZ(0deg);\n            transform: scale(1) rotateZ(0deg);\n    opacity: 1;\n}\n.checkbox label input[type=\"checkbox\"]:disabled + .cr {\n    opacity: .5;\n}\n", ""]);
 
 // exports
 
@@ -48718,6 +48718,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Item_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Item_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_tabs_component__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_tabs_component___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_tabs_component__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -48884,10 +48898,10 @@ var download = __webpack_require__(54);
             _this.folders = r.data.folders;
             _this.currentFolderId = r.data.id;
         });
-        //            axios.get('/files').then(r => {
-        //                this.files = r.data;
-        //                this.filteredFiles = r.data;
-        //            });
+        axios.get('/files').then(function (r) {
+            _this.files = r.data;
+            _this.filteredFiles = r.data;
+        });
     },
 
     methods: {
@@ -48931,19 +48945,6 @@ var download = __webpack_require__(54);
                 return Math.round(bytes / 1024 * 10) / 10 + ' kb';
             }
             return Math.round(bytes * 10) / 10 + ' b';
-        },
-        getFolderSize: function getFolderSize(folder) {
-            var formatted = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-            var size = 0;
-            var self = this;
-            folder.files.forEach(function (file) {
-                size += file.filesize;
-            });
-            folder.folders.forEach(function (childrenFolder) {
-                size += self.getFolderSize(childrenFolder, false);
-            });
-            return formatted ? this.getFileSize(size) : size;
         },
         applyFilters: function applyFilters() {
             this.filteredFiles = this.files;
@@ -49640,6 +49641,18 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("tab", { attrs: { name: "Browse" } }, [
+            _c("div", { staticClass: "col-xs-3 offset-9 text-right" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  attrs: { disabled: !_vm.downloadsList.length },
+                  on: { click: _vm.massDownload }
+                },
+                [_vm._v("\n                    Download\n                ")]
+              )
+            ]),
+            _vm._v(" "),
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-5 col-sm-4 col-md-3 col-xl-2" }, [
                 _c("div", { staticClass: "search-form" }, [
@@ -49865,17 +49878,6 @@ var render = function() {
                         : _vm._e()
                     ]),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-check" }, [
-                      _c("input", {
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "form-check-label" }, [
-                        _vm._v("Updated date")
-                      ])
-                    ]),
-                    _vm._v(" "),
                     _c(
                       "button",
                       {
@@ -49969,7 +49971,7 @@ var render = function() {
                   _c(
                     "tbody",
                     _vm._l(_vm.orderedFiles, function(file) {
-                      return _c("tr", [
+                      return _c("tr", { staticClass: "files" }, [
                         _c("th", {
                           attrs: { scope: "row" },
                           domProps: { textContent: _vm._s(file.filename) },
@@ -49990,7 +49992,30 @@ var render = function() {
                           }
                         }),
                         _vm._v(" "),
-                        _c("td", [_vm._v("td")])
+                        _c("td", [
+                          _c("div", { staticClass: "checkbox" }, [
+                            _c(
+                              "label",
+                              { staticStyle: { "font-size": "1.5em" } },
+                              [
+                                _c("input", {
+                                  attrs: { type: "checkbox" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.toDownloads(file)
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "cr" }, [
+                                  _c("i", {
+                                    staticClass: "cr-icon fa fa-check"
+                                  })
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
                       ])
                     })
                   )
@@ -50327,14 +50352,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         stats: function stats() {
             return {
                 total: this.users.length,
-                level1: this.users.filter(function (user) {
-                    return user.access_level === 1;
+                level1: this.users.filter(function (u) {
+                    return u.access_level === 1;
                 }).length,
-                level2: this.users.filter(function (user) {
-                    return user.access_level === 2;
+                level2: this.users.filter(function (u) {
+                    return u.access_level === 2;
                 }).length,
-                level3: this.users.filter(function (user) {
-                    return user.access_level === 3;
+                level3: this.users.filter(function (u) {
+                    return u.access_level === 3;
                 }).length
             };
         }

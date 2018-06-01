@@ -13,4 +13,19 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.navbar-custom {
+  background-color: rgb(0, 85, 165);
+  height: 15vh;
+  max-height: 15vh;
+  padding-right: 2rem;
+}
 
+tr.files th:first-child {
+  cursor: pointer;
+}
+h1.toolkit {
+  color: white;
+  position: absolute;
+  left: 45%;
+  //font-size: 24px;
+}

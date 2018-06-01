@@ -31,6 +31,13 @@
                 </div>
             </tab>
             <tab name="Browse">
+                <div class="col-xs-3 offset-9 text-right">
+                    <button class="btn btn-success"
+                            @click="massDownload"
+                            :disabled="!downloadsList.length">
+                        Download
+                    </button>
+                </div>
                 <div class="row">
                     <div class="col-5 col-sm-4 col-md-3 col-xl-2">
                         <div class="search-form">
@@ -62,10 +69,10 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input">
-                                    <label class="form-check-label">Updated date</label>
-                                </div>
+                                <!--<div class="form-check">-->
+                                    <!--<input type="checkbox" class="form-check-input">-->
+                                    <!--<label class="form-check-label">Updated date</label>-->
+                                <!--</div>-->
                                 <button class="btn btn-primary" @click="applyFilters">Apply filters</button>
                                 <button class="btn btn-text" @click="clearFilters">Clear</button>
                             </div>
@@ -88,11 +95,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="file in orderedFiles">
+                            <tr v-for="file in orderedFiles" class="files">
                                 <th scope="row" v-text="file.filename" @click="downloadFile(file)"></th>
                                 <td v-text="file.extension"></td>
                                 <td v-text="getFileSize(file.filesize)"></td>
-                                <td>td</td>
+                                <td>
+                                    <div class="checkbox">
+                                        <label style="font-size: 1.5em">
+                                            <input type="checkbox" @click="toDownloads(file)">
+                                            <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                        </label>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -160,10 +174,10 @@
                 this.folders = r.data.folders;
                 this.currentFolderId = r.data.id;
             });
-//            axios.get('/files').then(r => {
-//                this.files = r.data;
-//                this.filteredFiles = r.data;
-//            });
+            axios.get('/files').then(r => {
+                this.files = r.data;
+                this.filteredFiles = r.data;
+            });
         },
         methods: {
             downloadFile(file) {
@@ -207,17 +221,6 @@
                     return (Math.round(bytes / 1024 * 10) / 10) + ' kb';
                 }
                 return (Math.round(bytes * 10) / 10) + ' b';
-            },
-            getFolderSize(folder, formatted = true) {
-                let size = 0;
-                let self = this;
-                folder.files.forEach(function (file) {
-                    size += file.filesize;
-                });
-                folder.folders.forEach(function (childrenFolder) {
-                    size += self.getFolderSize(childrenFolder, false);
-                });
-                return formatted ? this.getFileSize(size) : size;
             },
             applyFilters() {
                 this.filteredFiles = this.files;
@@ -438,5 +441,49 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, .05);
             padding: 0.5em;
         }
+    }
+
+    .checkbox label:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+
+    .checkbox .cr {
+        position: relative;
+        display: inline-block;
+        border: 1px solid #a9a9a9;
+        border-radius: .25em;
+        width: 1.3em;
+        height: 1.3em;
+        float: left;
+        margin-right: .5em;
+    }
+
+    .checkbox .cr .cr-icon {
+        position: absolute;
+        font-size: .8em;
+        line-height: 0;
+        top: 50%;
+        left: 20%;
+    }
+
+    .checkbox label input[type="checkbox"] {
+        display: none;
+    }
+
+    .checkbox label input[type="checkbox"] + .cr > .cr-icon {
+        transform: scale(3) rotateZ(-20deg);
+        opacity: 0;
+        transition: all .3s ease-in;
+    }
+
+    .checkbox label input[type="checkbox"]:checked + .cr > .cr-icon {
+        transform: scale(1) rotateZ(0deg);
+        opacity: 1;
+    }
+
+    .checkbox label input[type="checkbox"]:disabled + .cr {
+        opacity: .5;
     }
 </style>

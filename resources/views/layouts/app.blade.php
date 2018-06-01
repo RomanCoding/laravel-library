@@ -25,21 +25,31 @@
         html body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
         }
+        img {
+            max-width: 15vw;
+        }
+        .navbar-custom a#navbarDropdown {
+            color: white;
+        }
+        .container-fluid {
+            padding: 0;
+        }
     </style>
 </head>
 <body>
     <div id="app" class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+        <nav class="navbar navbar-expand-md navbar-custom navbar-laravel text-center">
+            <div class="container-fluid text-center">
+                {{--<a class="navbar-brand" href="{{ url('/library') }}">--}}
+                    {{--{{ config('app.name', 'Laravel') }}--}}
+                {{--</a>--}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
+                    <h1 class="toolkit">Toolkit</h1>
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
@@ -82,6 +92,7 @@
                             </li>
                         @endguest
                     </ul>
+                    <img src="/logo.jpg" alt="HRCOACH">
                 </div>
             </div>
         </nav>

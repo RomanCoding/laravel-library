@@ -211,15 +211,9 @@
             stats: function() {
                 return {
                     total: this.users.length,
-                    level1: this.users.filter(function(user) {
-                        return user.access_level === 1;
-                    }).length,
-                    level2: this.users.filter(function(user) {
-                        return user.access_level === 2;
-                    }).length,
-                    level3: this.users.filter(function(user) {
-                        return user.access_level === 3;
-                    }).length,
+                    level1: this.users.filter(u => u.access_level === 1).length,
+                    level2: this.users.filter(u => u.access_level === 2).length,
+                    level3: this.users.filter(u => u.access_level === 3).length,
                 }
             }
         },

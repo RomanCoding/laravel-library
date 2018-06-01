@@ -1,12 +1,13 @@
 <?php
 
-Route::get('api/login/{token}/{username}/{password}/{ipaddress}', 'ApiController@auth');
+Route::get('/', 'Auth\LoginController@welcome');
 
+// Auth Routes
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-// Registration Routes...
+
 Route::group(['middleware' => 'can:create,App\User'], function () {
     Route::get('users', 'UserController@usersComponent')->name('users.show');
     Route::patch('users/{user}', 'UserController@update');
@@ -15,8 +16,6 @@ Route::group(['middleware' => 'can:create,App\User'], function () {
 
 // Registration Routes...
 Route::group(['middleware' => 'can:create,App\Folder'], function () {
-    Route::get('folders/root', 'FolderController@root');
-    Route::get('folders/{folder}', 'FolderController@show');
     Route::patch('folders/{id}', 'FolderController@updatePermissions');
     Route::delete('folders/{id}', 'FolderController@destroy');
     Route::delete('files/{id}', 'FileController@destroy');
@@ -25,9 +24,11 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
 
 // Registration Routes...
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', 'FileController@showLibraryPage');
+    Route::get('/library', 'FileController@showLibraryPage');
     Route::get('/files', 'FileController@index');
     Route::get('/folders', 'FolderController@index');
+    Route::get('folders/root', 'FolderController@root');
+    Route::get('folders/{folder}', 'FolderController@show');
 
     Route::group(['prefix' => 'downloads'], function () {
         Route::get('/files/{file}', 'DownloadController@file')->name('downloads.file');
