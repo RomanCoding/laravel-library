@@ -49,7 +49,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <h1 class="toolkit">Toolkit</h1>
+                    <h1 class="toolkit"><a href="/">Toolkit</a></h1>
                     <ul class="navbar-nav mr-auto">
 
                     </ul>
