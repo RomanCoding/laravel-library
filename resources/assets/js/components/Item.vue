@@ -90,7 +90,6 @@
                 if (!this.model.children || !this.model.children.length) {
                     let model = this.model;
                     axios.get('/folders/' + model.id).then(r => {
-                        console.log(r.data);
                         Vue.set(model, 'children', r.data);
                     });
                 }
