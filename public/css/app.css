@@ -10017,3 +10017,7 @@ h1.toolkit {
   left: 45%;
 }
 
+h1.toolkit a.root {
+  color: white;
+}
+

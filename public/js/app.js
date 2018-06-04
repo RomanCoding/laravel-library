@@ -49191,7 +49191,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (!this.model.children || !this.model.children.length) {
                 var model = this.model;
                 axios.get('/folders/' + model.id).then(function (r) {
-                    console.log(r.data);
                     Vue.set(model, 'children', r.data);
                 });
             }
@@ -49270,57 +49269,64 @@ var render = function() {
         ? _c("div", { staticClass: "col-md-1" }, [
             _vm.isFolder()
               ? _c("div", { staticClass: "checkbox" }, [
-                  _c("label", { staticStyle: { "font-size": "1.5em" } }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.model.accessible_1,
-                          expression: "model.accessible_1"
-                        }
-                      ],
-                      attrs: { type: "checkbox" },
-                      domProps: {
-                        checked: Array.isArray(_vm.model.accessible_1)
-                          ? _vm._i(_vm.model.accessible_1, null) > -1
-                          : _vm.model.accessible_1
-                      },
-                      on: {
-                        click: function($event) {
-                          _vm.togglePermission(_vm.model)
+                  _c(
+                    "label",
+                    {
+                      staticStyle: { "font-size": "1.5em" },
+                      attrs: { title: "Allow access to Bronze Coaches" }
+                    },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.model.accessible_1,
+                            expression: "model.accessible_1"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.model.accessible_1)
+                            ? _vm._i(_vm.model.accessible_1, null) > -1
+                            : _vm.model.accessible_1
                         },
-                        change: function($event) {
-                          var $$a = _vm.model.accessible_1,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(
-                                  _vm.model,
-                                  "accessible_1",
-                                  $$a.concat([$$v])
-                                )
+                        on: {
+                          click: function($event) {
+                            _vm.togglePermission(_vm.model)
+                          },
+                          change: function($event) {
+                            var $$a = _vm.model.accessible_1,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(
+                                    _vm.model,
+                                    "accessible_1",
+                                    $$a.concat([$$v])
+                                  )
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    _vm.model,
+                                    "accessible_1",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
                             } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  _vm.model,
-                                  "accessible_1",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
+                              _vm.$set(_vm.model, "accessible_1", $$c)
                             }
-                          } else {
-                            _vm.$set(_vm.model, "accessible_1", $$c)
                           }
                         }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _vm._m(0)
-                  ])
+                      }),
+                      _vm._v(" "),
+                      _vm._m(0)
+                    ]
+                  )
                 ])
               : _vm._e()
           ])

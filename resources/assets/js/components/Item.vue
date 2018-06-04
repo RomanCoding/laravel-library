@@ -17,7 +17,7 @@
             </div>
             <div class="col-md-1" v-if="this.permissions">
                 <div class="checkbox" v-if="isFolder()">
-                    <label style="font-size: 1.5em">
+                    <label style="font-size: 1.5em" title="Allow access to Bronze Coaches">
                         <input type="checkbox" v-model="model.accessible_1" @click="togglePermission(model)">
                         <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                     </label>
