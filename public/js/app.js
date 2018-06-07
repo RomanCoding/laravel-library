@@ -48671,7 +48671,7 @@ exports = module.exports = __webpack_require__(2)(false);
 
 
 // module
-exports.push([module.i, "\ndiv.search-form {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #dee2e6;\n}\n.search-form .card-header {\n    font-weight: bold;\n}\ndiv.search-form .filters {\n    padding: 5px;\n    line-height: 1.6;\n}\n.form-check select,\n.form-check input {\n    margin-left: -1.25rem;\n}\n.form-check input {\n    margin-top: 5px;\n}\n.filters button {\n    margin-top: 10px;\n}\nthead tr th {\n    cursor: pointer;\n}\nli a:hover {\n    text-decoration: none;\n    color: inherit;\n}\nli {\n    list-style: none;\n}\nimg.glyphs {\n    width: 20px;\n    height: 20px;\n}\nspan.badge {\n    cursor: pointer;\n    margin-right: 5px;\n}\n.tabs-component {\n    margin: 0.5em 0;\n}\n.tabs-component-tabs {\n    border: solid 1px #ddd;\n    border-radius: 6px;\n    margin-bottom: 5px;\n}\n@media (min-width: 700px) {\n.tabs-component-tabs {\n        border: 0;\n        -webkit-box-align: stretch;\n            -ms-flex-align: stretch;\n                align-items: stretch;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-pack: start;\n            -ms-flex-pack: start;\n                justify-content: flex-start;\n        margin-bottom: -1px;\n}\n}\n.tabs-component-tab {\n    color: #999;\n    font-size: 14px;\n    font-weight: 600;\n    margin-right: 0;\n    list-style: none;\n}\n.tabs-component-tabs:not(.is-active) .tabs-component-tab {\n    border-bottom: none;\n}\n.tabs-component-tab:not(:last-child) {\n    border-bottom: dotted 1px #ddd;\n}\n.tabs-component-tab:hover {\n    color: #666;\n}\n.tabs-component-tab.is-active {\n    color: #000;\n}\n.tabs-component-tab.is-disabled * {\n    color: #cdcdcd;\n    cursor: not-allowed !important;\n}\n@media (min-width: 700px) {\n.tabs-component-tab {\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 3px 3px 0 0;\n        margin-right: .5em;\n        -webkit-transform: translateY(2px);\n                transform: translateY(2px);\n        -webkit-transition: -webkit-transform .3s ease;\n        transition: -webkit-transform .3s ease;\n        transition: transform .3s ease;\n        transition: transform .3s ease, -webkit-transform .3s ease;\n}\n.tabs-component-tab.is-active {\n        border-bottom: solid 1px #fff;\n        z-index: 2;\n        -webkit-transform: translateY(0);\n                transform: translateY(0);\n}\n}\n.tabs-component-tab-a {\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    color: inherit;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: .75em 1em;\n    text-decoration: none;\n}\n.tabs-component-panels {\n    padding: 4em 0;\n}\n@media (min-width: 700px) {\n.tabs-component-panels {\n        border-top-left-radius: 0;\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 0 6px 6px 6px;\n        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n                box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n        padding: 0.5em;\n}\n}\n.checkbox label:after {\n    content: '';\n    display: table;\n    clear: both;\n}\n.checkbox .cr {\n    position: relative;\n    display: inline-block;\n    border: 1px solid #a9a9a9;\n    border-radius: .25em;\n    width: 1.3em;\n    height: 1.3em;\n    float: left;\n    margin-right: .5em;\n}\n.checkbox .cr .cr-icon {\n    position: absolute;\n    font-size: .8em;\n    line-height: 0;\n    top: 50%;\n    left: 20%;\n}\n.checkbox label input[type=\"checkbox\"] {\n    display: none;\n}\n.checkbox label input[type=\"checkbox\"] + .cr > .cr-icon {\n    -webkit-transform: scale(3) rotateZ(-20deg);\n            transform: scale(3) rotateZ(-20deg);\n    opacity: 0;\n    -webkit-transition: all .3s ease-in;\n    transition: all .3s ease-in;\n}\n.checkbox label input[type=\"checkbox\"]:checked + .cr > .cr-icon {\n    -webkit-transform: scale(1) rotateZ(0deg);\n            transform: scale(1) rotateZ(0deg);\n    opacity: 1;\n}\n.checkbox label input[type=\"checkbox\"]:disabled + .cr {\n    opacity: .5;\n}\n", ""]);
+exports.push([module.i, "\ndiv.search-form {\n    -webkit-box-sizing: border-box;\n            box-sizing: border-box;\n    border: 2px solid #dee2e6;\n}\n.search-form .card-header {\n    font-weight: bold;\n}\ndiv.search-form .filters {\n    padding: 5px;\n    line-height: 1.6;\n}\n.form-check select,\n.form-check input {\n    margin-left: -1.25rem;\n}\n.form-check input {\n    margin-top: 5px;\n}\n.filters button {\n    margin-top: 10px;\n}\nthead tr th {\n    cursor: pointer;\n}\nli a:hover {\n    text-decoration: none;\n    color: inherit;\n}\nli {\n    list-style: none;\n}\nimg.glyphs {\n    width: 20px;\n    height: 20px;\n}\nspan.badge {\n    cursor: pointer;\n    margin-right: 5px;\n}\n.tabs-component {\n    margin: 0.5em 0;\n}\n.tabs-component-tabs {\n    border: solid 1px #ddd;\n    border-radius: 6px;\n    margin-bottom: 5px;\n}\n@media (min-width: 700px) {\n.tabs-component-tabs {\n        border: 0;\n        -webkit-box-align: stretch;\n            -ms-flex-align: stretch;\n                align-items: stretch;\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -webkit-box-pack: start;\n            -ms-flex-pack: start;\n                justify-content: flex-start;\n        margin-bottom: -1px;\n}\n}\n.tabs-component-tab {\n    color: #999;\n    font-size: 14px;\n    font-weight: 600;\n    margin-right: 0;\n    list-style: none;\n}\n.tabs-component-tabs:not(.is-active) .tabs-component-tab {\n    border-bottom: none;\n}\n.tabs-component-tab:not(:last-child) {\n    border-bottom: dotted 1px #ddd;\n}\n.tabs-component-tab:hover {\n    color: #666;\n}\n.tabs-component-tab.is-active {\n    color: #000;\n}\n.tabs-component-tab.is-disabled * {\n    color: #cdcdcd;\n    cursor: not-allowed !important;\n}\n@media (min-width: 700px) {\n.tabs-component-tab {\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 3px 3px 0 0;\n        margin-right: .5em;\n        -webkit-transform: translateY(2px);\n                transform: translateY(2px);\n        -webkit-transition: -webkit-transform .3s ease;\n        transition: -webkit-transform .3s ease;\n        transition: transform .3s ease;\n        transition: transform .3s ease, -webkit-transform .3s ease;\n}\n.tabs-component-tab.is-active {\n        border-bottom: solid 1px #fff;\n        z-index: 2;\n        -webkit-transform: translateY(0);\n                transform: translateY(0);\n}\n}\n.tabs-component-tab-a {\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    color: inherit;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    padding: .75em 1em;\n    text-decoration: none;\n}\n.tabs-component-panels {\n    padding: 4em 0;\n}\n@media (min-width: 700px) {\n.tabs-component-panels {\n        border-top-left-radius: 0;\n        background-color: #fff;\n        border: solid 1px #ddd;\n        border-radius: 0 6px 6px 6px;\n        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n                box-shadow: 0 0 10px rgba(0, 0, 0, .05);\n        padding: 0.5em;\n}\n}\n.checkbox label:after {\n    content: '';\n    display: table;\n    clear: both;\n}\n.checkbox .cr {\n    position: relative;\n    display: inline-block;\n    border: 1px solid #a9a9a9;\n    border-radius: .25em;\n    width: 1.3em;\n    height: 1.3em;\n    float: left;\n    margin-right: .5em;\n}\n.checkbox .cr .cr-icon {\n    position: absolute;\n    font-size: .8em;\n    line-height: 0;\n    top: 50%;\n    left: 20%;\n}\n.checkbox label input[type=\"checkbox\"] {\n    display: none;\n}\n.checkbox label input[type=\"checkbox\"] + .cr > .cr-icon {\n    -webkit-transform: scale(3) rotateZ(-20deg);\n            transform: scale(3) rotateZ(-20deg);\n    opacity: 0;\n    -webkit-transition: all .3s ease-in;\n    transition: all .3s ease-in;\n}\n.checkbox label input[type=\"checkbox\"]:checked + .cr > .cr-icon {\n    -webkit-transform: scale(1) rotateZ(0deg);\n            transform: scale(1) rotateZ(0deg);\n    opacity: 1;\n}\n.checkbox label input[type=\"checkbox\"]:disabled + .cr {\n    opacity: .5;\n}\n.list-group-item {\n    padding: 0.25rem 1.25rem;\n    line-height: 2.5rem;\n}\ntextarea:focus,\ntextarea.form-control:focus,\ninput.form-control:focus,\ninput[type=text]:focus,\n[type=text].form-control:focus,\nbutton.btn:focus {\n    -webkit-box-shadow: inset 0 0px 0 #ddd;\n            box-shadow: inset 0 0px 0 #ddd;\n}\n", ""]);
 
 // exports
 
@@ -48838,6 +48838,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -48872,6 +48873,7 @@ var download = __webpack_require__(54);
             folders: [],
             currentFolderId: [],
             filters: {
+                name: '',
                 filename: {
                     use: false,
                     text: '',
@@ -49001,6 +49003,9 @@ var download = __webpack_require__(54);
                     return filters.extension.text.includes('.' + f.extension);
                 });
             }
+            this.filteredFiles = _.filter(this.filteredFiles, function (f) {
+                return f.filename.toLowerCase().includes(filters.name.toLowerCase());
+            });
         },
         clearFilters: function clearFilters() {
             this.filters = {
@@ -49671,220 +49676,27 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "filters" }, [
-                    _c("div", { staticClass: "form-check" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.filters.filename.use,
-                            expression: "filters.filename.use"
-                          }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(_vm.filters.filename.use)
-                            ? _vm._i(_vm.filters.filename.use, null) > -1
-                            : _vm.filters.filename.use
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.filters.filename.use,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.filters.filename,
-                                    "use",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.filters.filename,
-                                    "use",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(_vm.filters.filename, "use", $$c)
-                            }
-                          }
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.filters.name,
+                          expression: "filters.name"
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "form-check-label" }, [
-                        _vm._v("Filename")
-                      ]),
-                      _vm._v(" "),
-                      _vm.filters.filename.use
-                        ? _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.filters.filename.algh,
-                                  expression: "filters.filename.algh"
-                                }
-                              ],
-                              staticClass: "custom-select",
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.filters.filename,
-                                    "algh",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("option", { attrs: { value: "is" } }, [
-                                _vm._v("is")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "isn't" } }, [
-                                _vm._v("isn't")
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "contains" } }, [
-                                _vm._v("contains")
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "option",
-                                { attrs: { value: "doesn't contain" } },
-                                [_vm._v("doesn't contain")]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "option",
-                                { attrs: { value: "starts with" } },
-                                [_vm._v("starts with")]
-                              ),
-                              _vm._v(" "),
-                              _c("option", { attrs: { value: "ends with" } }, [
-                                _vm._v("ends with")
-                              ])
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.filters.filename.use
-                        ? _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.filters.filename.text,
-                                expression: "filters.filename.text"
-                              }
-                            ],
-                            staticClass: "form-control",
-                            attrs: { type: "text", placeholder: "Type here" },
-                            domProps: { value: _vm.filters.filename.text },
-                            on: {
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.$set(
-                                  _vm.filters.filename,
-                                  "text",
-                                  $event.target.value
-                                )
-                              }
-                            }
-                          })
-                        : _vm._e()
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-check" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.filters.extension.use,
-                            expression: "filters.extension.use"
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", placeholder: "filename" },
+                      domProps: { value: _vm.filters.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
                           }
-                        ],
-                        staticClass: "form-check-input",
-                        attrs: { type: "checkbox" },
-                        domProps: {
-                          checked: Array.isArray(_vm.filters.extension.use)
-                            ? _vm._i(_vm.filters.extension.use, null) > -1
-                            : _vm.filters.extension.use
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.filters.extension.use,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.filters.extension,
-                                    "use",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.filters.extension,
-                                    "use",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(_vm.filters.extension, "use", $$c)
-                            }
-                          }
+                          _vm.$set(_vm.filters, "name", $event.target.value)
                         }
-                      }),
-                      _vm._v(" "),
-                      _c("label", { staticClass: "form-check-label" }, [
-                        _vm._v("Extension")
-                      ]),
-                      _vm._v(" "),
-                      _vm.filters.extension.use
-                        ? _c(
-                            "div",
-                            _vm._l(_vm.extensions, function(e) {
-                              return _c("span", {
-                                class: _vm.badgeClass(e),
-                                domProps: { textContent: _vm._s(e) },
-                                on: {
-                                  click: function($event) {
-                                    _vm.toggleExtension(e)
-                                  }
-                                }
-                              })
-                            })
-                          )
-                        : _vm._e()
-                    ]),
+                      }
+                    }),
                     _vm._v(" "),
                     _c(
                       "button",

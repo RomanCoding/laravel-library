@@ -45,34 +45,35 @@
                                 Search
                             </div>
                             <div class="filters">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" v-model="filters.filename.use">
-                                    <label class="form-check-label">Filename</label>
-                                    <select class="custom-select" v-if="filters.filename.use"
-                                            v-model="filters.filename.algh">
-                                        <option value="is">is</option>
-                                        <option value="isn't">isn't</option>
-                                        <option value="contains">contains</option>
-                                        <option value="doesn't contain">doesn't contain</option>
-                                        <option value="starts with">starts with</option>
-                                        <option value="ends with">ends with</option>
-                                    </select>
-                                    <input type="text" class="form-control" placeholder="Type here"
-                                           v-if="filters.filename.use" v-model="filters.filename.text">
-                                </div>
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" v-model="filters.extension.use">
-                                    <label class="form-check-label">Extension</label>
-                                    <div v-if="filters.extension.use">
-                                        <span v-for="e in extensions" :class="badgeClass(e)"
-                                              @click="toggleExtension(e)" v-text="e">
-                                        </span>
-                                    </div>
-                                </div>
+                                <!--<div class="form-check">-->
+                                    <!--<input type="checkbox" class="form-check-input" v-model="filters.filename.use">-->
+                                    <!--<label class="form-check-label">Filename</label>-->
+                                    <!--<select class="custom-select" v-if="filters.filename.use"-->
+                                            <!--v-model="filters.filename.algh">-->
+                                        <!--<option value="is">is</option>-->
+                                        <!--<option value="isn't">isn't</option>-->
+                                        <!--<option value="contains">contains</option>-->
+                                        <!--<option value="doesn't contain">doesn't contain</option>-->
+                                        <!--<option value="starts with">starts with</option>-->
+                                        <!--<option value="ends with">ends with</option>-->
+                                    <!--</select>-->
+                                    <!--<input type="text" class="form-control" placeholder="Type here"-->
+                                           <!--v-if="filters.filename.use" v-model="filters.filename.text">-->
+                                <!--</div>-->
+                                <!--<div class="form-check">-->
+                                    <!--<input type="checkbox" class="form-check-input" v-model="filters.extension.use">-->
+                                    <!--<label class="form-check-label">Extension</label>-->
+                                    <!--<div v-if="filters.extension.use">-->
+                                        <!--<span v-for="e in extensions" :class="badgeClass(e)"-->
+                                              <!--@click="toggleExtension(e)" v-text="e">-->
+                                        <!--</span>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                                 <!--<div class="form-check">-->
                                     <!--<input type="checkbox" class="form-check-input">-->
                                     <!--<label class="form-check-label">Updated date</label>-->
                                 <!--</div>-->
+                                <input type="text" class="form-control" placeholder="filename" v-model="filters.name">
                                 <button class="btn btn-primary" @click="applyFilters">Apply filters</button>
                                 <button class="btn btn-text" @click="clearFilters">Clear</button>
                             </div>
@@ -151,6 +152,7 @@
                 folders: [],
                 currentFolderId: [],
                 filters: {
+                    name: '',
                     filename: {
                         use: false,
                         text: '',
@@ -256,6 +258,7 @@
                 if (this.filters.extension.use) {
                     this.filteredFiles = this.filteredFiles.filter(f => filters.extension.text.includes('.' + f.extension));
                 }
+                this.filteredFiles = _.filter(this.filteredFiles, f => f.filename.toLowerCase().includes(filters.name.toLowerCase()));
             },
             clearFilters() {
                 this.filters = {
@@ -485,5 +488,17 @@
 
     .checkbox label input[type="checkbox"]:disabled + .cr {
         opacity: .5;
+    }
+    .list-group-item {
+        padding: 0.25rem 1.25rem;
+        line-height: 2.5rem;
+    }
+    textarea:focus,
+    textarea.form-control:focus,
+    input.form-control:focus,
+    input[type=text]:focus,
+    [type=text].form-control:focus,
+    button.btn:focus {
+        box-shadow: inset 0 0px 0 #ddd;
     }
 </style>
