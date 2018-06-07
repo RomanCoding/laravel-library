@@ -270,8 +270,10 @@
                     extension: {
                         use: false,
                         text: []
-                    }
+                    },
+                    name: '',
                 };
+                this.filteredFiles = this.files;
             },
             toggleExtension(extension) {
                 if (this.filters.extension.text.indexOf(extension) !== -1) {
