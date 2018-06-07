@@ -2,18 +2,18 @@
     <div>
         <div class="row">
             <div class="col-md-6" v-if="isFolder()">
-                <img class="glyphs" :src="glyphSrc" style="cursor: pointer;" @click="toggle">
+                <img class="glyphs pointer" :src="glyphSrc" @click="toggle">
                 {{ model.name }}
             </div>
             <div class="col-md-6" v-else>
                 <img class="glyphs" src="/glyphs/si-glyph-document.svg">
-                <b v-text="model.filename" @click="requestDownload(model)"></b>
+                <b v-text="model.filename" @click="requestDownload(model)" class="pointer" title="Click to download"></b>
             </div>
             <div class="col-md-3">
-                {{ model.extension ? model.extension : 'Folder' }}
+                {{ model.extension ? model.extension : '&nbsp;' }}
             </div>
             <div class="col-md-2">
-                {{ isFolder() ? getFolderSize(model) : getFileSize(model.filesize) }}
+                {{ isFolder() ? '&nbsp;' : getFileSize(model.filesize) }}
             </div>
             <div class="col-md-1" v-if="this.permissions">
                 <div class="checkbox" v-if="isFolder()">
@@ -25,10 +25,11 @@
             </div>
             <div class="col-md-1 text-right" v-else>
                 <div class="checkbox">
-                    <label style="font-size: 1.5em">
+                    <label style="font-size: 1.5em" v-if="!isFolder()">
                         <input type="checkbox" value="" @click="addToDownloads(model)" :disabled="isFolder()">
                         <span class="cr"><i class="cr-icon fa fa-check"></i></span>
                     </label>
+                    <label style="font-size: 1em" v-else>&nbsp;</label>
                 </div>
             </div>
         </div>
@@ -75,7 +76,6 @@
                 return (Math.round(bytes * 10) / 10) + ' b';
             },
             getFolderSize(folder, formatted = true) {
-                return 0;
 //                let size = 0;
 //                let self = this;
 //                folder.files.forEach(function (file) {

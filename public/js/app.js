@@ -49142,6 +49142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -49175,9 +49176,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return Math.round(bytes * 10) / 10 + ' b';
         },
         getFolderSize: function getFolderSize(folder) {
-            var formatted = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-            return 0;
             //                let size = 0;
             //                let self = this;
             //                folder.files.forEach(function (file) {
@@ -49187,6 +49185,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //                    size += self.getFolderSize(childrenFolder, false);
             //                });
             //                return formatted ? this.getFileSize(size) : size;
+
+            var formatted = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         },
         toggle: function toggle() {
             if (!this.model.children || !this.model.children.length) {
@@ -49223,8 +49223,7 @@ var render = function() {
       _vm.isFolder()
         ? _c("div", { staticClass: "col-md-6" }, [
             _c("img", {
-              staticClass: "glyphs",
-              staticStyle: { cursor: "pointer" },
+              staticClass: "glyphs pointer",
               attrs: { src: _vm.glyphSrc },
               on: { click: _vm.toggle }
             }),
@@ -49237,6 +49236,8 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("b", {
+              staticClass: "pointer",
+              attrs: { title: "Click to download" },
               domProps: { textContent: _vm._s(_vm.model.filename) },
               on: {
                 click: function($event) {
@@ -49249,7 +49250,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-3" }, [
         _vm._v(
           "\n            " +
-            _vm._s(_vm.model.extension ? _vm.model.extension : "Folder") +
+            _vm._s(_vm.model.extension ? _vm.model.extension : " ") +
             "\n        "
         )
       ]),
@@ -49257,11 +49258,7 @@ var render = function() {
       _c("div", { staticClass: "col-md-2" }, [
         _vm._v(
           "\n            " +
-            _vm._s(
-              _vm.isFolder()
-                ? _vm.getFolderSize(_vm.model)
-                : _vm.getFileSize(_vm.model.filesize)
-            ) +
+            _vm._s(_vm.isFolder() ? " " : _vm.getFileSize(_vm.model.filesize)) +
             "\n        "
         )
       ]),
@@ -49333,22 +49330,26 @@ var render = function() {
           ])
         : _c("div", { staticClass: "col-md-1 text-right" }, [
             _c("div", { staticClass: "checkbox" }, [
-              _c("label", { staticStyle: { "font-size": "1.5em" } }, [
-                _c("input", {
-                  attrs: {
-                    type: "checkbox",
-                    value: "",
-                    disabled: _vm.isFolder()
-                  },
-                  on: {
-                    click: function($event) {
-                      _vm.addToDownloads(_vm.model)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(1)
-              ])
+              !_vm.isFolder()
+                ? _c("label", { staticStyle: { "font-size": "1.5em" } }, [
+                    _c("input", {
+                      attrs: {
+                        type: "checkbox",
+                        value: "",
+                        disabled: _vm.isFolder()
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.addToDownloads(_vm.model)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                : _c("label", { staticStyle: { "font-size": "1em" } }, [
+                    _vm._v(" ")
+                  ])
             ])
           ])
     ]),
@@ -49648,7 +49649,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("tab", { attrs: { name: "Browse" } }, [
-            _c("div", { staticClass: "col-xs-3 offset-9 text-right" }, [
+            _c("div", { staticClass: "col-xs-3 offset-9 text-right mb-1" }, [
               _c(
                 "button",
                 {
@@ -52719,7 +52720,7 @@ var render = function() {
         "tbody",
         [
           _vm.currentFolder && _vm.newFolder === null
-            ? _c("tr", { staticStyle: { cursor: "pointer" } }, [
+            ? _c("tr", { staticClass: "pointer" }, [
                 _c(
                   "td",
                   {
@@ -52807,7 +52808,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _vm._l(_vm.filteredFolders, function(folder) {
-            return _c("tr", { staticStyle: { cursor: "pointer" } }, [
+            return _c("tr", { staticClass: "pointer" }, [
               _vm._m(2, true),
               _vm._v(" "),
               _c(
@@ -52840,7 +52841,7 @@ var render = function() {
           _vm._v(" "),
           _vm.currentFolder
             ? _vm._l(_vm.currentFolder.files, function(file) {
-                return _c("tr", { staticStyle: { cursor: "pointer" } }, [
+                return _c("tr", { staticClass: "pointer" }, [
                   _c("td", { attrs: { width: "1%" } }, [
                     _c("i", { class: _vm.iconForExtension(file.extension) })
                   ]),

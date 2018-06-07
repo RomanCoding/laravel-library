@@ -31,7 +31,7 @@
                 </div>
             </tab>
             <tab name="Browse">
-                <div class="col-xs-3 offset-9 text-right">
+                <div class="col-xs-3 offset-9 text-right mb-1">
                     <button class="btn btn-success"
                             @click="massDownload"
                             :disabled="!downloadsList.length">

@@ -63,7 +63,7 @@
         </nav>
         <table class="table table-striped table-dark">
             <tbody>
-            <tr v-if="currentFolder && newFolder === null" style="cursor: pointer;">
+            <tr v-if="currentFolder && newFolder === null" class="pointer">
                 <td colspan="2" width="50%" style="text-align: center; border: 1px solid white;" @click="createFolder">Create Folder</td>
                 <td colspan="2" width="50%" style="text-align: center; border: 1px solid white;" @click="toggleUploadModal">Upload Files</td>
             </tr>
@@ -82,7 +82,7 @@
                     </div>
                 </td>
             </tr>
-            <tr v-for="folder in filteredFolders" style="cursor: pointer;">
+            <tr v-for="folder in filteredFolders" class="pointer">
                 <td width="1%">
                     <i class="fa fa-fw fa-folder"></i>
                 </td>
@@ -92,7 +92,7 @@
                 </td>
             </tr>
             <template v-if="currentFolder">
-                <tr v-for="file in currentFolder.files" style="cursor: pointer;">
+                <tr v-for="file in currentFolder.files" class="pointer">
                     <td width="1%">
                         <i :class="iconForExtension(file.extension)"></i>
                     </td>

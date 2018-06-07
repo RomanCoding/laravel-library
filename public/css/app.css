@@ -10021,3 +10021,7 @@ h1.toolkit a.root {
   color: white;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
