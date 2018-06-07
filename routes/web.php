@@ -16,7 +16,6 @@ Route::group(['middleware' => 'can:create,App\User'], function () {
     Route::post('users', 'UserController@store');
 });
 
-// Registration Routes...
 Route::group(['middleware' => 'can:create,App\Folder'], function () {
     Route::patch('folders/{id}', 'FolderController@updatePermissions');
     Route::delete('folders/{id}', 'FolderController@destroy');
@@ -24,7 +23,6 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
     Route::post('files/', 'FileController@store');
 });
 
-// Registration Routes...
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/library', 'FileController@showLibraryPage');
     Route::get('/files', 'FileController@index');
@@ -40,6 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {
     Route::get('/folders', 'FolderController@showFoldersPage')->name('manage.folders.permissions');
     Route::post('/folders', 'FolderController@store')->name('manage.folders.create');
+    Route::get('/extensions', 'ExtensionController@index')->name('manage.extensions');
+    Route::post('/extensions', 'ExtensionController@store');
+    Route::delete('/extensions/{id}', 'ExtensionController@destroy');
     Route::get('/uploads', 'UploadController@index')->name('manage.uploads');
 });
 

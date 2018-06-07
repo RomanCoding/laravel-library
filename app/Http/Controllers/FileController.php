@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Extension;
 use App\File;
 use App\Folder;
 use App\User;
@@ -19,7 +20,7 @@ class FileController extends Controller
      */
     public function showLibraryPage()
     {
-        $extensions = json_encode(config('library.uploads_extensions', []));
+        $extensions = json_encode(Extension::all()->pluck('ext'));
         return view('library.index', compact('extensions'));
     }
 
@@ -61,7 +62,7 @@ class FileController extends Controller
             'folder_id' => 'required|exists:folders,id'
         ]);
 
-        $extensions = config('library.uploads_extensions', []);
+        $extensions = Extension::all()->pluck('ext')->toArray();
 
         $folder = Folder::find($request->get('folder_id'));
         $success = [];
@@ -72,7 +73,7 @@ class FileController extends Controller
             $filename = $file->getClientOriginalName();
             // if extension is not in allowed list, add to failed
             if (array_search(".$extension", $extensions) === false) {
-                $failed[] = $filename;
+                $failed[] = $filename . " (extension [$extension] not allowed)";
                 continue;
             }
             try {

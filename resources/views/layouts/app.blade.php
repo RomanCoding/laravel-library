@@ -25,81 +25,92 @@
         html body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
         }
+
         img {
             max-width: 15vw;
         }
+
         .navbar-custom a#navbarDropdown {
             color: white;
         }
+
         .container-fluid {
             padding: 0;
         }
     </style>
 </head>
 <body>
-    <div id="app" class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-custom navbar-laravel text-center">
-            <div class="container-fluid text-center">
-                {{--<a class="navbar-brand" href="{{ url('/library') }}">--}}
-                    {{--{{ config('app.name', 'Laravel') }}--}}
-                {{--</a>--}}
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<div id="app" class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-custom navbar-laravel text-center">
+        <div class="container-fluid text-center">
+            {{--<a class="navbar-brand" href="{{ url('/library') }}">--}}
+            {{--{{ config('app.name', 'Laravel') }}--}}
+            {{--</a>--}}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <h1 class="toolkit"><a href="/" class="root">Toolkit</a></h1>
-                    <ul class="navbar-nav mr-auto">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <h1 class="toolkit"><a href="/" class="root">Toolkit</a></h1>
+                <ul class="navbar-nav mr-auto">
 
-                    </ul>
+                </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->email }} <span class="caret"></span>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    @can('create', 'App\User')
-                                        <a class="dropdown-item" href="{{ route('users.show') }}">
-                                            Manage users <span class="caret"></span>
-                                        </a>
-                                    @endcan
-                                        @can('create', 'App\Folder')
-                                            <a class="dropdown-item" href="{{ route('manage.uploads') }}">
-                                                Uploads <span class="caret"></span>
-                                            </a>
-                                        @endcan
-                                    @can('create', 'App\Folder')
-                                        <a class="dropdown-item" href="{{ route('manage.folders.permissions') }}">
-                                            Folders permissions <span class="caret"></span>
-                                        </a>
-                                    @endcan
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <!-- Authentication Links -->
+                    @guest
+                    <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->email }} <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @can('create', 'App\User')
+                                    <a class="dropdown-item" href="{{ route('users.show') }}">
+                                        Manage users <span class="caret"></span>
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                @endcan
+                                @can('create', 'App\Folder')
+                                    <a class="dropdown-item" href="{{ route('manage.uploads') }}">
+                                        Uploads <span class="caret"></span>
+                                    </a>
+                                @endcan
+                                @can('create', 'App\Folder')
+                                    <a class="dropdown-item" href="{{ route('manage.folders.permissions') }}">
+                                        Folders permissions <span class="caret"></span>
+                                    </a>
+                                @endcan
+                                @can('create', 'App\Folder')
+                                    <a class="dropdown-item" href="{{ route('manage.extensions') }}">
+                                        Manage extensions <span class="caret"></span>
+                                    </a>
+                                @endcan
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                         @endguest
-                    </ul>
-                    <img src="/logo.jpg" alt="HRCOACH">
-                </div>
+                </ul>
+                <img src="/logo.jpg" alt="HRCOACH">
             </div>
-        </nav>
-
-        <div class="py-4">
-            @yield('content')
         </div>
+    </nav>
+
+    <div class="py-4">
+        @yield('content')
     </div>
+</div>
 </body>
 </html>

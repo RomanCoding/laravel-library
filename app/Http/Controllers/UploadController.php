@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Extension;
+
 class UploadController extends Controller
 {
     /**
@@ -12,7 +14,7 @@ class UploadController extends Controller
      */
     public function index()
     {
-        $extensions = implode(',', config('library.uploads_extensions', []));
+        $extensions = Extension::getCommaSeparatedList();
         return view('admin.uploads', compact('extensions'));
     }
 }
