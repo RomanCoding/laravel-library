@@ -23,14 +23,14 @@
         }
 
         footer {
-            height: 5vh;
-            max-height: 5vh;
+            height: 15vh;
+            max-height: 15vh;
             text-align: center;
         }
 
         main {
-            height: 80vh;
-            max-height: 80vh;
+            height: 75vh;
+            max-height: 75vh;
         }
 
         img {
@@ -57,6 +57,13 @@
             font-size: 1.3rem;
         }
 
+        @media (max-width: 576px) {
+            footer.px-4 {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+        }
+
         /* Small devices (landscape phones, 576px and up) */
         @media (min-width: 576px) {
             html {
@@ -78,8 +85,8 @@
             }
 
             main {
-                height: 80vh;
-                max-height: 80vh;
+                height: 70vh;
+                max-height: 70vh;
             }
         }
 
@@ -104,8 +111,8 @@
             }
 
             main {
-                height: 75vh;
-                max-height: 75vh;
+                height: 73vh;
+                max-height: 73vh;
             }
         }
 
@@ -146,8 +153,8 @@
             </div>
         </div>
     </main>
-    <footer>
-        © HR Coach Australasia 2018
+    <footer class="px-4">
+        © HR Coach Australasia 2018. This website and content is the intellectual property of HR Coach Australasia. Any disclosure, copying, display or misuse of this information is strictly prohibited without the written consent of HR Coach Australasia.
     </footer>
 </div>
 </body>
