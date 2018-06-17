@@ -6,8 +6,13 @@
  */
 
 require('./bootstrap');
+import VueRouter from 'vue-router'
 
 window.Vue = require('vue');
+
+
+
+Vue.use(VueRouter);
 
 
 Object.defineProperty(Array.prototype, 'unique', {
@@ -52,6 +57,32 @@ Vue.component('uploads', require('./components/Uploads.vue'));
 Vue.component('file-uploader', require('./components/FileUploader.vue'));
 Vue.component('extensions', require('./components/Extensions.vue'));
 
+import Home from './components/Home.vue';
+import BusinessPartners from './components/BusinessPartners.vue';
+import Files from './components/Files.vue';
+import Webinars from './components/Webinars.vue';
+import Video from './components/Video.vue';
+import Calendar from './components/Calendar.vue';
+import Network from './components/Network.vue';
+
+const routes = [
+    { path: '', redirect: 'home' },
+    { path: '/home', component: Home },
+    { path: '/toolkit', component: Files },
+    { path: '/partners', component: BusinessPartners },
+    { path: '/webinars', component: Webinars },
+    { path: '/video', component: Video },
+    { path: '/calendar', component: Calendar },
+    { path: '/network', component: Network },
+];
+
+const router = new VueRouter({
+    routes,
+    linkActiveClass: 'active',
+    mode: 'history'
+});
+
 const app = new Vue({
     el: '#app',
+    router
 });

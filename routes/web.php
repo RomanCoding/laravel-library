@@ -33,6 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'downloads'], function () {
         Route::get('/files/{file}', 'DownloadController@file')->name('downloads.file');
     });
+
+    Route::get('/{vue?}', 'FileController@showLibraryPage')->where('vue', '[\/\w\.-]*');
+
 });
 
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {

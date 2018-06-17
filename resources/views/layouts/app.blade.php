@@ -43,9 +43,6 @@
 <div id="app" class="container-fluid">
     <nav class="navbar navbar-expand-md navbar-custom navbar-laravel text-center">
         <div class="container-fluid text-center">
-            {{--<a class="navbar-brand" href="{{ url('/library') }}">--}}
-            {{--{{ config('app.name', 'Laravel') }}--}}
-            {{--</a>--}}
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -108,7 +105,7 @@
         </div>
     </nav>
 
-    <div class="py-4">
+    <div class="py-0">
         @yield('content')
     </div>
 </div>

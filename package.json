@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "downloadjs": "^1.4.7",
+        "vue-router": "^3.0.1",
         "vue-tabs-component": "^1.4.0"
     }
 }
