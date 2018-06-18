@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="col-12 col-sm-8 offset-sm-2 my-5">
+        <div class="col-12 col-sm-10 offset-sm-1 my-5">
             <p>
                 Welcome to HR Coach Members – the exclusive site for Members of HR Coach Australasia.
             </p>
@@ -41,5 +41,15 @@
         height: 60px;
         line-height: 60px; /* Vertically center the text there */
         background-color: #f5f5f5;
+    }
+    @media screen and (max-width:576px) {
+        footer {
+            line-height: 15px; /* Vertically center the text there */
+        }
+    }
+    @media screen and (max-width:768px) {
+        footer {
+            line-height: 20px; /* Vertically center the text there */
+        }
     }
 </style>

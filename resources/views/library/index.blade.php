@@ -2,8 +2,6 @@
 
 @section('content')
     <div class="container-fluid">
-        {{--<files :user="{{ auth()->user() }}" :extensions="{{ $extensions }}"></files>--}}
-
         <nav class="navbar navbar-expand-sm navbar-light routes my-0 py-0 px-0" style="display: block">
             <button class="navbar-toggler" type="button"
                     data-toggle="collapse" data-target="#routes"

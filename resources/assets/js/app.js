@@ -56,6 +56,7 @@ Vue.component('folders', require('./components/Folders.vue'));
 Vue.component('uploads', require('./components/Uploads.vue'));
 Vue.component('file-uploader', require('./components/FileUploader.vue'));
 Vue.component('extensions', require('./components/Extensions.vue'));
+Vue.component('profile', require('./components/Profile.vue'));
 
 import Home from './components/Home.vue';
 import BusinessPartners from './components/BusinessPartners.vue';

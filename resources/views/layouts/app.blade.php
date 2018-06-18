@@ -67,6 +67,9 @@
                                 {{ Auth::user()->email }} <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">
+                                    Profile
+                                </a>
                                 @can('create', 'App\User')
                                     <a class="dropdown-item" href="{{ route('users.show') }}">
                                         Manage users <span class="caret"></span>

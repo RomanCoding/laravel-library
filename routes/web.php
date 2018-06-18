@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/files/{file}', 'DownloadController@file')->name('downloads.file');
     });
 
-    Route::get('/{vue?}', 'FileController@showLibraryPage')->where('vue', '[\/\w\.-]*');
+    Route::get('/profile', 'ProfileController@index');
 
 });
 
@@ -52,4 +52,6 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+
+Route::get('/{vue?}', 'FileController@showLibraryPage')->where('vue', '[\/\w\.-]*')->middleware('auth');
 
