@@ -67,7 +67,7 @@
                                 {{ Auth::user()->email }} <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/profile">
                                     Profile
                                 </a>
                                 @can('create', 'App\User')

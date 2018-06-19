@@ -10,11 +10,19 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+body {
+  overflow-x: hidden;
+}
+
 .navbar-custom {
   background-color: rgb(0, 85, 165);
   height: 15vh;
   max-height: 15vh;
   padding-right: 2rem;
+}
+
+.bc-white {
+  background-color: white;
 }
 
 tr.files th:first-child {
