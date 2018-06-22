@@ -99,13 +99,13 @@
             <template slot="title">Online Compliance Systems</template>
             <template slot="service">Cloud based safety management system</template>
             <template slot="about">Online Compliance Systems (OCS) has been helping organisations manage their WHS requirements and create safer work environments for over eight years.
-                OCS’s flagship product is Online WHS - a unique cloud-based system, which enables organisations to centralise and automate much of their WHS regulatory and operational
-                processes, saving them time and money.
+                OCS’s flagship product is Online WHS - a unique cloud-based system, which enables organisations to centralise
+                and automate much of their WHS regulatory and operational processes, saving them time and money.
             </template>
-            <template slot="benefit">Members who refer work to Online Compliance receive a 15% rebate on finalised sales.</template>
+            <template slot="benefit">Members who refer work to Online Compliance receive between 7.5% and 12.5% (depending on level of involvement) rebate on finalised sales.</template>
         </partner>
-        <partner img="/images/partners/starworkplace.jpg" contact="Phil Bamford" mail="phil@onlinecompliance.com.au" phone="1800 020 389"
-                 url="www.onlinecompliance.com.au">
+        <partner img="/images/partners/starworkplace.jpg" contact="Sam McCleary" mail="admin@hrcoach.com.au" phone="1300 550 674"
+                 url="www.starworkplace.com.au">
             <template slot="title">STAR Workplace Program</template>
             <template slot="service">Employer and employee engagement and alignment tool</template>
             <template slot="about">STAR Workplace Program is the only engagement and alignment tool on the market that recognises the impact employers have on strategic
