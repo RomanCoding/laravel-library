@@ -95,7 +95,7 @@
             </template>
         </partner>
         <partner img="/images/partners/onlinewhs.png" contact="Phil Bamford" mail="phil@onlinecompliance.com.au" phone="1800 020 389"
-                 url="www.onlinecompliance.com.au">
+                 url="www.onlinecompliancesystems.com.au">
             <template slot="title">Online Compliance Systems</template>
             <template slot="service">Cloud based safety management system</template>
             <template slot="about">Online Compliance Systems (OCS) has been helping organisations manage their WHS requirements and create safer work environments for over eight years.

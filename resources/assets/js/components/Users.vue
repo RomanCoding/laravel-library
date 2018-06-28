@@ -9,7 +9,7 @@
                             Email<i class="fa fa-fw fa-sort" :style="arrowOpacity('email')"></i>
                         </th>
                         <th scope="col" @click="setSortKey('access_level')">
-                            Access Level<i class="fa fa-fw fa-sort" :style="arrowOpacity('access_level')"></i>
+                            Access<i class="fa fa-fw fa-sort" :style="arrowOpacity('access_level')"></i>
                         </th>
                         <th scope="col" @click="setSortKey('first_name')">
                             First Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('first_name')"></i>
@@ -20,8 +20,17 @@
                         <th scope="col" @click="setSortKey('business_name')">
                             Business Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_name')"></i>
                         </th>
+                        <th scope="col" @click="setSortKey('suburb')">
+                            Suburb<i class="fa fa-fw fa-sort" :style="arrowOpacity('suburb')"></i>
+                        </th>
+                        <th scope="col" @click="setSortKey('state')">
+                            State<i class="fa fa-fw fa-sort" :style="arrowOpacity('state')"></i>
+                        </th>
                         <th scope="col" @click="setSortKey('business_address')">
-                            Business Address<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_address')"></i>
+                            Address<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_address')"></i>
+                        </th>
+                        <th scope="col" @click="setSortKey('network_visible')">
+                            Network<i class="fa fa-fw fa-sort" :style="arrowOpacity('network_visible')"></i>
                         </th>
                     </tr>
                     </thead>
@@ -56,8 +65,20 @@
                             <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.business_name" v-else>
                         </td>
                         <td>
+                            <span v-if="!user.edit" v-text="user.suburb"></span>
+                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.suburb" v-else>
+                        </td>
+                        <td>
+                            <span v-if="!user.edit" v-text="user.state"></span>
+                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.state" v-else>
+                        </td>
+                        <td>
                             <span v-if="!user.edit" v-text="user.business_address"></span>
                             <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.business_address" v-else>
+                        </td>
+                        <td>
+                            <span v-if="!user.edit">{{ user.network_visible ? '+' : '-' }}</span>
+                            <input type="checkbox" class="form-control form-control-sm" v-model="user.reserveCopy.network_visible" v-else>
                         </td>
                     </tr>
                     <nav aria-label="...">
@@ -274,6 +295,9 @@
                     user.business_name = user.reserveCopy.business_name;
                     user.business_address = user.reserveCopy.business_address;
                     user.access_level = user.reserveCopy.access_level;
+                    user.network_visible = user.reserveCopy.network_visible;
+                    user.suburb = user.reserveCopy.suburb;
+                    user.state = user.reserveCopy.state;
                     user.reserveCopy = null;
                 }).catch(function (error) {
                     alert('Oops, error...');

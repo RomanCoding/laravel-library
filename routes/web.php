@@ -26,6 +26,7 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/library', 'FileController@showLibraryPage');
     Route::get('/files', 'FileController@index');
+    Route::get('/network/users', 'UserController@network');
     Route::get('/folders', 'FolderController@index');
     Route::get('folders/root', 'FolderController@root');
     Route::get('folders/{folder}', 'FolderController@show');
@@ -35,6 +36,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/profile', 'ProfileController@index');
+    Route::post('/profile', 'ProfileController@update');
+    Route::post('/profile/logo', 'ProfileController@store');
 
 });
 

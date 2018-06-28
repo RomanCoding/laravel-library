@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('admin')->except(['network']);
     }
 
     /**
@@ -32,7 +32,6 @@ class UserController extends Controller
 
         $user = User::create(array_merge($validatedUser, [
             'access_level' => 1,
-            'password' => Hash::make($validatedUser['password'])
         ]));
         if ($request->expectsJson()) {
             return response()->json($user, 201);
@@ -49,9 +48,17 @@ class UserController extends Controller
             'access_level' => 'required|integer|min:1|max:3',
             'business_name' => 'nullable|string|max:255',
             'business_address' => 'nullable|string|max:255',
+            'network_visible' => 'nullable|boolean',
+            'suburb' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
         ]);
 
         return $user->update($validatedUser) ? response('', 204) : response('', 400);
+    }
+
+    public function network()
+    {
+        return User::visible()->get();
     }
 
     /**

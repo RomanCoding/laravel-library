@@ -17,7 +17,9 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name', 'last_name', 'business_name',
         'business_address', 'email', 'password',
-        'access_level'
+        'access_level', 'suburb', 'state',
+        'phone', 'website', 'network_visible',
+        'logo'
     ];
 
     /**
@@ -31,4 +33,19 @@ class User extends Authenticatable
 
     // Max access level in system
     const MAX_LEVEL = 3;
+    
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function getLogoAttribute($value)
+    {
+        return $value ? '/images/logos/' . $value : null;
+    }
+    
+    public function scopeVisible($query)
+    {
+        return $query->where('access_level', '>=', 2)->where('network_visible', 1);
+    }
 }
