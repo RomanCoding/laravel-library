@@ -32,7 +32,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('folders/root', 'FolderController@root');
     Route::get('folders/{folder}', 'FolderController@show');
 
-    Route::get('/videos/webinars', 'VideoController@webinars');
+    Route::get('/videos', 'VideoController@index');
 
     Route::group(['prefix' => 'downloads'], function () {
         Route::get('/files/{file}', 'DownloadController@file')->name('downloads.file');

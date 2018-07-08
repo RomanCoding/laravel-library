@@ -3,28 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Video;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
-
-    public function webinars(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
     {
-        $videos = Video::where('type', 'webinar');
+        try {
+            $this->authorize('view', Video::class);
+        } catch (AuthorizationException $e) {
+            return response()->json([]);
+        }
+        $videos = Video::where('type', $request->get('type', 'webinar'));
         if (!$request->user()->isAdmin()) {
             $videos = $videos->where('display', true);
         }
         return $videos->get();
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
     }
 
     /**
@@ -46,13 +47,13 @@ class VideoController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'link' => 'required',
+            'link' => 'required|regex:/(https:\/\/vimeo\.com\/(\d*))/',
             'type' => 'required|in:webinar,video',
             'description' => 'nullable|string'
         ]);
-
+        $id = $this->parseVideoId($request->get('link'));
         $video = Video::create([
-            'link' => $request->get('link'),
+            'link' => $id,
             'type' => $request->get('type'),
             'description' => $request->get('description'),
             'display' => true
@@ -112,5 +113,10 @@ class VideoController extends Controller
         return [
             'success' => $video->delete()
         ];
+    }
+
+    private function parseVideoId($link)
+    {
+        return str_after($link, 'https://vimeo.com/');
     }
 }
