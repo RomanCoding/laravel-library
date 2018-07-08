@@ -24,12 +24,15 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/user', 'Auth\LoginController@user');
     Route::get('/library', 'FileController@showLibraryPage');
     Route::get('/files', 'FileController@index');
     Route::get('/network/users', 'UserController@network');
     Route::get('/folders', 'FolderController@index');
     Route::get('folders/root', 'FolderController@root');
     Route::get('folders/{folder}', 'FolderController@show');
+
+    Route::get('/videos/webinars', 'VideoController@webinars');
 
     Route::group(['prefix' => 'downloads'], function () {
         Route::get('/files/{file}', 'DownloadController@file')->name('downloads.file');
@@ -39,6 +42,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/profile', 'ProfileController@update');
     Route::post('/profile/logo', 'ProfileController@store');
 
+});
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::post('/videos', 'VideoController@store');
+    Route::patch('/videos/{video}', 'VideoController@update');
+    Route::delete('/videos/{video}', 'VideoController@destroy');
 });
 
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {

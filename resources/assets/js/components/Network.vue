@@ -15,7 +15,7 @@
                             <br>
                             <a :href="user.website" v-text="user.website" target="_blank"></a>
                             <br>
-                            Membership Level: test
+                            Membership Level: <span :class="membershipWord(user)" v-text="membershipWord(user)"></span>
                         </p>
                     </div>
                 </div>
@@ -35,6 +35,16 @@
             axios.get('/network/users').then(r => self.users = r.data);
         },
         methods: {
+            membershipWord(user) {
+                switch (user.access_level) {
+                    case 2:
+                        return 'Gold';
+                    case 3:
+                        return 'Some'; //@todo change
+                    default:
+                        return 'Bronze';
+                }
+            },
             usersLogo(user) {
                 return user.logo || '/images/logos/default.png';
             },
@@ -62,5 +72,13 @@
     .network-user > .col-6 {
         height: 250px;
         padding-left: 0.5rem;
+    }
+    .Gold {
+        font-weight: bold;
+        color: #FFD700;
+    }
+    .Bronze {
+        font-weight: bold;
+        color: #CD7F32;
     }
 </style>

@@ -27,7 +27,7 @@
             </template>
             <template slot="benefit">Members who refer work to BlandsLaw receive a 15% rebate on finalised sales.</template>
         </partner>
-        <partner img="/images/partners/foundu.png" contact="Matthew Horton" mail="matthew@foundu.com.au" phone="0408 745 521"
+        <partner img="/images/partners/foundu.png" contact="Matthew Horton" mail="matthew@foundu.com.au" phone="0408 748 521"
                  url="www.foundu.com.au">
             <template slot="title">foundU</template>
             <template slot="service">Employee onboarding, rostering and payroll</template>
