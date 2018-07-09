@@ -48,7 +48,7 @@
         </template>
         <div class="col-6 offset-3" v-else>
             <div class="alert alert-info mx-auto mt-3" role="alert">
-                Only users with Access Level 2 and higher can watch videos.
+                Only Gold Network Members or higher can watch webinars.
             </div>
         </div>
     </div>

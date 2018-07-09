@@ -52,7 +52,7 @@
 
             </div>
 
-            <div class="box">
+            <div class="box" v-if="isAdmin">
                 <div class="field">
                     <label class="label">Title</label>
                     <div class="control">
@@ -122,6 +122,7 @@
         data() {
             return {
                 /* Show the current month, and give it some fake events to show */
+                user: null,
                 showDate: this.thisMonth(1),
                 message: "",
                 startingDayOfWeek: 0,
@@ -141,6 +142,7 @@
         },
         created() {
             let self = this;
+            axios.get('/user').then(r => self.user = r.data);
             axios.get('/events').then(r => {
                 self.events = r.data.map(event => {
                     return {
@@ -154,6 +156,9 @@
             });
         },
         computed: {
+            isAdmin() {
+                return (this.user && this.user.access_level === 3);
+            },
             userLocale() {
                 return this.getDefaultBrowserLocale
             },
