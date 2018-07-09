@@ -1,10 +1,271 @@
 <template>
-    <div>
-        CALENDAR (developing page)
+    <div class="row">
+        <div class="calendar-controls">
+
+            <div v-if="message" class="notification is-success">{{ message }}</div>
+
+            <div class="box">
+
+                <h4 class="title is-5">Calendar options</h4>
+
+                <div class="field">
+                    <label class="label">Period UOM</label>
+                    <div class="control">
+                        <div class="select">
+                            <select v-model="displayPeriodUom" class="form-control">
+                                <option>month</option>
+                                <option>week</option>
+                                <option>year</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Period Count</label>
+                    <div class="control">
+                        <div class="select">
+                            <select v-model="displayPeriodCount" class="form-control">
+                                <option :value="1">1</option>
+                                <option :value="2">2</option>
+                                <option :value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Starting day of the week</label>
+                    <div class="control">
+                        <div class="select">
+                            <select v-model="startingDayOfWeek" class="form-control">
+                                <option
+                                        v-for="(d, index) in dayNames"
+                                        :value="index"
+                                        :key="index">{{ d }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="box">
+                <div class="field">
+                    <label class="label">Title</label>
+                    <div class="control">
+                        <input v-model="newEventTitle" class="form-control" type="text">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Start date</label>
+                    <div class="control">
+                        <input v-model="newEventStartDate" class="form-control" type="date">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">End date</label>
+                    <div class="control">
+                        <input v-model="newEventEndDate" class="form-control" type="date">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Theme</label>
+                    <div class="control">
+                        <select v-model="newEventTheme" class="form-control">
+                            <option value="">Default</option>
+                            <option value="orange">Orange</option>
+                            <option value="red">Red</option>
+                            <option value="purple">Purple</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary mt-1" @click="clickTestAddEvent">Add Event</button>
+            </div>
+
+        </div>
+        <div class="calendar-parent">
+            <calendar-view
+                    :events="events"
+                    :show-date="showDate"
+                    :time-format-options="{hour: 'numeric', minute:'2-digit'}"
+                    :disable-past="disablePast"
+                    :disable-future="disableFuture"
+                    :show-event-times="showEventTimes"
+                    :display-period-uom="displayPeriodUom"
+                    :display-period-count="displayPeriodCount"
+                    :starting-day-of-week="startingDayOfWeek"
+                    :class="themeClasses"
+                    @click-date="onClickDay"
+                    @click-event="onClickEvent"
+                    @show-date-change="setShowDate"
+            />
+        </div>
     </div>
 </template>
 <script>
+    import CalendarView from 'vue-simple-calendar'
+    import CalendarMathMixin from "vue-simple-calendar/dist/calendar-math-mixin.js"
+    require("vue-simple-calendar/dist/static/css/default.css")
+    require("vue-simple-calendar/dist/static/css/holidays-us.css")
     export default {
-
+        components: {
+            CalendarView
+        },
+        mixins: [CalendarMathMixin],
+        data() {
+            return {
+                /* Show the current month, and give it some fake events to show */
+                showDate: this.thisMonth(1),
+                message: "",
+                startingDayOfWeek: 0,
+                disablePast: false,
+                disableFuture: false,
+                displayPeriodUom: "month",
+                displayPeriodCount: 1,
+                showEventTimes: true,
+                newEventTitle: "",
+                newEventStartDate: "",
+                newEventEndDate: "",
+                newEventTheme: "",
+                useDefaultTheme: true,
+                useHolidayTheme: true,
+                events: [],
+            }
+        },
+        created() {
+            let self = this;
+            axios.get('/events').then(r => {
+                self.events = r.data.map(event => {
+                    return {
+                        id: event.id,
+                        startDate: event.start_date,
+                        endDate: event.end_date,
+                        title: event.title,
+                        classes: event.theme,
+                    }
+                });
+            });
+        },
+        computed: {
+            userLocale() {
+                return this.getDefaultBrowserLocale
+            },
+            dayNames() {
+                return this.getFormattedWeekdayNames(this.userLocale, "long", 0)
+            },
+            themeClasses() {
+                return {
+                    "theme-default": this.useDefaultTheme,
+                    "holiday-us-traditional": this.useHolidayTheme,
+                    "holiday-us-official": this.useHolidayTheme,
+                }
+            },
+        },
+        mounted() {
+            this.newEventStartDate = this.isoYearMonthDay(this.today())
+            this.newEventEndDate = this.isoYearMonthDay(this.today())
+        },
+        methods: {
+            thisMonth(d, h, m) {
+                const t = new Date()
+                return new Date(t.getFullYear(), t.getMonth(), d, h || 0, m || 0)
+            },
+            onClickDay(d) {
+                this.message = `You clicked: ${d.toLocaleDateString()}`
+            },
+            onClickEvent(e) {
+                this.message = `You clicked: ${e.title}`
+            },
+            setShowDate(d) {
+                this.message = `Changing calendar view to ${d.toLocaleDateString()}`
+                this.showDate = d
+            },
+            clickTestAddEvent() {
+                let self = this;
+                axios.post('/events', {
+                    start_date: this.newEventStartDate,
+                    end_date: this.newEventEndDate,
+                    title: this.newEventTitle,
+                    theme: this.newEventTheme,
+                }).then(r => {
+                    self.newEventTitle = "";
+                    self.newEventStartDate = "";
+                    self.newEventEndDate = "";
+                    self.newEventTheme = "";
+                    self.events.push({
+                        id: r.data.id,
+                        startDate: r.data.start_date,
+                        endDate: r.data.end_date,
+                        title: r.data.title,
+                        classes: r.data.theme,
+                    });
+                }).catch(e => {
+                    alert('Error!');
+                });
+            },
+        },
     }
 </script>
+
+<style scoped>
+    html,
+    body {
+        height: 100%;
+        margin: 0;
+        background-color: #f7fcff;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        font-family: Calibri, sans-serif;
+        width: 95vw;
+        min-width: 30rem;
+        max-width: 100rem;
+        min-height: 40rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .calendar-controls {
+        margin-right: 1rem;
+        min-width: 14rem;
+        max-width: 14rem;
+    }
+
+    .calendar-parent {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        max-height: 80vh;
+        background-color: white;
+    }
+
+    /* For long calendars, ensure each week gets sufficient height. The body of the calendar will scroll if needed */
+    .cv-wrapper.period-month.periodCount-2 .cv-week,
+    .cv-wrapper.period-month.periodCount-3 .cv-week,
+    .cv-wrapper.period-year .cv-week {
+        min-height: 6rem;
+    }
+
+    /* These styles are optional, to illustrate the flexbility of styling the calendar purely with CSS. */
+    /* Add some styling for events tagged with the "birthday" class */
+    .calendar .event.birthday {
+        background-color: #e0f0e0;
+        border-color: #d7e7d7;
+    }
+
+    .calendar .event.birthday::before {
+        content: "\1F382";
+        margin-right: 0.5em;
+    }
+</style>

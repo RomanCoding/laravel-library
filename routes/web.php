@@ -24,6 +24,7 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/events', 'EventController@index');
     Route::get('/user', 'Auth\LoginController@user');
     Route::get('/library', 'FileController@showLibraryPage');
     Route::get('/files', 'FileController@index');
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'admin'], function () {
+    Route::post('/events', 'EventController@store');
     Route::post('/videos', 'VideoController@store');
     Route::patch('/videos/{video}', 'VideoController@update');
     Route::delete('/videos/{video}', 'VideoController@destroy');
