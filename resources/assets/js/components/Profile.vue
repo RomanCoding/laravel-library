@@ -86,6 +86,7 @@
             }
         },
         created() {
+            document.title = 'Profile';
             this.user = this.auth;
         },
         methods: {

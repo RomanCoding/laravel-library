@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::group(['middleware' => 'admin'], function () {
     Route::post('/events', 'EventController@store');
+    Route::delete('/events/{event}', 'EventController@destroy');
     Route::post('/videos', 'VideoController@store');
     Route::patch('/videos/{video}', 'VideoController@update');
     Route::delete('/videos/{video}', 'VideoController@destroy');

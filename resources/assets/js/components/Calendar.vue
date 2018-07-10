@@ -1,5 +1,24 @@
 <template>
     <div class="row">
+        <div class="modal fade show" tabindex="-1" role="dialog" style="display:block;" v-if="selectedEvent">
+            <div :class="{'modal-dialog':1, 'modal-dialog-centered':1, 'modal-sm': !selectedEvent.description}" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" v-text="selectedEvent.title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ selectedEvent.description }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" @click="deleteSelected" v-if="isAdmin">Delete</button>
+                        <button type="button" class="btn btn-secondary" @click="selectedEvent = null;">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="calendar-controls">
 
             <div v-if="message" class="notification is-success">{{ message }}</div>
@@ -61,6 +80,14 @@
                 </div>
 
                 <div class="field">
+                    <label class="label">Description (optional)</label>
+                    <div class="control">
+                        <textarea v-model="newEventDescription" class="form-control"
+                                  placeholder="This field is optional"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
                     <label class="label">Start date</label>
                     <div class="control">
                         <input v-model="newEventStartDate" class="form-control" type="date">
@@ -86,7 +113,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary mt-1" @click="clickTestAddEvent">Add Event</button>
+                <button class="btn btn-primary mt-1" @click="addEvent">Add Event</button>
             </div>
 
         </div>
@@ -121,8 +148,10 @@
         mixins: [CalendarMathMixin],
         data() {
             return {
-                /* Show the current month, and give it some fake events to show */
                 user: null,
+
+                selectedEvent: null,
+
                 showDate: this.thisMonth(1),
                 message: "",
                 startingDayOfWeek: 0,
@@ -132,6 +161,7 @@
                 displayPeriodCount: 1,
                 showEventTimes: true,
                 newEventTitle: "",
+                newEventDescription: "",
                 newEventStartDate: "",
                 newEventEndDate: "",
                 newEventTheme: "",
@@ -150,6 +180,7 @@
                         startDate: event.start_date,
                         endDate: event.end_date,
                         title: event.title,
+                        description: event.description,
                         classes: event.theme,
                     }
                 });
@@ -186,21 +217,32 @@
                 this.message = `You clicked: ${d.toLocaleDateString()}`
             },
             onClickEvent(e) {
-                this.message = `You clicked: ${e.title}`
+                this.$set(this, 'selectedEvent', e.originalEvent);
+                //this.selectedEvent = e.originalEvent;
             },
             setShowDate(d) {
                 this.message = `Changing calendar view to ${d.toLocaleDateString()}`
                 this.showDate = d
             },
-            clickTestAddEvent() {
+            deleteSelected() {
+                let self = this;
+                axios.delete('/events/' + this.selectedEvent.id).then(r => {
+                    let index = self.events.findIndex(e => e.id === self.selectedEvent.id);
+                    self.selectedEvent = null;
+                    self.events.splice(index, 1);
+                });
+            },
+            addEvent() {
                 let self = this;
                 axios.post('/events', {
                     start_date: this.newEventStartDate,
                     end_date: this.newEventEndDate,
                     title: this.newEventTitle,
+                    description: this.newEventDescription,
                     theme: this.newEventTheme,
                 }).then(r => {
                     self.newEventTitle = "";
+                    self.newEventDescription = "";
                     self.newEventStartDate = "";
                     self.newEventEndDate = "";
                     self.newEventTheme = "";
@@ -209,6 +251,7 @@
                         startDate: r.data.start_date,
                         endDate: r.data.end_date,
                         title: r.data.title,
+                        description: r.data.description,
                         classes: r.data.theme,
                     });
                 }).catch(e => {

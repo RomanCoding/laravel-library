@@ -68,13 +68,13 @@ import Network from './components/Network.vue';
 
 const routes = [
     { path: '', redirect: 'home' },
-    { path: '/home', component: Home },
-    { path: '/toolkit', component: Files },
-    { path: '/partners', component: BusinessPartners },
-    { path: '/webinars', component: Webinars },
-    { path: '/video', component: Video },
-    { path: '/calendar', component: Calendar },
-    { path: '/network', component: Network },
+    { path: '/home', component: Home, meta: {title: 'Home'}  },
+    { path: '/toolkit', component: Files, meta: {title: 'Toolkit'}  },
+    { path: '/partners', component: BusinessPartners, meta: {title: 'Partners'}  },
+    { path: '/webinars', component: Webinars, meta: {title: 'Webinars'}  },
+    { path: '/video', component: Video, meta: {title: 'Videos'}  },
+    { path: '/calendar', component: Calendar, meta: {title: 'Calendar'}  },
+    { path: '/network', component: Network, meta: {title: 'Network'} },
 ];
 
 const router = new VueRouter({
@@ -82,6 +82,11 @@ const router = new VueRouter({
     linkActiveClass: 'active',
     mode: 'history'
 });
+
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title
+    next()
+})
 
 const app = new Vue({
     el: '#app',

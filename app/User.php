@@ -46,7 +46,7 @@ class User extends Authenticatable
     
     public function scopeVisible($query)
     {
-        return $query->where('access_level', '>=', 2)->where('network_visible', 1);
+        return $query->where('network_visible', 1);
     }
 
     public function isAdmin()

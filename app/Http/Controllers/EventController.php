@@ -40,7 +40,7 @@ class EventController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date',
             'theme' => 'string|nullable',
-            'description' => 'text|nullable'
+            'description' => 'string|nullable'
         ]);
 
         $event = Event::create($request->all());
@@ -86,10 +86,12 @@ class EventController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
+     * @return array|\Illuminate\Http\Response
      */
     public function destroy(Event $event)
     {
-        //
+        return [
+            'success' => $event->delete()
+        ];
     }
 }
