@@ -58,7 +58,7 @@ class UserController extends Controller
 
     public function network()
     {
-        return User::visible()->get();
+        return User::visible()->orderBy('business_name', 'asc')->get();
     }
 
     /**

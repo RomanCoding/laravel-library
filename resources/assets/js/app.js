@@ -86,7 +86,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
     next()
-})
+});
+
+router.afterEach((to, from, next) => {
+    $('a.root').text(to.meta.title);
+});
 
 const app = new Vue({
     el: '#app',
