@@ -2,112 +2,160 @@
     <div>
         <tabs>
             <tab name="Manage">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col" @click="setSortKey('email')">
-                            Email<i class="fa fa-fw fa-sort" :style="arrowOpacity('email')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('access_level')">
-                            Access<i class="fa fa-fw fa-sort" :style="arrowOpacity('access_level')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('first_name')">
-                            First Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('first_name')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('last_name')">
-                            Last Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('last_name')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('business_name')">
-                            Business Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_name')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('suburb')">
-                            Suburb<i class="fa fa-fw fa-sort" :style="arrowOpacity('suburb')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('state')">
-                            State<i class="fa fa-fw fa-sort" :style="arrowOpacity('state')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('business_address')">
-                            Address<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_address')"></i>
-                        </th>
-                        <th scope="col" @click="setSortKey('network_visible')">
-                            Network<i class="fa fa-fw fa-sort" :style="arrowOpacity('network_visible')"></i>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="user in paginatedUsers">
-                        <th scope="row">
-                            <i class="fa fa-edit" @click="editUser(user)" v-if="!user.edit"></i>
-                            <template v-else style="max-width: 20%;">
-                                <i class="fa fa-save" @click="updateUser(user)"></i>
-                                <i class="fa fa-close" @click="editUser(user)"></i>
-                            </template>
-                            <span v-if="!user.edit" v-text="user.email"></span>
-                            <input type="text" class="form-control form-control-sm"
-                                   style="display: inline-block; max-width: 80%;" v-model="user.reserveCopy.email" v-else>
-                        </th>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.access_level"></span>
-                            <select class="form-control form-control-sm" v-model="user.reserveCopy.access_level" v-else>
-                                <option v-for="n in 3" :value="n" v-text="n"></option>
-                            </select>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.first_name"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.first_name" v-else>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.last_name"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.last_name" v-else>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.business_name"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.business_name" v-else>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.suburb"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.suburb" v-else>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.state"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.state" v-else>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit" v-text="user.business_address"></span>
-                            <input type="text" class="form-control form-control-sm" v-model="user.reserveCopy.business_address" v-else>
-                        </td>
-                        <td>
-                            <span v-if="!user.edit">{{ user.network_visible ? '+' : '-' }}</span>
-                            <input type="checkbox" class="form-control form-control-sm" v-model="user.reserveCopy.network_visible" v-else>
-                        </td>
-                    </tr>
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item" v-if="pagination.page > 2">
-                                <a class="page-link" @click="pagination.page=1">First</a>
-                            </li>
-                            <li :class="paginationClass(pagination.page-1)" v-if="pagination.showPrev">
-                                <a class="page-link" @click="pagination.page--">
-                                    {{ pagination.page - 1 }}
-                                </a>
-                            </li>
-                            <li :class="paginationClass(pagination.page)">
-                                <a class="page-link">
-                                    {{ pagination.page }}
-                                </a>
-                            </li>
-                            <li :class="paginationClass(pagination.page+1)" v-if="pagination.showNext">
-                                <a class="page-link" @click="pagination.page++">
-                                    {{ pagination.page + 1 }}
-                                </a>
-                            </li>
-                            <li class="page-item" v-if="pagination.showNext">
-                                <a class="page-link" @click="pagination.page = pagination.maxPage">Last</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    </tbody>
-                </table>
+                <div class="row py-0">
+                    <div class="col-5 col-sm-4 col-md-3 col-xl-2">
+                        <div class="search-form">
+                            <div class="card-header">
+                                Search
+                            </div>
+                            <div class="filters">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" v-model="filters.first_name.use">
+                                    <label class="form-check-label">First Name</label>
+                                    <input type="text" class="form-control" placeholder="Type here"
+                                           v-if="filters.first_name.use" v-model="filters.first_name.text">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" v-model="filters.last_name.use">
+                                    <label class="form-check-label">Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Type here"
+                                           v-if="filters.last_name.use" v-model="filters.last_name.text">
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" v-model="filters.business_name.use">
+                                    <label class="form-check-label">Business Name</label>
+                                    <input type="text" class="form-control" placeholder="Type here"
+                                           v-if="filters.business_name.use" v-model="filters.business_name.text">
+                                </div>
+
+                                <!--<input type="text" class="form-control" placeholder="First name" v-model="filters.first_name">-->
+                                <button class="btn btn-primary" @click="applyFilters">Apply filters</button>
+                                <button class="btn btn-text" @click="clearFilters">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-7 col-sm-8 col-md-9 col-xl-10">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col" @click="setSortKey('email')">
+                                    Email<i class="fa fa-fw fa-sort" :style="arrowOpacity('email')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('access_level')">
+                                    Access<i class="fa fa-fw fa-sort" :style="arrowOpacity('access_level')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('first_name')">
+                                    First Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('first_name')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('last_name')">
+                                    Last Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('last_name')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('business_name')">
+                                    Business Name<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_name')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('suburb')">
+                                    Suburb<i class="fa fa-fw fa-sort" :style="arrowOpacity('suburb')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('state')">
+                                    State<i class="fa fa-fw fa-sort" :style="arrowOpacity('state')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('business_address')">
+                                    Address<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_address')"></i>
+                                </th>
+                                <th scope="col" @click="setSortKey('network_visible')">
+                                    Network<i class="fa fa-fw fa-sort" :style="arrowOpacity('network_visible')"></i>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="user in paginatedUsers">
+                                <th scope="row">
+                                    <i class="fa fa-edit" @click="editUser(user)" v-if="!user.edit"></i>
+                                    <template v-else style="max-width: 20%;">
+                                        <i class="fa fa-save" @click="updateUser(user)"></i>
+                                        <i class="fa fa-close" @click="editUser(user)"></i>
+                                    </template>
+                                    <span v-if="!user.edit" v-text="user.email"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           style="display: inline-block; max-width: 80%;"
+                                           v-model="user.reserveCopy.email"
+                                           v-else>
+                                </th>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.access_level"></span>
+                                    <select class="form-control form-control-sm" v-model="user.reserveCopy.access_level"
+                                            v-else>
+                                        <option v-for="n in 3" :value="n" v-text="n"></option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.first_name"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.first_name" v-else>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.last_name"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.last_name"
+                                           v-else>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.business_name"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.business_name" v-else>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.suburb"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.suburb"
+                                           v-else>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.state"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.state"
+                                           v-else>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit" v-text="user.business_address"></span>
+                                    <input type="text" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.business_address" v-else>
+                                </td>
+                                <td>
+                                    <span v-if="!user.edit">{{ user.network_visible ? '+' : '-' }}</span>
+                                    <input type="checkbox" class="form-control form-control-sm"
+                                           v-model="user.reserveCopy.network_visible" v-else>
+                                </td>
+                            </tr>
+                            <nav aria-label="...">
+                                <ul class="pagination">
+                                    <li class="page-item" v-if="pagination.page > 2">
+                                        <a class="page-link" @click="pagination.page=1">First</a>
+                                    </li>
+                                    <li :class="paginationClass(pagination.page-1)" v-if="pagination.showPrev">
+                                        <a class="page-link" @click="pagination.page--">
+                                            {{ pagination.page - 1 }}
+                                        </a>
+                                    </li>
+                                    <li :class="paginationClass(pagination.page)">
+                                        <a class="page-link">
+                                            {{ pagination.page }}
+                                        </a>
+                                    </li>
+                                    <li :class="paginationClass(pagination.page+1)" v-if="pagination.showNext">
+                                        <a class="page-link" @click="pagination.page++">
+                                            {{ pagination.page + 1 }}
+                                        </a>
+                                    </li>
+                                    <li class="page-item" v-if="pagination.showNext">
+                                        <a class="page-link" @click="pagination.page = pagination.maxPage">Last</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </tab>
             <tab name="Add">
                 <form>
@@ -181,7 +229,8 @@
                     <div class="form-group row">
                         <label for="password" class="col-md-4 col-form-label text-md-right">Repeat Password (*)</label>
                         <div class="col-md-6">
-                            <input id="password_confirmation" type="password" :class="getInputClass('password_confirmation')"
+                            <input id="password_confirmation" type="password"
+                                   :class="getInputClass('password_confirmation')"
                                    v-model="newUser.password_confirmation">
                             <span class="invalid-feedback" v-if="errors.creating.password_confirmation">
                                 <strong v-text="errors.creating.password_confirmation[0]"></strong>
@@ -223,13 +272,13 @@
         components: {Tabs, Tab},
         props: ['data'],
         computed: {
-            orderedUsers: function() {
-                return _.orderBy(this.users, this.sortKey, this.reverse ? 'desc' : 'asc')
+            orderedUsers: function () {
+                return _.orderBy(this.filteredUsers, this.sortKey, this.reverse ? 'desc' : 'asc')
             },
-            paginatedUsers: function() {
-                return this.orderedUsers.slice((this.pagination.page - 1) * this.pagination.perPage, this.pagination.page*this.pagination.perPage);
+            paginatedUsers: function () {
+                return this.orderedUsers.slice((this.pagination.page - 1) * this.pagination.perPage, this.pagination.page * this.pagination.perPage);
             },
-            stats: function() {
+            stats: function () {
                 return {
                     total: this.users.length,
                     level1: this.users.filter(u => u.access_level === 1).length,
@@ -241,6 +290,7 @@
         data() {
             return {
                 users: [],
+                filteredUsers: [],
                 sortKey: 'access_level',
                 reverse: true,
                 newUser: {},
@@ -251,19 +301,37 @@
                     showNext: false,
                     maxPage: 1
                 },
+                filters: {
+                    first_name: {
+                        use: false,
+                        text: '',
+                    },
+                    last_name: {
+                        use: false,
+                        text: '',
+                    },
+                    business_name: {
+                        use: false,
+                        text: '',
+                    },
+                },
                 errors: {
                     creating: {},
                 }
             }
         },
         watch: {
-            'pagination.page': function(newPagination) {
+            'orderedUsers': function(newValue) {
+                this.pagination.showPrev = this.pagination.page > 1;
+                this.pagination.showNext = this.orderedUsers.length > (this.pagination.page * this.pagination.perPage);
+            },
+            'pagination.page': function (newPagination) {
                 this.pagination.showPrev = this.pagination.page > 1;
                 this.pagination.showNext = this.orderedUsers.length > (this.pagination.page * this.pagination.perPage);
             }
         },
         created() {
-            this.users = _.map(this.data, function (user) {
+            this.users = this.filteredUsers = _.map(this.data, function (user) {
                 user.edit = false;
                 user.reserveCopy = null;
                 return user;
@@ -276,7 +344,6 @@
         },
         methods: {
             editUser(user) {
-                // @todo make it like "edit in copy, then if success - save to main"
                 if (user.edit) {
                     user.reserverCopy = null;
                     user.edit = false;
@@ -334,6 +401,37 @@
             arrowOpacity(key) {
                 return this.sortKey === key ? 'opacity: 1' : 'opacity: 0.1';
             },
+            applyFilters() {
+                this.filteredUsers = this.users;
+                let filters = this.filters;
+                if (this.filters.first_name.use) {
+                    this.filteredUsers = _.filter(this.filteredUsers, f => f.first_name.includes(filters.first_name.text));
+                }
+                if (this.filters.last_name.use) {
+                    this.filteredUsers = _.filter(this.filteredUsers, f => f.last_name.includes(filters.last_name.text));
+                }
+                if (this.filters.business_name.use) {
+                    this.filteredUsers = _.filter(this.filteredUsers, f => (f.business_name && f.business_name.includes(filters.business_name.text)));
+                }
+            },
+            clearFilters() {
+                this.filters = {
+                    first_name: {
+                        use: false,
+                        text: '',
+                    },
+                    last_name: {
+                        use: false,
+                        text: '',
+                    },
+                    business_name: {
+                        use: false,
+                        text: '',
+                    },
+                };
+                this.filteredUsers = this.users;
+            },
+
         }
     }
 </script>
@@ -341,6 +439,7 @@
     tbody th i.fa {
         font-size: 20px;
     }
+
     thead tr th:not(:first-child) {
         cursor: pointer;
     }
@@ -484,7 +583,7 @@
             border: solid 1px #ddd;
             border-radius: 0 6px 6px 6px;
             box-shadow: 0 0 10px rgba(0, 0, 0, .05);
-            padding: 4em 2em;
+            padding: 1em;
         }
     }
 </style>

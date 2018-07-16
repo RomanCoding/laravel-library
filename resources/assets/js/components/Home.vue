@@ -6,7 +6,7 @@
             </p>
             <p>
                 Platinum and Gold Network Members have unrestricted access to the most up to date toolkit, Business Partners,
-                recorded Coaches Only webinars and a growing library of vide recordings from previous Academies.
+                recorded Coaches Only webinars and a growing library of video recordings from previous Academies.
             </p>
             <p>
                 Bronze Members continue to have access to their original toolkit provided to them during their Academy as well as access to our
