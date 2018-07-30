@@ -47,7 +47,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255',
             'access_level' => 'required|integer|min:1|max:3',
             'business_name' => 'nullable|string|max:255',
-            'business_address' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
             'network_visible' => 'nullable|boolean',
             'suburb' => 'nullable|string|max:255',
             'state' => 'nullable|string|max:255',
