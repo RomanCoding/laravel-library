@@ -28,6 +28,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'business_name' => 'nullable|string|max:255',
             'business_address' => 'nullable|string|max:255',
+            'website' => 'nullable|string|max:255',
         ]);
 
         $user = User::create(array_merge($validatedUser, [

@@ -203,14 +203,27 @@
                         </div>
                     </div>
 
+
                     <div class="form-group row">
-                        <label for="business_name"
-                               class="col-sm-4 col-form-label text-md-right">Business Address</label>
+                        <label for="website"
+                               class="col-sm-4 col-form-label text-md-right">Website</label>
                         <div class="col-md-6">
                             <input id="website" type="text" :class="getInputClass('website')"
                                    v-model="newUser.website">
                             <span class="invalid-feedback" v-if="errors.creating.website">
                                 <strong v-text="errors.creating.website[0]"></strong>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="business_address"
+                               class="col-sm-4 col-form-label text-md-right">Business Address</label>
+                        <div class="col-md-6">
+                            <input id="business_address" type="text" :class="getInputClass('business_address')"
+                                   v-model="newUser.business_address">
+                            <span class="invalid-feedback" v-if="errors.creating.business_address">
+                                <strong v-text="errors.creating.business_address[0]"></strong>
                             </span>
                         </div>
                     </div>
@@ -227,7 +240,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="password" class="col-md-4 col-form-label text-md-right">Repeat Password (*)</label>
+                        <label for="password_confirmation" class="col-md-4 col-form-label text-md-right">Repeat Password (*)</label>
                         <div class="col-md-6">
                             <input id="password_confirmation" type="password"
                                    :class="getInputClass('password_confirmation')"
