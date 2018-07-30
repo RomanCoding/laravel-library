@@ -9,11 +9,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ user.business_name || 'Business name' }}</h5>
                         <p class="card-text">
-                            {{ address(user) }}
-                            <br>
-                            {{ user.phone }}
-                            <br>
-                            <a :href="user.website" v-text="user.website" target="_blank"></a>
+                            <template v-if="user.phone">Phone: {{ user.phone }}</template>
+                            <a :href="user.website" v-text="user.website" v-if="user.website" target="_blank"></a>
                             <br>
                             Membership Level: <span :class="membershipWord(user)" v-text="membershipWord(user)"></span>
                         </p>

@@ -59,8 +59,8 @@
                                 <th scope="col" @click="setSortKey('state')">
                                     State<i class="fa fa-fw fa-sort" :style="arrowOpacity('state')"></i>
                                 </th>
-                                <th scope="col" @click="setSortKey('business_address')">
-                                    Address<i class="fa fa-fw fa-sort" :style="arrowOpacity('business_address')"></i>
+                                <th scope="col" @click="setSortKey('website')">
+                                    Website<i class="fa fa-fw fa-sort" :style="arrowOpacity('website')"></i>
                                 </th>
                                 <th scope="col" @click="setSortKey('network_visible')">
                                     Network<i class="fa fa-fw fa-sort" :style="arrowOpacity('network_visible')"></i>
@@ -117,9 +117,9 @@
                                            v-else>
                                 </td>
                                 <td>
-                                    <span v-if="!user.edit" v-text="user.business_address"></span>
+                                    <span v-if="!user.edit" v-text="user.website"></span>
                                     <input type="text" class="form-control form-control-sm"
-                                           v-model="user.reserveCopy.business_address" v-else>
+                                           v-model="user.reserveCopy.website" v-else>
                                 </td>
                                 <td>
                                     <span v-if="!user.edit">{{ user.network_visible ? '+' : '-' }}</span>
@@ -207,10 +207,10 @@
                         <label for="business_name"
                                class="col-sm-4 col-form-label text-md-right">Business Address</label>
                         <div class="col-md-6">
-                            <input id="business_address" type="text" :class="getInputClass('business_address')"
-                                   v-model="newUser.business_address">
-                            <span class="invalid-feedback" v-if="errors.creating.business_address">
-                                <strong v-text="errors.creating.business_address[0]"></strong>
+                            <input id="website" type="text" :class="getInputClass('website')"
+                                   v-model="newUser.website">
+                            <span class="invalid-feedback" v-if="errors.creating.website">
+                                <strong v-text="errors.creating.website[0]"></strong>
                             </span>
                         </div>
                     </div>
@@ -360,7 +360,7 @@
                     user.first_name = user.reserveCopy.first_name;
                     user.last_name = user.reserveCopy.last_name;
                     user.business_name = user.reserveCopy.business_name;
-                    user.business_address = user.reserveCopy.business_address;
+                    user.website = user.reserveCopy.website;
                     user.access_level = user.reserveCopy.access_level;
                     user.network_visible = user.reserveCopy.network_visible;
                     user.suburb = user.reserveCopy.suburb;
