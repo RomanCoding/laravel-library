@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVideo;
 use App\Video;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -41,47 +42,17 @@ class VideoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  StoreVideo $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreVideo $request)
     {
-        $this->validate($request, [
-            'link' => 'required|regex:/(https:\/\/vimeo\.com\/(\d*))/',
-            'type' => 'required|in:webinar,video',
-            'description' => 'nullable|string'
-        ]);
-        $id = $this->parseVideoId($request->get('link'));
-        $video = Video::create([
-            'link' => $id,
-            'type' => $request->get('type'),
-            'description' => $request->get('description'),
+        return Video::create([
+            'link' => $this->parseVideoId($request->link),
+            'type' => $request->type,
+            'description' => $request->description,
             'display' => true
         ]);
-
-        return $video;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Video $video
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Video $video)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Video $video
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Video $video)
-    {
-        //
     }
 
     /**
@@ -106,7 +77,7 @@ class VideoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Video $video
-     * @return bool
+     * @return array
      */
     public function destroy(Video $video)
     {
@@ -115,6 +86,12 @@ class VideoController extends Controller
         ];
     }
 
+    /**
+     * Get video ID from the link.
+     *
+     * @param $link
+     * @return string
+     */
     private function parseVideoId($link)
     {
         return str_after($link, 'https://vimeo.com/');

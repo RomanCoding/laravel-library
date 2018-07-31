@@ -28,6 +28,12 @@
                             </div>
                         </div>
                         <div class="form-row">
+                            <div class="form-group col-12">
+                                <label for="website">Website</label>
+                                <input type="text" class="form-control" id="website" v-model="user.website">
+                            </div>
+                        </div>
+                        <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="suburb">Suburb</label>
                                 <input type="text" class="form-control" id="suburb" v-model="user.suburb">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Http\Requests\StoreEvent;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -18,68 +19,14 @@ class EventController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreEvent $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEvent $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'theme' => 'string|nullable',
-            'description' => 'string|nullable'
-        ]);
-
-        $event = Event::create($request->all());
-
-        return $event;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Event $event)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Event $event)
-    {
-        //
+        return Event::create($request->validated());
     }
 
     /**

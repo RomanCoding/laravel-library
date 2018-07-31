@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,22 +18,12 @@ class UserController extends Controller
     /**
      * Register new user.
      *
-     * @param Request $request
+     * @param StoreUser $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        $validatedUser = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'business_name' => 'nullable|string|max:255',
-            'business_address' => 'nullable|string|max:255',
-            'website' => 'nullable|string|max:255',
-        ]);
-
-        $user = User::create(array_merge($validatedUser, [
+        $user = User::create(array_merge($request->validated(), [
             'access_level' => 1,
         ]));
         if ($request->expectsJson()) {
@@ -40,26 +32,24 @@ class UserController extends Controller
         return back()->with('success_message', 'User added');
     }
 
-    public function update(User $user, Request $request)
+    /**
+     * @param User $user
+     * @param UpdateUser $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function update(User $user, UpdateUser $request)
     {
-        $validatedUser = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'access_level' => 'required|integer|min:1|max:3',
-            'business_name' => 'nullable|string|max:255',
-            'website' => 'nullable|string|max:255',
-            'network_visible' => 'nullable|boolean',
-            'suburb' => 'nullable|string|max:255',
-            'state' => 'nullable|string|max:255',
-        ]);
-
-        return $user->update($validatedUser) ? response('', 204) : response('', 400);
+        return $user->update($request->validated()) ? response('', 204) : response('', 400);
     }
 
+    /**
+     * Return collection of users who should be visible in network page.
+     *
+     * @return mixed
+     */
     public function network()
     {
-        return User::visible()->orderBy('business_name', 'asc')->get();
+        return User::visible()->orderBy('business_name')->get();
     }
 
     /**

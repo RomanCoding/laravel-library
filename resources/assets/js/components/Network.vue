@@ -37,7 +37,7 @@
                     case 2:
                         return 'Gold';
                     case 3:
-                        return 'Some'; //@todo change
+                        return 'Admin';
                     default:
                         return 'Bronze';
                 }
@@ -77,5 +77,9 @@
     .Bronze {
         font-weight: bold;
         color: #CD7F32;
+    }
+    .Admin {
+        font-weight: bold;
+        color: #3fcd31;
     }
 </style>
