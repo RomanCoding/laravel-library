@@ -10,7 +10,7 @@
                         <h5 class="card-title">{{ user.business_name || 'Business name' }}</h5>
                         <p class="card-text">
                             <template v-if="user.phone">Phone: {{ user.phone }}</template>
-                            <a :href="user.website" v-text="user.website" v-if="user.website" target="_blank"></a>
+                            <a :href="absoluteLink(user.website)" v-text="user.website" v-if="user.website" target="_blank"></a>
                             <br>
                             Membership Level: <span :class="membershipWord(user)" v-text="membershipWord(user)"></span>
                         </p>
@@ -41,6 +41,9 @@
                     default:
                         return 'Bronze';
                 }
+            },
+            absoluteLink(website) {
+                return '//' + website;
             },
             usersLogo(user) {
                 return user.logo || '/images/logos/default.png';

@@ -65,6 +65,9 @@
                                 <th scope="col" @click="setSortKey('network_visible')">
                                     Network<i class="fa fa-fw fa-sort" :style="arrowOpacity('network_visible')"></i>
                                 </th>
+                                <th scope="col" @click="setSortKey('lastSeen')">
+                                    Last Seen<i class="fa fa-fw fa-sort" :style="arrowOpacity('lastSeen')"></i>
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -125,6 +128,9 @@
                                     <span v-if="!user.edit">{{ user.network_visible ? '+' : '-' }}</span>
                                     <input type="checkbox" class="form-control form-control-sm"
                                            v-model="user.reserveCopy.network_visible" v-else>
+                                </td>
+                                <td>
+                                    <span>{{ user.lastSeen }}</span>
                                 </td>
                             </tr>
                             <nav aria-label="...">

@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Redis;
 
 class User extends Authenticatable
 {
@@ -31,6 +33,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $appends = ['lastSeen'];
+
     // Max access level in system
     const MAX_LEVEL = 3;
     
@@ -52,5 +56,11 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->access_level === 3;
+    }
+
+    public function getLastSeenAttribute()
+    {
+        $date = Redis::connection()->get('last_seen_' . $this->id);
+        return $date ? Carbon::parse($date)->diffForHumans() : null;
     }
 }
