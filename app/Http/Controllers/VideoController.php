@@ -26,17 +26,7 @@ class VideoController extends Controller
         if (!$request->user()->isAdmin()) {
             $videos = $videos->where('display', true);
         }
-        return $videos->get();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $videos->latest()->get();
     }
 
     /**

@@ -1,12 +1,14 @@
 <template>
     <div>
         <tabs>
+            <button class="btn btn-sm btn-success" style="position: fixed; top: 10%; z-index:99" @click="toggleSearch" v-show="!search">Search</button>
             <tab name="Manage">
                 <div class="row py-0">
-                    <div class="col-5 col-sm-4 col-md-3 col-xl-2">
+                    <div class="col-5 col-sm-4 col-md-3 col-xl-2" v-if="search">
                         <div class="search-form">
                             <div class="card-header">
                                 Search
+                                <span class="pull-right pointer" @click="toggleSearch">x</span>
                             </div>
                             <div class="filters">
                                 <div class="form-check">
@@ -34,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-7 col-sm-8 col-md-9 col-xl-10">
+                    <div :class="search ? 'col-7 col-sm-8 col-md-9 col-xl-10' : 'col-12'">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -286,10 +288,12 @@
 
 <script>
     import {Tabs, Tab} from 'vue-tabs-component';
+    import { cookies } from './mixins/cookies';
 
     export default {
         components: {Tabs, Tab},
         props: ['data'],
+        mixins: [cookies],
         computed: {
             orderedUsers: function () {
                 return _.orderBy(this.filteredUsers, this.sortKey, this.reverse ? 'desc' : 'asc')
@@ -313,6 +317,7 @@
                 sortKey: 'access_level',
                 reverse: true,
                 newUser: {},
+                search: true,
                 pagination: {
                     page: 1,
                     perPage: 10,
@@ -360,6 +365,8 @@
             }
             this.pagination.showNext = this.orderedUsers.length > (this.pagination.page * this.pagination.perPage);
             this.pagination.maxPage = ~~(this.orderedUsers.length / this.pagination.perPage) + 1;
+
+            this.search = this.getCookie('search', true);
         },
         methods: {
             editUser(user) {
@@ -450,7 +457,10 @@
                 };
                 this.filteredUsers = this.users;
             },
-
+            toggleSearch() {
+                this.search = !this.search;
+                this.setCookie('search', this.search);
+            }
         }
     }
 </script>

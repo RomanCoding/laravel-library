@@ -35,7 +35,6 @@ class User extends Authenticatable
 
     protected $appends = ['lastSeen'];
 
-    // Max access level in system
     const MAX_LEVEL = 3;
     
     public function setPasswordAttribute($value)
@@ -55,7 +54,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->access_level === 3;
+        return $this->access_level === self::MAX_LEVEL;
     }
 
     public function getLastSeenAttribute()
