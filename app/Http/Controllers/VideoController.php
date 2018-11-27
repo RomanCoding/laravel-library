@@ -68,6 +68,7 @@ class VideoController extends Controller
      *
      * @param  \App\Video $video
      * @return array
+     * @throws \Exception
      */
     public function destroy(Video $video)
     {

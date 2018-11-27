@@ -1,5 +1,24 @@
 <template>
     <div>
+        <div class="modal fade show" tabindex="-1" role="dialog" v-if="userToDelete">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">User deleting</h5>
+                        <button type="button" class="close" aria-label="Close" @click="userToDelete=null">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        You are about to delete user {{ userToDelete.email }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @click="userToDelete=null">Cancel</button>
+                        <button type="button" class="btn btn-primary" @click="deleteUser">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <tabs>
             <button class="btn btn-sm btn-success" style="position: fixed; top: 10%; z-index:99" @click="toggleSearch" v-show="!search">Search</button>
             <tab name="Manage">
@@ -70,6 +89,9 @@
                                 <th scope="col" @click="setSortKey('lastSeen')">
                                     Last Seen<i class="fa fa-fw fa-sort" :style="arrowOpacity('lastSeen')"></i>
                                 </th>
+                                <th scope="col">
+                                    &nbsp;
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -133,6 +155,9 @@
                                 </td>
                                 <td>
                                     <span>{{ user.lastSeen }}</span>
+                                </td>
+                                <td>
+                                    <i class="fa fa-trash" style="cursor: pointer" @click="askToDeleteUser(user)"></i>
                                 </td>
                             </tr>
                             <nav aria-label="...">
@@ -317,6 +342,7 @@
                 sortKey: 'access_level',
                 reverse: true,
                 newUser: {},
+                userToDelete: null,
                 search: true,
                 pagination: {
                     page: 1,
@@ -392,20 +418,16 @@
                     user.suburb = user.reserveCopy.suburb;
                     user.state = user.reserveCopy.state;
                     user.reserveCopy = null;
-                }).catch(function (error) {
-                    alert('Oops, error...');
-                    //user.edit = false;
-                });
+                }).catch(() => alert('Oops, error...'));
             },
             createUser() {
-                let self = this;
-                axios.post('/users', this.newUser).then(function (response) {
-                    self.users.push(response.data);
-                    self.errors.creating = {};
-                    self.newUser = {};
+                axios.post('/users', this.newUser).then(r => {
+                    this.users.push(r.data);
+                    this.errors.creating = {};
+                    this.newUser = {};
                     alert('User added');
-                }).catch(function (error) {
-                    self.errors.creating = error.response.data.errors;
+                }).catch(e => {
+                    this.errors.creating = e.response.data.errors;
                     alert('Error creating');
                 });
             },
@@ -439,6 +461,25 @@
                 if (this.filters.business_name.use) {
                     this.filteredUsers = _.filter(this.filteredUsers, f => (f.business_name && f.business_name.includes(filters.business_name.text)));
                 }
+            },
+            askToDeleteUser(user) {
+                this.userToDelete = user;
+            },
+            deleteUser() {
+                axios.delete('/users/' + this.userToDelete.id).then(r => {
+                    let index = this.users.indexOf(this.userToDelete);
+                    this.users.splice(index, 1);
+                    this.userToDelete = null;
+                }).catch(e => {
+                    if (e.response.status == 404) {
+                        alert('This file is already deleted');
+                        let index = this.currentFolder.files.indexOf(this.userToDelete);
+                        this.currentFolder.files.splice(index, 1);
+                        this.userToDelete = null;
+                    } else {
+                        alert(e.response.data.message);
+                    }
+                });
             },
             clearFilters() {
                 this.filters = {
@@ -521,6 +562,15 @@
     img.glyphs {
         width: 20px;
         height: 20px;
+    }
+    i.fa.fa-trash {
+        cursor: pointer;
+        color: inherit;
+        transition: .5s ease-in;
+    }
+    i.fa.fa-trash:hover {
+        color: red;
+        transition: .5s ease-in;
     }
 
     span.badge {
@@ -614,5 +664,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, .05);
             padding: 1em;
         }
+    }
+    .modal {
+        display: block;
     }
 </style>

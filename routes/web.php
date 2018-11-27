@@ -14,6 +14,7 @@ Route::group(['middleware' => 'can:create,App\User'], function () {
     Route::get('users', 'UserController@usersComponent')->name('users.show');
     Route::patch('users/{user}', 'UserController@update');
     Route::post('users', 'UserController@store');
+    Route::delete('users/{user}', 'UserController@destroy');
 });
 
 Route::group(['middleware' => 'can:create,App\Folder'], function () {

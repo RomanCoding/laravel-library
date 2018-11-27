@@ -53,6 +53,20 @@ class UserController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User $user
+     * @return array
+     * @throws \Exception
+     */
+    public function destroy(User $user)
+    {
+        return [
+            'success' => $user->delete()
+        ];
+    }
+
+    /**
      * Return all users.
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
