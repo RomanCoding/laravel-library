@@ -22,6 +22,9 @@
             <template slot="service">{{ partner.service }}</template>
             <template slot="about">{{ partner.about }}</template>
             <template slot="benefit">{{ partner.benefit }}</template>
+            <template slot="buttons">
+                <button class="btn btn-sm btn-danger">Hide</button>
+            </template>
         </partner>
         <footer class="px-4 m-4">
             © HR Coach Australasia 2018. This website and content is the intellectual property of HR Coach Australasia. Any disclosure, copying, display or misuse of this information is strictly prohibited without the written consent of HR Coach Australasia.

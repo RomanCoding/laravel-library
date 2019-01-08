@@ -20,6 +20,9 @@
                     <a :href="getUrl" target="_blank" v-text="url"></a>
                 </div>
             </div>
+            <div>
+                <slot name="buttons"></slot>
+            </div>
         </div>
         <hr v-if="divider">
 
