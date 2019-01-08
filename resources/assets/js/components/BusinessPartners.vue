@@ -56,7 +56,7 @@
         },
         methods: {
             softDelete(id, index) {
-                axios.delete('/partners/' + id).then(r => {
+                axios.delete('/api/partners/' + id).then(r => {
                     this.partners.splice(index, 1);
                 }).catch(e => {
                     alert('Error!');
