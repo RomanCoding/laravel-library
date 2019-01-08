@@ -23,7 +23,7 @@
             <template slot="about">{{ partner.about }}</template>
             <template slot="benefit">{{ partner.benefit }}</template>
             <template slot="buttons">
-                <button class="btn btn-sm btn-danger">Hide</button>
+                <button class="btn btn-sm btn-danger" v-if="isAdmin && manage" @click="softDelete(partner.id, index)">Hide</button>
             </template>
         </partner>
         <footer class="px-4 m-4">
@@ -54,6 +54,15 @@
             axios.get('/user').then(r => this.user = r.data);
             axios.get('/api/partners').then(r => this.partners = r.data);
         },
+        methods: {
+            softDelete(id, index) {
+                axios.delete('/partners/' + id).then(r => {
+                    this.partners.splice(index, 1);
+                }).catch(e => {
+                    alert('Error!');
+                });
+            }
+        }
     }
 </script>
 

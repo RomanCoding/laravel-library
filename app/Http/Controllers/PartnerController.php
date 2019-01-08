@@ -12,8 +12,19 @@ class PartnerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Partner::all();
+        $partners = Partner::query();
+        if ($request->get('deleted', true)) {
+            $partners = $partners->where('deleted', false);
+        }
+        return $partners->get();
+    }
+
+    public function destroy(Partner $partner)
+    {
+        return [
+            'success' => $partner->update(['deleted' => true])
+        ];
     }
 }

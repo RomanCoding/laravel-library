@@ -53,6 +53,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/videos', 'VideoController@store');
     Route::patch('/videos/{video}', 'VideoController@update');
     Route::delete('/videos/{video}', 'VideoController@destroy');
+    Route::delete('/api/partners/{partner}', 'PartnerController@destroy');
 });
 
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {
