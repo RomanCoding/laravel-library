@@ -15,10 +15,10 @@
                  :phone="partner.phone"
                  :url="partner.url"
                  :divider="(index !== partners.length - 1)">
-            <template slot="title" v-text="partner.title"></template>
-            <template slot="service" v-text="partner.service"></template>
-            <template slot="about" v-text="partner.about"></template>
-            <template slot="benefit" v-text="partner.benefit"></template>
+            <template slot="title">{{ partner.title }}</template>
+            <template slot="service">{{ partner.service }}</template>
+            <template slot="about">{{ partner.about }}</template>
+            <template slot="benefit">{{ partner.benefit }}</template>
         </partner>
         <footer class="px-4 m-4">
             © HR Coach Australasia 2018. This website and content is the intellectual property of HR Coach Australasia. Any disclosure, copying, display or misuse of this information is strictly prohibited without the written consent of HR Coach Australasia.
