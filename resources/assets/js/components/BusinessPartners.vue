@@ -6,6 +6,9 @@
                 The below list provides an overview of their service offering and the benefits you receive from using their products or services.
                 To find marketing collateral and referral process notes, please visit the Business Partners section of the <u>toolkit</u>.
             </p>
+            <button class="btn btn-success" v-if="isAdmin" @click="manage = !manage">
+                Manage partners
+            </button>
         </div>
 
         <partner v-for="(partner, index) in partners"
@@ -34,13 +37,19 @@
         },
         data() {
             return {
+                user: null,
                 partners: [],
+                manage: false
+            }
+        },
+        computed: {
+            isAdmin() {
+                return (this.user && this.user.access_level === 3);
             }
         },
         created() {
-            axios.get('/api/partners').then(response => {
-                this.partners = response.data;
-            });
+            axios.get('/user').then(r => this.user = r.data);
+            axios.get('/api/partners').then(r => this.partners = r.data);
         },
     }
 </script>
