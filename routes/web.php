@@ -10,11 +10,11 @@ Route::group(['middleware' => 'guest'], function () {
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 
-Route::group(['middleware' => 'can:create,App\User'], function () {
-    Route::get('users', 'UserController@usersComponent')->name('users.show');
-    Route::patch('users/{user}', 'UserController@update');
-    Route::post('users', 'UserController@store');
-    Route::delete('users/{user}', 'UserController@destroy');
+Route::group(['middleware' => 'can:create,App\User', 'prefix' => 'users'], function () {
+    Route::get('/', 'UserController@usersComponent')->name('users.show');
+    Route::patch('/{user}', 'UserController@update');
+    Route::post('/', 'UserController@store');
+    Route::delete('/{user}', 'UserController@destroy');
 });
 
 Route::group(['middleware' => 'can:create,App\Folder'], function () {
@@ -25,6 +25,7 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/partners', 'PartnerController@index');
     Route::get('/events', 'EventController@index');
     Route::get('/user', 'Auth\LoginController@user');
     Route::get('/library', 'FileController@showLibraryPage');
