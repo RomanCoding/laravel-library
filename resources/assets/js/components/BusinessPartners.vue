@@ -38,7 +38,7 @@
             }
         },
         created() {
-            axios.get('/partners').then(response => {
+            axios.get('/api/partners').then(response => {
                 this.partners = response.data;
             });
         },
