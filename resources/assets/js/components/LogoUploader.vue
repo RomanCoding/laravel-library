@@ -1,22 +1,26 @@
 <template>
     <div class="text-center">
 
-        <img :src="image" class="img-responsive">
+        <img :src="image" class="img-responsive" @click="trigger" :style="imgStyle">
 
         <input ref="file" type="file" v-on:change="onFileChange" class="form-control" style="display: none;">
 
-        <button class="btn btn-info btn-lg mt-3" @click="trigger">{{ this.buttonText }}</button>
+        <button v-if="!image" class="btn btn-info btn-lg mt-3" @click="trigger">{{ this.buttonText }}</button>
     </div>
 </template>
 <style scoped>
     img {
-        width: 100%;
+        cursor: pointer;
     }
 </style>
 <script>
     export default {
         props: {
             'img': String,
+            'maxImageHeight': {
+                type: Number,
+                default: 0
+            },
             'uploadOnChange': {
                 type: Boolean,
                 default: true
@@ -42,6 +46,18 @@
             }
             if (this.uploadOnChange) {
                 this.sendRequest = this.uploadOnChange;
+            }
+        },
+        computed: {
+            imgStyle() {
+                if (this.maxImageHeight > 0) {
+                    return {
+                        'max-height': `${this.maxImageHeight}px`,
+                    }
+                }
+                return {
+                    width: '100%'
+                }
             }
         },
         methods: {

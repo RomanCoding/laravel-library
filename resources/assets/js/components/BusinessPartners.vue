@@ -9,6 +9,7 @@
                             <logo-uploader @onload="onImageChange"
                                            :uploadOnChange=false
                                            :img="newPartner.logo"
+                                           :maxImageHeight="100"
                                            buttonText="Partner logo">
                             </logo-uploader>
                         </div>
