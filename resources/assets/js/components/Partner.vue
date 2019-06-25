@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-2 d-flex align-items-center">
-            <img class="img-fluid vertical-center" :src="img" alt="Acacia connection">
+            <img class="img-fluid vertical-center" :src="img" alt="Logo">
         </div>
         <div class="col-10">
             <b><u><slot name="title"></slot></u></b><br>
@@ -14,10 +14,21 @@
                     <b>Contact:</b>
                 </div>
                 <div class="col-11">
-                    {{ contact }}<br>
-                    <a :href="mailTo" v-text="mail"></a><br>
-                    {{ phone }}<br>
-                    <a :href="getUrl" target="_blank" v-text="url"></a>
+                    <template v-if="!manage">{{ contact }}<br></template>
+                    <input type="text" v-model="partnerObject.contact" class="form-control" v-else>
+
+                    <template v-if="!manage">
+                        <a :href="mailTo" v-text="partnerObject.email"></a>
+                        <br>
+                    </template>
+                    <input type="email" v-model="partnerObject.email" class="form-control" v-else>
+
+                    <template v-if="!manage">{{ phone }}<br></template>
+                    <input type="text" v-model="partnerObject.phone" class="form-control" v-else>
+
+
+                    <a :href="getUrl" target="_blank" v-text="url" v-if="!manage"></a>
+                    <input type="url" v-model="partnerObject.url" class="form-control" v-else>
                 </div>
             </div>
             <div>
@@ -31,6 +42,14 @@
 
 <script>
     export default {
+        data() {
+            return {
+                partnerObject: null,
+            }
+        },
+        created() {
+            this.partnerObject = this.partner;
+        },
         computed: {
             mailTo() {
                 return "mailto:" + this.mail;
@@ -41,6 +60,7 @@
         },
         props: {
             'img': String,
+            'partner': Object,
             'contact': String,
             'mail': String,
             'phone': String,
@@ -48,6 +68,10 @@
             'divider': {
                 type: Boolean,
                 default: true,
+            },
+            'manage': {
+                type: Boolean,
+                default: false,
             }
         },
     }

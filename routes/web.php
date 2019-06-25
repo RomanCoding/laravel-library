@@ -26,6 +26,8 @@ Route::group(['middleware' => 'can:create,App\Folder'], function () {
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/partners', 'PartnerController@index');
+    Route::post('/api/partners', 'PartnerController@store');
+    Route::patch('/api/partners/{partner}', 'PartnerController@update');
     Route::get('/events', 'EventController@index');
     Route::get('/user', 'Auth\LoginController@user');
     Route::get('/library', 'FileController@showLibraryPage');

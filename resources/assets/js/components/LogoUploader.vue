@@ -5,7 +5,7 @@
 
         <input ref="file" type="file" v-on:change="onFileChange" class="form-control" style="display: none;">
 
-        <button class="btn btn-info btn-lg mt-3" @click="trigger">Choose logo</button>
+        <button class="btn btn-info btn-lg mt-3" @click="trigger">{{ this.buttonText }}</button>
     </div>
 </template>
 <style scoped>
@@ -15,7 +15,13 @@
 </style>
 <script>
     export default {
-        props: ['img'],
+        props: {
+            'img': String,
+            'buttonText': {
+                type: String,
+                default: 'Choose logo',
+            }
+        },
         data() {
             return {
                 image: ''
