@@ -17,6 +17,14 @@
     export default {
         props: {
             'img': String,
+            'uploadOnChange': {
+                type: Boolean,
+                default: true
+            },
+            'actionUrl': {
+                type: String,
+                default: '/profile/logo'
+            },
             'buttonText': {
                 type: String,
                 default: 'Choose logo',
@@ -24,12 +32,16 @@
         },
         data() {
             return {
-                image: ''
+                image: '',
+                sendRequest: false
             }
         },
         created() {
             if (this.img) {
                 this.image = this.img;
+            }
+            if (this.uploadOnChange) {
+                this.sendRequest = this.uploadOnChange;
             }
         },
         methods: {
@@ -47,12 +59,16 @@
                 let vm = this;
                 reader.onload = (e) => {
                     vm.image = e.target.result;
-                    vm.upload();
+                    if (vm.sendRequest) {
+                        vm.upload();
+                    } else {
+                      this.$emit('onload', vm.image);
+                    }
                 };
                 reader.readAsDataURL(file);
             },
             upload(){
-                axios.post('/profile/logo', {image: this.image}).then(response => {
+                axios.post(this.actionUrl, {image: this.image}).then(response => {
 
                 });
             }

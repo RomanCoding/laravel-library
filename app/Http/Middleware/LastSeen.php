@@ -26,7 +26,7 @@ class LastSeen
         $key = 'last_seen_' . Auth::id();
         $value = (new \DateTime())->format("Y-m-d H:i:s");
 
-        $redis->set($key, $value);
+//        $redis->set($key, $value);
 
         return $next($request);
     }

@@ -1,7 +1,12 @@
 <template>
-    <div class="row">
+    <div :class="[{ 'partner-deleted': partnerObject.deleted }, 'row']">
         <div class="col-2 d-flex align-items-center">
-            <img class="img-fluid vertical-center" :src="img" alt="Logo">
+            <logo-uploader
+                    v-if="manage"
+                    :actionUrl=updateLogoUrl
+                    :img="img">
+            </logo-uploader>
+            <img v-else class="img-fluid vertical-center" :src="img" alt="Logo">
         </div>
         <div class="col-10">
             <b><u><slot name="title"></slot></u></b><br>
@@ -41,7 +46,11 @@
 </template>
 
 <script>
+    import LogoUploader from './LogoUploader.vue';
     export default {
+        components: {
+          'logo-uploader': LogoUploader
+        },
         data() {
             return {
                 partnerObject: null,
@@ -51,6 +60,9 @@
             this.partnerObject = this.partner;
         },
         computed: {
+            updateLogoUrl() {
+              return `/api/partners/${this.partnerObject.id}/logo`;
+            },
             mailTo() {
                 return "mailto:" + this.mail;
             },
@@ -88,5 +100,8 @@
     }
     .row {
         margin-left: 0;
+    }
+    .partner-deleted {
+        background-color: #859571;
     }
 </style>

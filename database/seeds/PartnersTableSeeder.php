@@ -12,7 +12,7 @@ class PartnersTableSeeder extends Seeder
     public function run()
     {
         App\Partner::create([
-            'img' => '/images/partners/acacia.png',
+            'img' => '/storage/images/partners/acacia.png',
             'contact' => 'Greg Kentish',
             'email' => 'ceo@acaciaconnection.com',
             'phone' => '0417 023 287',
@@ -27,7 +27,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/blandslaw.jpg',
+            'img' => '/storage/images/partners/blandslaw.jpg',
             'contact' => 'Andrew Bland',
             'email' => 'enquiries@blandslaw.com.au',
             'phone' => '(02) 9805 5600',
@@ -40,7 +40,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/foundu.png',
+            'img' => '/storage/images/partners/foundu.png',
             'contact' => 'Matthew Horton',
             'email' => 'matthew@foundu.com.au',
             'phone' => '0408 748 521',
@@ -54,7 +54,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/hrstaff.jpg',
+            'img' => '/storage/images/partners/hrstaff.jpg',
             'contact' => 'Sam McCleary',
             'email' => 'admin@hrcoach.com.au',
             'phone' => '1300 550 674',
@@ -67,7 +67,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/hrsuccess.jpg',
+            'img' => '/storage/images/partners/hrsuccess.jpg',
             'contact' => 'Greg Mitchell',
             'email' => 'greg@hrsuccess.com.au',
             'phone' => '1300 783 211',
@@ -80,7 +80,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/integro.jpg',
+            'img' => '/storage/images/partners/integro.jpg',
             'contact' => 'Keith Ayers',
             'email' => 'support@integro.com.au',
             'phone' => '1800 222 902',
@@ -93,7 +93,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/mybusiness.jpg',
+            'img' => '/storage/images/partners/mybusiness.jpg',
             'contact' => 'Sam McCleary',
             'email' => 'admin@hrcoach.com.au',
             'phone' => '1300 550 674',
@@ -107,20 +107,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/omnia.png',
-            'contact' => 'Kate Brown',
-            'email' => 'admin@omniaprofiling.com.au',
-            'phone' => '0411 164 431',
-            'url' => 'www.omniaprofiling.com.au',
-            'title' => 'Omnia',
-            'service' => 'Cognitive assessments and selection profiling',
-            'about' => 'Omnia provide selection profiling and cognitive assessments to support hiring decisions.
-                Take the guess work out of recruitment and rely on data to make the right choices for your clients.',
-            'benefit' => 'Receive discounted wholesale pricing for all products',
-        ]);
-
-        App\Partner::create([
-            'img' => '/images/partners/career.png',
+            'img' => '/storage/images/partners/career.png',
             'contact' => 'Sam McCleary',
             'email' => 'admin@hrcoach.com.au',
             'phone' => '1300 550 674',
@@ -134,7 +121,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/onlinewhs.png',
+            'img' => '/storage/images/partners/onlinewhs.png',
             'contact' => 'Phil Bamford',
             'email' => 'phil@onlinecompliance.com.au',
             'phone' => '1800 020 389',
@@ -148,7 +135,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/starworkplace.jpg',
+            'img' => '/storage/images/partners/starworkplace.jpg',
             'contact' => 'Sam McCleary',
             'email' => 'admin@hrcoach.com.au',
             'phone' => '1300 550 674',
@@ -162,7 +149,7 @@ class PartnersTableSeeder extends Seeder
         ]);
 
         App\Partner::create([
-            'img' => '/images/partners/templetons.png',
+            'img' => '/storage/images/partners/templetons.png',
             'contact' => 'Eric Chong',
             'email' => 'e.chong@templetons.com.au',
             'phone' => '0488 488 171',

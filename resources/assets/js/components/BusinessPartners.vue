@@ -6,28 +6,32 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="newPartnerModalLabel">New partner</h5>
                         <div class="col-6">
-                            <logo-uploader :img="newPartner.logo" buttonText="Partner logo"></logo-uploader>
+                            <logo-uploader @onload="onImageChange"
+                                           :uploadOnChange=false
+                                           :img="newPartner.logo"
+                                           buttonText="Partner logo">
+                            </logo-uploader>
                         </div>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group mb-0">
                                 <label for="newPartnerTitle" class="col-form-label">Title</label>
                                 <input type="text" class="form-control" id="newPartnerTitle" v-model="newPartner.title">
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group mb-0">
                                 <label for="newPartnerService" class="col-form-label">Service offering</label>
                                 <input type="text" class="form-control" id="newPartnerService" v-model="newPartner.service">
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group mb-0">
                                 <label for="newPartnerAbout" class="col-form-label">About</label>
                                 <textarea class="form-control" id="newPartnerAbout" v-model="newPartner.about"></textarea>
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group mb-0">
                                 <label for="newPartnerBenefit" class="col-form-label">Benefit</label>
                                 <input type="text" class="form-control" id="newPartnerBenefit" v-model="newPartner.benefit">
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group mb-0">
                                 <div class="row">
                                     <div class="col">
                                         <label for="newPartnerContact" class="col-form-label">Contact</label>
@@ -39,7 +43,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group" style="margin-bottom: 0;">
+                            <div class="form-group mb-0">
                                 <div class="row">
                                     <div class="col">
                                         <label for="newPartnerEmail" class="col-form-label">Email</label>
@@ -107,8 +111,12 @@
                 <template v-else>{{ partner.benefit }}</template>
             </template>
             <template slot="buttons">
-                <button class="btn btn-sm btn-danger" v-if="isAdmin && manage" @click="softDelete(partner.id, index)">
-                    Hide
+                <button class="btn btn-sm btn-danger" v-if="isAdmin && manage" @click="softDelete(partner, index)">
+                    {{ partner.deleted ? 'Show' : 'Hide' }}
+                </button>
+                <button class="btn btn-sm btn-danger" v-if="partner.deleted && isAdmin && manage"
+                        @click="hardDelete(partner, index)">
+                    Delete
                 </button>
                 <button class="btn btn-sm btn-success" v-if="isAdmin && manage" @click="update(partner.id, partner)">
                     Save
@@ -157,13 +165,28 @@
             }
         },
         created() {
-            axios.get('/user').then(r => this.user = r.data);
-            axios.get('/api/partners').then(r => this.partners = r.data);
+            axios.get('/user')
+                .then(r => this.user = r.data)
+                .then(() => {
+                  axios.get('/api/partners', {
+                    params: {
+                      deleted: this.isAdmin ? 0 : 1
+                    }
+                  }).then(r => this.partners = r.data);
+                });
         },
         methods: {
-            softDelete(id, index) {
-                axios.delete('/api/partners/' + id).then(r => {
-                    this.partners.splice(index, 1);
+            softDelete(partner, index) {
+                axios.delete('/api/partners/' + partner.id).then(r => {
+                    partner.deleted = !partner.deleted;
+                }).catch(e => {
+                    alert('Error!');
+                });
+            },
+            hardDelete(partner, index) {
+                let self = this;
+                axios.delete(`/api/partners/${partner.id}?hard=1`).then(r => {
+                    self.partners.splice(index, 1);
                 }).catch(e => {
                     alert('Error!');
                 });
@@ -185,7 +208,11 @@
                     .catch(e => {
                         alert('Error');
                     });
-            }
+            },
+            onImageChange(value) {
+                let self = this;
+                self.newPartner.logo = value;
+            },
         }
     }
 </script>

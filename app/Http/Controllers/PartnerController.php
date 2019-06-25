@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Partner;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class PartnerController extends Controller
 {
@@ -21,11 +23,37 @@ class PartnerController extends Controller
         return $partners->get();
     }
 
-    public function destroy(Partner $partner)
+    public function destroy(Partner $partner, Request $request)
     {
+        if ($request->has('hard')) {
+            $partner->deleteLogoFromStorage();
+            $partner->delete();
+
+            return [
+                'success' => true
+            ];
+        }
+        
         return [
-            'success' => $partner->update(['deleted' => true])
+            'success' => $partner->update(['deleted' => !$partner->deleted])
         ];
+    }
+
+    public function updateLogo(Partner $partner, Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'required|image64:jpeg,jpg,png'
+        ]);
+
+        $randomFileName = 'partner' . time();
+        $fileName = $this->getFileName($randomFileName, $request->image);
+        $image = Image::make($request->image);
+        $image->stream();
+        Storage::disk('public')->put("images/partners/{$fileName}", $image, 'public');
+
+        $partner->deleteLogoFromStorage();
+        $partner->img = '/storage/images/partners/' . $fileName;
+        $partner->save();
     }
 
     public function update(Partner $partner, Request $request)
@@ -45,15 +73,17 @@ class PartnerController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|image64:jpeg,jpg,png'
+            'logo' => 'required|image64:jpeg,jpg,png'
         ]);
 
         $randomFileName = 'partner' . time();
-        $fileName = $this->getFileName($randomFileName, $request->image);
-        Image::make($request->image)->save(public_path('images/partners/') . $fileName);
+        $fileName = $this->getFileName($randomFileName, $request->logo);
+        $image = Image::make($request->logo);
+        $image->stream();
+        Storage::disk('public')->put("images/partners/{$fileName}", $image, 'public');
 
         $partner = new Partner();
-        $partner->img = '/images/partners/' . $fileName;
+        $partner->img = '/storage/images/partners/' . $fileName;
 
         $partner->fill($request->only([
             'title', 'service', 'about', 'benefit',
