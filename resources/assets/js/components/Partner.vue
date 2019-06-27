@@ -13,6 +13,9 @@
             <b>Service Offering: </b><slot name="service"></slot><br>
             <b>About:</b> <slot name="about"></slot><br>
             <b>HR Coach Network Member Benefit:</b> <slot name="benefit"></slot><br>
+            <template v-if="manage || partnerObject.webinar_link">
+                <b>Exclusive Webinar Explaining the Relationship:</b> <slot name="webinar"></slot><br>
+            </template>
 
             <div class="row">
                 <div class="col-1">

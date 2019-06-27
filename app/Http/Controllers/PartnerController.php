@@ -66,6 +66,7 @@ class PartnerController extends Controller
             'email' => $request->get('email', $partner->email),
             'contact' => $request->get('contact', $partner->contact),
             'phone' => $request->get('phone', $partner->phone),
+            'webinar_link' => $request->get('webinar_link', $partner->webinar_link),
             'url' => $request->get('url', $partner->url),
         ]);
     }
@@ -87,7 +88,8 @@ class PartnerController extends Controller
 
         $partner->fill($request->only([
             'title', 'service', 'about', 'benefit',
-            'email', 'contact', 'phone', 'url'
+            'email', 'contact', 'phone', 'url',
+            'webinar_link'
         ]));
 
         $partner->save();

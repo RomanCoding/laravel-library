@@ -33,6 +33,10 @@
                                 <input type="text" class="form-control" id="newPartnerBenefit" v-model="newPartner.benefit">
                             </div>
                             <div class="form-group mb-0">
+                                <label for="newPartnerWebinarLink" class="col-form-label">Webinar Explaining</label>
+                                <input type="text" class="form-control" id="newPartnerWebinarLink" v-model="newPartner.webinar_link">
+                            </div>
+                            <div class="form-group mb-0">
                                 <div class="row">
                                     <div class="col">
                                         <label for="newPartnerContact" class="col-form-label">Contact</label>
@@ -93,6 +97,7 @@
                  :mail="partner.email"
                  :phone="partner.phone"
                  :url="partner.url"
+                 :webinar="partner.webinar_link"
                  :manage="manage"
                  :divider="(index !== partners.length - 1)">
             <template slot="title">
@@ -110,6 +115,10 @@
             <template slot="benefit">
                 <input type="text" v-model="partner.benefit" class="form-control" v-if="manage">
                 <template v-else>{{ partner.benefit }}</template>
+            </template>
+            <template slot="webinar">
+                <input type="text" v-model="partner.webinar_link" class="form-control" v-if="manage">
+                <template v-else><a target="_blank" :href="getUrl(partner.webinar_link)">{{ partner.webinar_link }}</a></template>
             </template>
             <template slot="buttons">
                 <button class="btn btn-sm btn-danger" v-if="isAdmin && manage" @click="softDelete(partner, index)">
@@ -157,6 +166,7 @@
                     phone: '',
                     url: '',
                     logo: '',
+                    webinar_link: '',
                 }
             }
         },
@@ -214,6 +224,9 @@
                 let self = this;
                 self.newPartner.logo = value;
             },
+            getUrl(url) {
+                return `//${url}`;
+            }
         }
     }
 </script>
