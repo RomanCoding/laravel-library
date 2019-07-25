@@ -59,8 +59,7 @@ class User extends Authenticatable
 
     public function getLastSeenAttribute()
     {
-        return null;
-//        $date = Redis::connection()->get('last_seen_' . $this->id);
-//        return $date ? Carbon::parse($date)->diffForHumans() : null;
+        $date = Redis::connection()->get('last_seen_' . $this->id);
+        return $date ? Carbon::parse($date)->diffForHumans() : null;
     }
 }
