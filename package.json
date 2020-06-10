@@ -23,6 +23,8 @@
         "downloadjs": "^1.4.7",
         "vue-router": "^3.0.1",
         "vue-simple-calendar": "^3.0.2",
-        "vue-tabs-component": "^1.4.0"
+        "vue-tabs-component": "^1.4.0",
+        "vuetify": "^1.1.14",
+        "element-ui": "^2.4.6"
     }
 }

@@ -90,6 +90,11 @@
                                         Manage extensions <span class="caret"></span>
                                     </a>
                                 @endcan
+                                @can('create', 'App\Folder')
+                                    <a class="dropdown-item" href="{{ route('manage.email') }}">
+                                        Email settings <span class="caret"></span>
+                                    </a>
+                                @endcan
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

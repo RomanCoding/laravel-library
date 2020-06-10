@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'admin'], function () {
+    Route::get('/settings', 'SettingsController@index');
+    Route::post('/settings', 'SettingsController@store');
     Route::post('/events', 'EventController@store');
     Route::delete('/events/{event}', 'EventController@destroy');
     Route::post('/videos', 'VideoController@store');
@@ -62,6 +64,7 @@ Route::group(['middleware' => 'admin'], function () {
 Route::group(['middleware' => 'admin', 'prefix' => 'manage'], function () {
     Route::get('/folders', 'FolderController@showFoldersPage')->name('manage.folders.permissions');
     Route::post('/folders', 'FolderController@store')->name('manage.folders.create');
+    Route::get('/email', 'SettingsController@emailSettings')->name('manage.email');
     Route::get('/extensions', 'ExtensionController@index')->name('manage.extensions');
     Route::post('/extensions', 'ExtensionController@store');
     Route::delete('/extensions/{id}', 'ExtensionController@destroy');

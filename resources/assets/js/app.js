@@ -7,9 +7,19 @@
 
 require('./bootstrap');
 import VueRouter from 'vue-router'
+import 'vuetify/dist/vuetify.min.css';
+import 'element-ui/lib/theme-chalk/index.css';
 
 window.Vue = require('vue');
 
+
+
+import Vuetify from 'vuetify';
+import VueRouter from 'vue-router';
+import ElementUI from 'element-ui';
+
+Vue.use(Vuetify);
+Vue.use(ElementUI);
 
 
 Vue.use(VueRouter);
@@ -57,6 +67,7 @@ Vue.component('folders', require('./components/Folders.vue'));
 Vue.component('uploads', require('./components/Uploads.vue'));
 Vue.component('file-uploader', require('./components/FileUploader.vue'));
 Vue.component('extensions', require('./components/Extensions.vue'));
+Vue.component('email-settings', require('./components/EmailSettings.vue'));
 Vue.component('profile', require('./components/Profile.vue'));
 
 import Home from './components/Home.vue';
