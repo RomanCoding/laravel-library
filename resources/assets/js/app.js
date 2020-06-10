@@ -6,22 +6,16 @@
  */
 
 require('./bootstrap');
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
+import Vuetify from 'vuetify';
+import ElementUI from 'element-ui';
 import 'vuetify/dist/vuetify.min.css';
 import 'element-ui/lib/theme-chalk/index.css';
 
 window.Vue = require('vue');
 
-
-
-import Vuetify from 'vuetify';
-import VueRouter from 'vue-router';
-import ElementUI from 'element-ui';
-
 Vue.use(Vuetify);
 Vue.use(ElementUI);
-
-
 Vue.use(VueRouter);
 
 
