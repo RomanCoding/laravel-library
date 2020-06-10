@@ -2,6 +2,6 @@
 
 @section('content')
     <div class="container-fluid">
-        <email-settings :email-settings="{{ $extensions }}"></email-settings>
+        <email-settings></email-settings>
     </div>
 @endsection
