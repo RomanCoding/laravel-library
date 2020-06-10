@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 import VueRouter from 'vue-router';
+import VTooltip from 'v-tooltip';
 import Vuetify from 'vuetify';
 import ElementUI from 'element-ui';
 import 'vuetify/dist/vuetify.min.css';
@@ -14,9 +15,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 window.Vue = require('vue');
 
+Vue.use(VTooltip);
+Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(ElementUI);
-Vue.use(VueRouter);
 
 
 Object.defineProperty(Array.prototype, 'unique', {
