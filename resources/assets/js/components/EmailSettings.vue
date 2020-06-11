@@ -42,8 +42,7 @@
                 ></v-text-field>
             </v-flex>
 
-            <v-btn color="info" @click="saveSettings">Save settings</v-btn>
-
+            <button class="btn btn-info" @click="saveSettings">Save settings</button>
         </v-layout>
         <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
             {{ snackText }}
@@ -75,9 +74,10 @@
         axios.get('/settings')
           .then(r => self.settings = r.data)
           .catch(e => {
-            self.snack = true;
-            self.snackColor = 'error';
-            self.snackText = 'Fetching failed, try again later...';
+            alert('Fetching failed, try again later...');
+            // self.snack = true;
+            // self.snackColor = 'error';
+            // self.snackText = 'Fetching failed, try again later...';
           });
       },
       saveSettings() {
@@ -91,14 +91,16 @@
           }
         })
           .then(r => {
-            self.snack = true;
-            self.snackColor = 'success';
-            self.snackText = 'Settings saved!';
+            alert('Settings saved!');
+            // self.snack = true;
+            // self.snackColor = 'success';
+            // self.snackText = 'Settings saved!';
           })
           .catch(e => {
-            self.snack = true;
-            self.snackColor = 'error';
-            self.snackText = 'Refresh page and try again...';
+            alert('Refresh page and try again...');
+            // self.snack = true;
+            // self.snackColor = 'error';
+            // self.snackText = 'Refresh page and try again...';
           });
       }
     }

@@ -6,12 +6,13 @@
  */
 
 require('./bootstrap');
+import 'vuetify/dist/vuetify.min.css';
+import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router';
 import VTooltip from 'v-tooltip';
 import Vuetify from 'vuetify';
 import ElementUI from 'element-ui';
-import 'vuetify/dist/vuetify.min.css';
-import 'element-ui/lib/theme-chalk/index.css';
+
 
 window.Vue = require('vue');
 
